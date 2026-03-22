@@ -70,7 +70,7 @@ export default function Ventures() {
     });
 
     return (
-        <section id="ventures" className="w-full bg-zinc-50 py-32 relative" ref={containerRef}>
+        <section id="ventures" className="w-full bg-transparent py-32 relative z-10" ref={containerRef}>
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
                 <div className="mb-20 max-w-3xl">
                     <h2 className="text-sm font-medium text-teal-500/80 tracking-widest uppercase mb-4">Experience & Evolution</h2>

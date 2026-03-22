@@ -31,12 +31,12 @@ export default function Footer() {
     };
 
     return (
-        <footer className="w-full bg-zinc-100 pt-24 pb-12 rounded-t-[3rem] mt-24">
+        <footer className="w-full bg-transparent pt-32 pb-32 md:pb-12 mt-24 border-t border-zinc-200/20 relative z-10">
             <div className="container mx-auto px-6 lg:px-12 flex flex-col justify-between min-h-[400px]">
 
                 {/* Top Section */}
                 <div className="space-y-12">
-                    <h2 className="text-6xl md:text-8xl font-semibold tracking-tighter text-zinc-900">
+                    <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter text-zinc-900 leading-tight">
                         Let's Communicate.
                     </h2>
 
@@ -44,11 +44,11 @@ export default function Footer() {
                         {/* Email Interaction */}
                         <button
                             onClick={handleCopyEmail}
-                            className="group relative flex items-center gap-4 px-8 py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-all hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto"
+                            className="group relative flex items-center gap-4 px-6 sm:px-8 py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-all hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-hidden"
                         >
-                            <div className="flex flex-col items-start">
+                            <div className="flex flex-col items-start min-w-0 flex-1">
                                 <span className="text-xs font-medium text-zinc-400 uppercase tracking-wilder">Email</span>
-                                <span className="text-lg md:text-xl font-medium text-zinc-800">gargeya.sharma@gmail.com</span>
+                                <span className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 break-all">gargeya.sharma@gmail.com</span>
                             </div>
                             <div className="ml-auto md:ml-4 w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors">
                                 {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}

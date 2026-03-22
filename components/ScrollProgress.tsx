@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function ScrollProgress() {
@@ -13,7 +12,7 @@ export default function ScrollProgress() {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 right-0 h-1.5 bg-teal-500 origin-left z-50 rounded-r-full shadow-sm shadow-teal-500/50"
+            className="fixed top-0 left-0 right-0 h-1 bg-teal-500 origin-left z-[100]"
             style={{ scaleX }}
         />
     );
