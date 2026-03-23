@@ -129,30 +129,6 @@ export default function Lab() {
 }
 
 function LabCard({ project }: { project: typeof projects[0] }) {
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-
-    const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
-    const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
-
-    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
-    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const mouseXFromCenter = e.clientX - rect.left - width / 2;
-        const mouseYFromCenter = e.clientY - rect.top - height / 2;
-
-        x.set(mouseXFromCenter / width);
-        y.set(mouseYFromCenter / height);
-    };
-
-    const handleMouseLeave = () => {
-        x.set(0);
-        y.set(0);
-    };
 
     return (
         <motion.div
@@ -163,17 +139,10 @@ function LabCard({ project }: { project: typeof projects[0] }) {
         >
             <Link href={project.href} target="_blank">
                 <motion.div
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}
-                    style={{
-                        rotateX,
-                        rotateY,
-                        transformStyle: "preserve-3d",
-                    }}
-                    className="group relative w-[85vw] md:w-[40vw] lg:w-full h-full bg-white rounded-3xl shadow-sm border border-zinc-100 p-6 sm:p-10 flex flex-col justify-between transition-shadow duration-500 hover:shadow-2xl hover:shadow-teal-500/10 cursor-pointer shrink-0 md:shrink-0 lg:shrink"
+                    className="group relative w-[85vw] md:w-[40vw] lg:w-full h-full bg-white/80 backdrop-blur-md rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 p-6 sm:p-10 flex flex-col justify-between transition-all duration-500 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-2 cursor-pointer shrink-0 md:shrink-0 lg:shrink"
                 >
                     {/* Content Layer */}
-                    <div style={{ transform: "translateZ(50px)" }} className="space-y-4 sm:space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100 text-zinc-400 group-hover:text-teal-600 group-hover:bg-teal-50 group-hover:scale-110 transition-all duration-300">
                             <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
@@ -188,10 +157,10 @@ function LabCard({ project }: { project: typeof projects[0] }) {
                     </div>
 
                     {/* Bottom Layer */}
-                    <div style={{ transform: "translateZ(40px)" }} className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-6">
                         <div className="flex flex-wrap gap-2">
                             {project.tags.map(tag => (
-                                <span key={tag} className="text-xs font-medium px-3 py-1 rounded-full bg-zinc-50 text-zinc-500 border border-zinc-100 group-hover:border-teal-100 group-hover:text-teal-600 transition-colors">
+                                <span key={tag} className="text-xs font-medium px-3 py-1 rounded-full bg-white/50 backdrop-blur-[2px] border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors">
                                     {tag}
                                 </span>
                             ))}

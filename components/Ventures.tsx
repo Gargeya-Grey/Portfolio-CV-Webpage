@@ -112,7 +112,7 @@ export default function Ventures() {
 
                                     {/* Content Card */}
                                     <div className={`ml-20 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12 lg:pr-16 text-left md:text-right' : 'md:pl-12 lg:pl-16 text-left'}`}>
-                                        <div className="bg-white p-8 rounded-3xl shadow-sm border border-zinc-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-500">
+                                        <div className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-1 transition-all duration-500">
 
                                             <div className={`flex items-center gap-3 mb-4 ${isEven ? 'md:justify-end' : 'justify-start'}`}>
                                                 <div className={`p-3 rounded-2xl ${exp.bg} ${exp.color}`}>
@@ -140,7 +140,7 @@ export default function Ventures() {
 
                                             <div className={`flex flex-wrap gap-2 ${isEven ? 'md:justify-end' : 'justify-start'}`}>
                                                 {exp.tags.map(tag => (
-                                                    <span key={tag} className="px-3 py-1.5 rounded-full bg-zinc-50 border border-zinc-100 text-xs font-medium text-zinc-500 tracking-wide">
+                                                    <span key={tag} className="px-3 py-1.5 rounded-full bg-white/50 backdrop-blur-[2px] border border-zinc-200/60 text-xs font-medium text-zinc-600 tracking-wide shadow-sm">
                                                         {tag}
                                                     </span>
                                                 ))}
