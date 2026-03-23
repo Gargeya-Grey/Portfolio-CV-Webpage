@@ -70,7 +70,7 @@ export default function Ventures() {
     });
 
     return (
-        <section id="ventures" className="w-full bg-transparent py-32 relative z-10" ref={containerRef}>
+        <section id="ventures" className="w-full bg-transparent py-32 relative z-10 overflow-hidden" ref={containerRef}>
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
                 <div className="mb-20 max-w-3xl">
                     <h2 className="text-sm font-medium text-teal-500/80 tracking-widest uppercase mb-4">Experience & Evolution</h2>
@@ -84,9 +84,9 @@ export default function Ventures() {
 
                 <div className="relative max-w-6xl mx-auto">
                     {/* The Timeline Line */}
-                    <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-zinc-200 -translate-x-1/2" />
+                    <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-zinc-200 -translate-x-1/2" />
                     <motion.div
-                        className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-teal-500 -translate-x-1/2 origin-top"
+                        className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-teal-500 -translate-x-1/2 origin-top"
                         style={{ scaleY }}
                     />
 
@@ -106,13 +106,13 @@ export default function Ventures() {
                                     className={`relative flex flex-col md:flex-row items-center justify-between group ${isEven ? 'md:flex-row-reverse' : ''}`}
                                 >
                                     {/* Center Node */}
-                                    <div className="absolute left-8 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-white border-4 border-zinc-100 shadow-sm z-10 transition-colors duration-500 group-hover:border-teal-100">
-                                        <div className={`w-3 h-3 rounded-full bg-zinc-300 transition-colors duration-500 group-hover:bg-teal-500`} />
+                                    <div className="absolute left-6 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-4 border-zinc-100 shadow-sm z-10 transition-colors duration-500 group-hover:border-teal-100">
+                                        <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-zinc-300 transition-colors duration-500 group-hover:bg-teal-500`} />
                                     </div>
 
                                     {/* Content Card */}
-                                    <div className={`ml-20 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12 lg:pr-16 text-left md:text-right' : 'md:pl-12 lg:pl-16 text-left'}`}>
-                                        <div className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-1 transition-all duration-500">
+                                    <div className={`ml-14 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12 lg:pr-16 text-left md:text-right' : 'md:pl-12 lg:pl-16 text-left'}`}>
+                                        <div className="bg-white/80 backdrop-blur-md p-6 md:p-8 rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-1 transition-all duration-500">
 
                                             <div className={`flex items-center gap-3 mb-4 ${isEven ? 'md:justify-end' : 'justify-start'}`}>
                                                 <div className={`p-3 rounded-2xl ${exp.bg} ${exp.color}`}>

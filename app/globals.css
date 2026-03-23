@@ -11,17 +11,21 @@
   /* zinc-900 */
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Smooth scrolling for the whole page */
-html {
-  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 /* Custom Scrollbar Styles */

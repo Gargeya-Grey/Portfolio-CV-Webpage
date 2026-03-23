@@ -17,9 +17,9 @@ export default function Hero() {
                                 duration: 1.5,
                                 ease: [0.16, 1, 0.3, 1],
                             }}
-                            className="flex flex-col lg:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 text-[clamp(2.5rem,15vw,4.5rem)] md:text-[clamp(4.5rem,10vw,6rem)] lg:text-[clamp(5rem,8vw,8.5rem)] font-serif tracking-tighter leading-[0.9] w-full max-w-full px-2"
+                            className="flex flex-col lg:flex-row items-center justify-center gap-3 md:gap-6 lg:gap-8 text-[clamp(2.2rem,13vw,4.5rem)] md:text-[clamp(4.5rem,10vw,6rem)] lg:text-[clamp(5rem,8vw,8.5rem)] font-serif tracking-tighter leading-[0.9] w-full max-w-full px-2"
                         >
-                            <span className="bg-[#14b8a6] text-white px-6 md:px-12 py-2 md:py-6 shadow-2xl shadow-teal-900/20 break-words">
+                            <span className="bg-[#14b8a6] text-white px-5 md:px-12 py-2 md:py-6 shadow-2xl shadow-teal-900/20 break-words">
                                 Gargeya
                             </span>
                             <span className="text-zinc-900 drop-shadow-sm break-words">
@@ -42,7 +42,7 @@ export default function Hero() {
                                 }
                             }
                         }}
-                        className="text-[clamp(1.25rem,6vw,4.5rem)] font-medium tracking-tight text-zinc-800 leading-[1.2] flex flex-col items-center drop-shadow-sm px-6"
+                        className="text-[clamp(1.15rem,5.5vw,4.5rem)] font-medium tracking-tight text-zinc-800 leading-[1.2] flex flex-col items-center drop-shadow-sm px-6"
                     >
                         <motion.div
                             variants={{
