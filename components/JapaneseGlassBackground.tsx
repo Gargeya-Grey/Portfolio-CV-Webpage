@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const GlassPanel = ({ delay = 0, style = {} }: { delay?: number, style?: React.CSSProperties }) => (
     <motion.div
@@ -56,34 +56,6 @@ const SilkLine = ({ d, duration = 20, delay = 0, className = "" }: { d: string; 
 
 
 export default function JapaneseGlassBackground() {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const pressProgress = useMotionValue(0);
-
-    const springConfig = { damping: 30, stiffness: 200 };
-    const springX = useSpring(mouseX, springConfig);
-    const springY = useSpring(mouseY, springConfig);
-    const springPress = useSpring(pressProgress, { stiffness: 300, damping: 30 });
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-        };
-        const handleMouseDown = () => pressProgress.set(1);
-        const handleMouseUp = () => pressProgress.set(0);
-
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('mouseup', handleMouseUp);
-        
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mousedown', handleMouseDown);
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [mouseX, mouseY, pressProgress]);
-
     return (
         <div className="fixed inset-0 z-[-1] overflow-hidden bg-zinc-50 pointer-events-none">
             {/* Base Vignette for Depth Framing */}
@@ -132,29 +104,6 @@ export default function JapaneseGlassBackground() {
                     maskRepeat: 'no-repeat',
                     WebkitMaskSize: '300% 300%',
                     maskSize: '300% 300%',
-                }}
-            />
-
-            {/* Interactive Shoji Ignite (Click Driven) */}
-            <motion.div 
-                className="absolute inset-0 transition-opacity duration-200"
-                style={{
-                    opacity: useTransform(springPress, [0, 1], [0, 0.48]),
-                    scale: useTransform(springPress, [0, 1], [0.98, 1]),
-                    backgroundImage: `
-                        radial-gradient(circle at 0px 0px, #14b8a6 4px, transparent 0),
-                        linear-gradient(to right, rgba(20, 184, 166, 0.6) 2px, transparent 0), 
-                        linear-gradient(to bottom, rgba(20, 184, 166, 0.6) 2px, transparent 0)
-                    `,
-                    backgroundSize: '80px 80px',
-                    WebkitMaskImage: useTransform(
-                        [springX, springY],
-                        ([x, y]) => `radial-gradient(240px circle at ${Number(x)}px ${Number(y)}px, black 0%, transparent 100%)`
-                    ),
-                    maskImage: useTransform(
-                        [springX, springY],
-                        ([x, y]) => `radial-gradient(240px circle at ${Number(x)}px ${Number(y)}px, black 0%, transparent 100%)`
-                    )
                 }}
             />
 
