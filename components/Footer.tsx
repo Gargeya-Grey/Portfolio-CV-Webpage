@@ -6,10 +6,10 @@ import { ArrowUpRight, Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 
 const identities = [
-    "Deep Learning Engineer",
+    "AI Engineer",
     "Theatre Artist",
     "Psychology Enthusiast",
-    "Co-Founder"
+    "Founder"
 ];
 
 export default function Footer() {
@@ -25,7 +25,7 @@ export default function Footer() {
     }, []);
 
     const handleCopyEmail = () => {
-        navigator.clipboard.writeText("gargeya.sharma@gmail.com"); // Replace with actual if known, using placeholder/masked for now
+        navigator.clipboard.writeText("gargeya.sharma@gmail.com");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -37,20 +37,20 @@ export default function Footer() {
                 {/* Top Section */}
                 <div className="space-y-12">
                     <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter text-zinc-900 leading-tight">
-                        Let's Communicate.
+                        Let&apos;s Communicate.
                     </h2>
 
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
                         {/* Email Interaction */}
                         <button
                             onClick={handleCopyEmail}
-                            className="group relative flex items-center gap-4 px-6 sm:px-8 py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-all hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-hidden"
+                            className="group relative flex items-center gap-4 px-6 sm:px-8 py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-[border-color,box-shadow] duration-200 hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-hidden"
                         >
                             <div className="flex flex-col items-start min-w-0 flex-1">
                                 <span className="text-xs font-medium text-zinc-400 uppercase tracking-wilder">Email</span>
-                                <span className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 break-all">gargeya.sharma@gmail.com</span>
+                                <span className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 break-all font-body">gargeya.sharma@gmail.com</span>
                             </div>
-                            <div className="ml-auto md:ml-4 w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors">
+                            <div className="ml-auto md:ml-4 w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors duration-200">
                                 {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                             </div>
 
@@ -80,8 +80,8 @@ export default function Footer() {
                 {/* Bottom Section: Ticker & Info */}
                 <div className="flex flex-col md:flex-row items-end justify-between gap-8 pt-24 border-t border-zinc-200/50">
                     <div className="flex flex-col gap-2">
-                        <span className="text-sm font-medium text-zinc-400">Gargeya Sharma © 2025</span>
-                        <span className="text-sm text-zinc-400">London, UK / Remote</span>
+                        <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2025</span>
+                        <span className="text-sm text-zinc-400 font-body">London, UK / Remote</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-xl md:text-2xl font-light text-zinc-400">
@@ -112,10 +112,10 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
         <Link
             href={href}
             target="_blank"
-            className="flex items-center gap-2 px-6 py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-all group"
+            className="flex items-center gap-2 px-6 py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-colors duration-200 group"
         >
             {label}
-            <span className="text-zinc-400 group-hover:text-zinc-900 transition-colors">
+            <span className="text-zinc-400 group-hover:text-zinc-900 transition-colors duration-200">
                 {icon}
             </span>
         </Link>

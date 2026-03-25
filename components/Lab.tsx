@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform, useScroll, AnimatePresence } from "framer-motion";
+import { motion, useSpring, useScroll, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Code2, LayoutGrid, MoveHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
@@ -32,12 +32,18 @@ export default function Lab() {
     return (
         <section id="lab" className="w-full bg-transparent py-32 overflow-hidden relative z-10">
             <div className="container mx-auto px-6 lg:px-12 relative">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8"
+                >
                     <div>
                         <h2 className="text-sm font-medium text-teal-500/80 tracking-widest uppercase mb-4">The Lab</h2>
-                        <p className="text-2xl text-zinc-800 font-light max-w-xl">
+                        <h3 className="text-4xl md:text-5xl font-light text-zinc-900 tracking-tight max-w-3xl">
                             Experimental code, research papers, and deep dives into the mechanics of intelligence.
-                        </p>
+                        </h3>
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -45,13 +51,13 @@ export default function Lab() {
                         <div className="flex bg-zinc-100 p-1 rounded-full items-center">
                             <button
                                 onClick={() => setViewMode('scroll')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${viewMode === 'scroll' ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}`}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${viewMode === 'scroll' ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}`}
                             >
                                 <MoveHorizontal className="w-4 h-4" /> Scroll
                             </button>
                             <button
                                 onClick={() => setViewMode('grid')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}`}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${viewMode === 'grid' ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500 hover:text-zinc-700'}`}
                             >
                                 <LayoutGrid className="w-4 h-4" /> Grid
                             </button>
@@ -68,13 +74,13 @@ export default function Lab() {
                                 >
                                     <button
                                         onClick={() => scroll('left')}
-                                        className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center text-zinc-400 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all shadow-sm bg-white"
+                                        className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center text-zinc-400 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-colors duration-200 shadow-sm bg-white"
                                     >
                                         <ChevronLeft className="w-5 h-5" />
                                     </button>
                                     <button
                                         onClick={() => scroll('right')}
-                                        className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center text-zinc-400 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all shadow-sm bg-white"
+                                        className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center text-zinc-400 hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-colors duration-200 shadow-sm bg-white"
                                     >
                                         <ChevronRight className="w-5 h-5" />
                                     </button>
@@ -82,7 +88,7 @@ export default function Lab() {
                             )}
                         </AnimatePresence>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Content Area */}
                 <div className="relative">
@@ -129,29 +135,33 @@ export default function Lab() {
 }
 
 function LabCard({ project }: { project: typeof projects[0] }) {
-
     return (
         <motion.div
-            style={{
-                perspective: 1000,
-            }}
+            style={{ perspective: 1000 }}
             className="w-full max-w-[450px] h-[500px] mx-auto"
         >
-            <Link href={project.href} target="_blank">
+            <Link href={project.href} target="_blank" className="block h-full group">
                 <motion.div
-                    className="group relative w-[85vw] md:w-[40vw] lg:w-full h-full bg-white/80 backdrop-blur-md rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 p-6 sm:p-10 flex flex-col justify-between transition-all duration-500 hover:shadow-2xl hover:shadow-teal-500/10 hover:-translate-y-2 cursor-pointer shrink-0 md:shrink-0 lg:shrink"
+                    layout
+                    whileHover={{ 
+                        y: -8,
+                        scale: 1.01,
+                        boxShadow: "0 15px 20px -5px rgba(20, 184, 166, 0.08)"
+                    }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    className="relative w-[85vw] md:w-[40vw] lg:w-full h-full bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 p-6 sm:p-10 flex flex-col justify-between cursor-pointer shrink-0 md:shrink-0 lg:shrink will-change-transform overflow-hidden"
                 >
                     {/* Content Layer */}
                     <div className="space-y-4 sm:space-y-6">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100 text-zinc-400 group-hover:text-teal-600 group-hover:bg-teal-50 group-hover:scale-110 transition-all duration-300">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100 text-zinc-400 group-hover:text-teal-600 group-hover:bg-teal-50 group-hover:scale-110 transition-colors duration-200">
                             <Code2 className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
 
-                        <h3 className="text-2xl sm:text-3xl font-semibold text-zinc-900 tracking-tight group-hover:text-teal-900 transition-colors">
+                        <h3 className="text-2xl sm:text-3xl font-semibold text-zinc-900 tracking-tight group-hover:text-teal-900 transition-colors duration-200">
                             {project.title}
                         </h3>
 
-                        <p className="text-zinc-500 leading-relaxed">
+                        <p className="text-zinc-500 leading-relaxed font-body">
                             {project.description}
                         </p>
                     </div>
@@ -160,20 +170,20 @@ function LabCard({ project }: { project: typeof projects[0] }) {
                     <div className="flex flex-col gap-6">
                         <div className="flex flex-wrap gap-2">
                             {project.tags.map(tag => (
-                                <span key={tag} className="text-xs font-medium px-3 py-1 rounded-full bg-white/50 backdrop-blur-[2px] border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors">
+                                <span key={tag} className="text-xs font-medium px-3 py-1 rounded-full bg-white/50 border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors duration-200 font-body">
                                     {tag}
                                 </span>
                             ))}
                         </div>
 
-                        <div className="flex items-center gap-2 text-sm font-medium text-zinc-400 group-hover:text-teal-600 transition-colors">
+                        <div className="flex items-center gap-2 text-sm font-medium text-zinc-400 group-hover:text-teal-600 transition-colors duration-200">
                             View Code <ArrowUpRight className="w-4 h-4" />
                         </div>
                     </div>
 
                     {/* Shine Effect */}
                     <div
-                        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                         style={{
                             background: "radial-gradient(circle at center, rgba(20, 184, 166, 0.05) 0%, rgba(255,255,255,0) 80%)",
                             mixBlendMode: "overlay",
