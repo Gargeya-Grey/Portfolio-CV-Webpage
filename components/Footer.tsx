@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 
@@ -15,6 +15,14 @@ const identities = [
 export default function Footer() {
     const [copied, setCopied] = useState(false);
     const [identityIndex, setIdentityIndex] = useState(0);
+    const footerRef = useRef<HTMLDivElement>(null);
+
+    const { scrollYProgress } = useScroll({
+        target: footerRef,
+        offset: ["start end", "end end"]
+    });
+
+    const x = useTransform(scrollYProgress, [0, 1], ["100%", "-100%"]);
 
     // Typewriter/Ticker Effect
     useEffect(() => {
@@ -31,14 +39,24 @@ export default function Footer() {
     };
 
     return (
-        <footer className="w-full bg-transparent pt-32 pb-32 md:pb-12 mt-24 border-t border-zinc-200/20 relative z-10">
+        <footer ref={footerRef} className="w-full bg-transparent pt-32 pb-32 md:pb-12 mt-24 border-t border-zinc-200/20 relative z-10">
             <div className="container mx-auto px-6 lg:px-12 flex flex-col justify-between min-h-[400px]">
 
                 {/* Top Section */}
                 <div className="space-y-12">
-                    <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter text-zinc-900 leading-tight">
+                    <motion.h2 
+                        style={{
+                            backgroundImage: "linear-gradient(90deg, #18181b 30%, #14b8a6 50%, #18181b 70%)",
+                            backgroundSize: "200% 100%",
+                            backgroundClip: "text",
+                            WebkitBackgroundClip: "text",
+                            color: "transparent",
+                            backgroundPositionX: x
+                        }}
+                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-tight"
+                    >
                         Let&apos;s Communicate.
-                    </h2>
+                    </motion.h2>
 
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
                         {/* Email Interaction */}
@@ -80,8 +98,8 @@ export default function Footer() {
                 {/* Bottom Section: Ticker & Info */}
                 <div className="flex flex-col md:flex-row items-end justify-between gap-8 pt-24 border-t border-zinc-200/50">
                     <div className="flex flex-col gap-2">
-                        <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2025</span>
-                        <span className="text-sm text-zinc-400 font-body">London, UK / Remote</span>
+                        <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2026</span>
+                        <span className="text-sm text-zinc-400 font-body">Jaipur, India (Pink City) / Remote</span>
                     </div>
 
                     <div className="flex items-center gap-2 text-xl md:text-2xl font-light text-zinc-400">
