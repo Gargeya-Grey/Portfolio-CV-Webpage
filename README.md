@@ -1,5 +1,5 @@
 # 🌐 Gargeya Sharma — Digital Portfolio & CV
-**The open-source codebase behind [sgargeya.com](https://sgargeya.com)**
+**The open-source codebase behind [cv.sgargeya.com](https://cv.sgargeya.com)**
 
 Welcome to the repository for my personal brand and interactive digital CV. Built to showcase a unique professional journey bridging **Artificial Intelligence architecture** and **creative human dynamics (Theatre background)**, this site is engineered for fast performance, premium aesthetics, and responsive micro-interactions.
 
