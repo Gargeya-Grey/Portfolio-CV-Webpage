@@ -22,7 +22,10 @@ export default function Footer() {
         offset: ["start end", "end end"]
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ["100%", "-100%"]);
+    const x = useTransform(scrollYProgress, [0.0, 1.0], ["120%", "-120%"]);
+    const glowX = useTransform(scrollYProgress, [0.0, 1.0], ["-20%", "120%"]);
+    const glowScale = useTransform(scrollYProgress, [0.0, 0.5, 1.0], [0.6, 1.3, 0.6]);
+    const glowOpacity = useTransform(scrollYProgress, [0.0, 0.2, 0.8, 1.0], [0, 0.25, 0.25, 0]);
 
     // Typewriter/Ticker Effect
     useEffect(() => {
@@ -43,17 +46,26 @@ export default function Footer() {
             <div className="container mx-auto px-6 lg:px-12 flex flex-col justify-between min-h-[400px]">
 
                 {/* Top Section */}
-                <div className="space-y-12">
+                <div className="space-y-12 relative py-4">
+                    {/* Floating ambient glow tracking scroll */}
+                    <motion.div 
+                        style={{ 
+                            left: glowX,
+                            scale: glowScale,
+                            opacity: glowOpacity
+                        }}
+                        className="absolute top-1/2 -translate-y-1/2 w-80 h-32 bg-gradient-to-r from-teal-400/25 to-emerald-400/25 rounded-full blur-[80px] pointer-events-none -z-10"
+                    />
                     <motion.h2 
                         style={{
-                            backgroundImage: "linear-gradient(90deg, #18181b 30%, #14b8a6 50%, #18181b 70%)",
-                            backgroundSize: "200% 100%",
+                            backgroundImage: "linear-gradient(90deg, #18181b 0%, #18181b 38%, #0d9488 45%, #2dd4bf 50%, #a7f3d0 53%, #0d9488 58%, #18181b 68%, #18181b 100%)",
+                            backgroundSize: "250% 100%",
                             backgroundClip: "text",
                             WebkitBackgroundClip: "text",
                             color: "transparent",
                             backgroundPositionX: x
                         }}
-                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-tight"
+                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-tight relative z-10"
                     >
                         Let&apos;s Communicate.
                     </motion.h2>
@@ -96,25 +108,38 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Section: Ticker & Info */}
-                <div className="flex flex-col md:flex-row items-end justify-between gap-8 pt-24 border-t border-zinc-200/50">
+                <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 pt-24 border-t border-zinc-200/50">
                     <div className="flex flex-col gap-2">
                         <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2026</span>
                         <span className="text-sm text-zinc-400 font-body">Jaipur, India (Pink City) / Remote</span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xl md:text-2xl font-light text-zinc-400">
-                        <span>I am a</span>
-                        <div className="relative h-8 w-64 overflow-hidden">
+                    <div className="flex flex-wrap items-center gap-x-2 text-2xl md:text-3xl lg:text-4xl font-light text-zinc-400">
+                        <span>I am</span>
+                        <AnimatePresence mode="wait">
+                            <motion.span
+                                key={identityIndex}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="text-zinc-400"
+                            >
+                                {/^[AEIOUaeiou]/i.test(identities[identityIndex]) ? "an" : "a"}
+                            </motion.span>
+                        </AnimatePresence>
+                        <div className="inline-flex items-center min-h-[1.5em] relative" style={{ perspective: "1000px" }}>
                             <AnimatePresence mode="wait">
                                 <motion.span
                                     key={identityIndex}
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    exit={{ y: -20, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="absolute inset-0 font-medium text-zinc-800"
+                                    initial={{ y: 25, opacity: 0, rotateX: -70 }}
+                                    animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                                    exit={{ y: -25, opacity: 0, rotateX: 70 }}
+                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                    className="font-semibold text-zinc-800 relative pb-1 origin-center"
                                 >
                                     {identities[identityIndex]}
+                                    <span className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-400 to-emerald-400" />
                                 </motion.span>
                             </AnimatePresence>
                         </div>

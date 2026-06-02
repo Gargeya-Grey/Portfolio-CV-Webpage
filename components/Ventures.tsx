@@ -68,6 +68,62 @@ const experiences = [
     }
 ];
 
+const colorMap: Record<string, { border: string; shadow: string; hoverBorder: string; hoverShadow: string }> = {
+    edudojo: {
+        border: "rgba(20, 184, 166, 0.4)",
+        shadow: "0 25px 50px -12px rgba(20, 184, 166, 0.12)",
+        hoverBorder: "rgba(20, 184, 166, 0.65)",
+        hoverShadow: "0 30px 60px -15px rgba(20, 184, 166, 0.2)"
+    },
+    evolve: {
+        border: "rgba(168, 85, 247, 0.4)",
+        shadow: "0 25px 50px -12px rgba(168, 85, 247, 0.12)",
+        hoverBorder: "rgba(168, 85, 247, 0.65)",
+        hoverShadow: "0 30px 60px -15px rgba(168, 85, 247, 0.2)"
+    },
+    rvs: {
+        border: "rgba(99, 102, 241, 0.4)",
+        shadow: "0 25px 50px -12px rgba(99, 102, 241, 0.12)",
+        hoverBorder: "rgba(99, 102, 241, 0.65)",
+        hoverShadow: "0 30px 60px -15px rgba(99, 102, 241, 0.2)"
+    },
+    imperial: {
+        border: "rgba(59, 130, 246, 0.4)",
+        shadow: "0 25px 50px -12px rgba(59, 130, 246, 0.12)",
+        hoverBorder: "rgba(59, 130, 246, 0.65)",
+        hoverShadow: "0 30px 60px -15px rgba(59, 130, 246, 0.2)"
+    },
+    mitchells: {
+        border: "rgba(245, 158, 11, 0.4)",
+        shadow: "0 25px 50px -12px rgba(245, 158, 11, 0.12)",
+        hoverBorder: "rgba(245, 158, 11, 0.65)",
+        hoverShadow: "0 30px 60px -15px rgba(245, 158, 11, 0.2)"
+    }
+};
+
+const getCardVariants = (id: string) => {
+    const colors = colorMap[id] || {
+        border: "rgba(20, 184, 166, 0.4)",
+        shadow: "0 25px 50px -12px rgba(20, 184, 166, 0.12)",
+    };
+    return {
+        inactive: {
+            borderColor: "rgba(228, 228, 231, 0.9)", // zinc-200/90
+            boxShadow: "0 20px 40px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02)",
+            scale: 1.0,
+        },
+        active: {
+            borderColor: colors.border,
+            boxShadow: `${colors.shadow}, 0 1px 3px rgba(0, 0, 0, 0.02)`,
+            scale: 1.015,
+            transition: {
+                duration: 0.5,
+                ease: "easeOut" as const
+            }
+        }
+    };
+};
+
 export default function Ventures() {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -113,6 +169,11 @@ export default function Ventures() {
                         {experiences.map((exp, index) => {
                             const isEven = index % 2 === 0;
                             const Icon = exp.icon;
+                            const colors = colorMap[exp.id] || {
+                                hoverBorder: "rgba(20, 184, 166, 0.65)",
+                                hoverShadow: "0 30px 60px -15px rgba(20, 184, 166, 0.2)"
+                            };
+                            const variants = getCardVariants(exp.id);
 
                             return (
                                 <motion.div
@@ -130,13 +191,18 @@ export default function Ventures() {
 
                                     <div className={`ml-14 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12 lg:pr-16 text-left md:text-right' : 'md:pl-12 lg:pl-16 text-left'}`}>
                                         <motion.div 
+                                            variants={variants}
+                                            initial="inactive"
+                                            whileInView="active"
+                                            viewport={{ once: false, amount: 0.6 }}
                                             whileHover={{ 
                                                 y: -8,
-                                                scale: 1.01,
-                                                boxShadow: "0 15px 20px -5px rgba(20, 184, 166, 0.08)"
+                                                scale: 1.025,
+                                                borderColor: colors.hoverBorder,
+                                                boxShadow: colors.hoverShadow
                                             }}
                                             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                                            className="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 cursor-default will-change-transform"
+                                            className="bg-white/95 backdrop-blur-sm p-6 md:p-8 rounded-3xl border cursor-default will-change-transform"
                                         >
 
                                             <div className={`flex items-center gap-3 mb-4 ${isEven ? 'md:justify-end' : 'justify-start'}`}>

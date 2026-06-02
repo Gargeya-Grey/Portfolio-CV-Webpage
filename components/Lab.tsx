@@ -149,7 +149,7 @@ function LabCard({ project }: { project: typeof projects[0] }) {
                         boxShadow: "0 15px 20px -5px rgba(20, 184, 166, 0.08)"
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                    className="relative w-[85vw] md:w-[40vw] lg:w-full h-full bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl shadow-zinc-200/50 border border-zinc-200/80 p-6 sm:p-10 flex flex-col justify-between cursor-pointer shrink-0 md:shrink-0 lg:shrink will-change-transform overflow-hidden"
+                    className="relative w-[85vw] md:w-[40vw] lg:w-full h-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] border border-zinc-200/90 p-6 sm:p-10 flex flex-col justify-between cursor-pointer shrink-0 md:shrink-0 lg:shrink will-change-transform overflow-hidden"
                 >
                     {/* Content Layer */}
                     <div className="space-y-4 sm:space-y-6">
