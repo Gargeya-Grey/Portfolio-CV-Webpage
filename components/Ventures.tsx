@@ -3,15 +3,15 @@
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
-import { ArrowUpRight, Code2, Network, BrainCircuit, Coffee } from "lucide-react";
+import { ArrowUpRight, Code2, Network, BrainCircuit, Coffee, Cpu } from "lucide-react";
 
 const experiences = [
     {
         id: "edudojo",
         role: "Founder & Lead AI Architect",
         company: "Edudojo.ai",
-        date: "Nov 2025 – Present",
-        description: "Leading the AI revolution in Evaluation & Education. Architecting advanced AI systems to transform how knowledge is assessed and delivered, bridging the gap between technical innovation and pedagogical excellence.",
+        date: "May 2026 – Present",
+        description: "Leading the AI revolution in Evaluation & Education. Architecting advanced Socratic AI systems localized in English, Hindi, Japanese, and Spanish for a unified global market. Orchestrating an active pilot program serving 2,000+ students at Parishkar College (Autonomous), bridging technical innovation with scalable pedagogical design.",
         tags: ["EdTech", "GenAI", "AI Architecture", "Education Strategy", "Leadership"],
         icon: BrainCircuit,
         color: "text-teal-500",
@@ -19,11 +19,23 @@ const experiences = [
         link: "https://edudojo.ai"
     },
     {
+        id: "evolve",
+        role: "Founding AI Engineer / Member",
+        company: "Evvolv",
+        date: "Nov 2025 – May 2026",
+        description: "Co-founded and engineered a core multi-agent system, creating autonomous AI workers designed to automate complex business workflows and operations for Small and Medium Enterprises (SMEs).",
+        tags: ["AI Workers", "n8n", "Multi-Agent Systems", "SME Automation"],
+        icon: Cpu,
+        color: "text-purple-500",
+        bg: "bg-purple-500/10",
+        link: null
+    },
+    {
         id: "rvs",
         role: "Data Scientist & Automation Specialist",
         company: "RVS Consensus+",
         date: "Jul 2024 – Nov 2025",
-        description: "Built end-to-end data pipelines and real-time analytics dashboards using Dash (Plotly), SQL, and Python. Designed a unified Python-powered UI toolset to automate complex Excel-based workflows for the fintech sector.",
+        description: "Built end-to-end data pipelines and real-time dashboards (Dash/Plotly) processing 10M+ rows of transaction data from SIX, Reuters, and 15+ global Tier-1 banks (including JPMorgan, Goldman Sachs, and HSBC). Engineered a Python-powered automation toolset that saved 5+ hours daily and accelerated new product development by 20x.",
         tags: ["Data Science", "Python", "Dash", "SQL", "Fintech Automation"],
         icon: Code2,
         color: "text-indigo-500",
