@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function Card({ children, className }: { children: React.ReactNode; className?: string }) {
     return (
-        <motion.div
+        <m.div
             className={`
                 bg-white/50 backdrop-blur-sm 
                 rounded-3xl 
@@ -30,6 +30,7 @@ export default function Card({ children, className }: { children: React.ReactNod
             viewport={{ once: true }}
         >
             {children}
-        </motion.div>
+        </m.div>
     );
 }
+

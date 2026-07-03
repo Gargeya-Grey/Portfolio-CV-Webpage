@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useSpring, useScroll, AnimatePresence } from "framer-motion";
+import { m, useSpring, useScroll, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Code2, LayoutGrid, MoveHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import { projects } from "@/lib/data";
 
 export default function Lab() {
-    const scrollRef = useRef<HTMLDivElement>(null);
     const [viewMode, setViewMode] = useState<'scroll' | 'grid'>('scroll');
-    const { scrollXProgress } = useScroll({
-        container: scrollRef
-    });
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll();
 
+    // Horizontal scroll tracking for indicator
+    const { scrollXProgress } = useScroll({ container: scrollRef });
     const scaleX = useSpring(scrollXProgress, {
         stiffness: 100,
         damping: 30,
@@ -21,18 +21,27 @@ export default function Lab() {
     });
 
     const scroll = (direction: 'left' | 'right') => {
-        if (!scrollRef.current) return;
-        const scrollAmount = window.innerWidth > 768 ? 500 : 350;
-        scrollRef.current.scrollBy({
-            left: direction === 'left' ? -scrollAmount : scrollAmount,
-            behavior: 'smooth'
-        });
+        if (scrollRef.current) {
+            const { scrollLeft, clientWidth } = scrollRef.current;
+            const scrollTo = direction === 'left' 
+                ? scrollLeft - clientWidth * 0.8 
+                : scrollLeft + clientWidth * 0.8;
+            
+            scrollRef.current.scrollTo({
+                left: scrollTo,
+                behavior: 'smooth'
+            });
+        }
     };
 
     return (
-        <section id="lab" className="w-full bg-transparent py-32 overflow-hidden relative z-10">
+        <section 
+            id="lab" 
+            className="w-full bg-transparent py-32 overflow-hidden relative z-10"
+            style={{ contentVisibility: "auto", containIntrinsicSize: "0 800px" }}
+        >
             <div className="container mx-auto px-6 lg:px-12 relative">
-                <motion.div 
+                <m.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -40,7 +49,7 @@ export default function Lab() {
                     className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8"
                 >
                     <div>
-                        <h2 className="text-sm font-medium text-teal-500/80 tracking-widest uppercase mb-4">The Lab</h2>
+                        <h2 className="text-sm font-medium text-teal-500/80 tracking-wildest uppercase mb-4">The Lab</h2>
                         <h3 className="text-4xl md:text-5xl font-light text-zinc-900 tracking-tight max-w-3xl">
                             Experimental code, research papers, and deep dives into the mechanics of intelligence.
                         </h3>
@@ -66,7 +75,7 @@ export default function Lab() {
                         {/* Navigation Arrows (Only in Scroll Mode) */}
                         <AnimatePresence>
                             {viewMode === 'scroll' && (
-                                <motion.div 
+                                <m.div 
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
@@ -84,11 +93,11 @@ export default function Lab() {
                                     >
                                         <ChevronRight className="w-5 h-5" />
                                     </button>
-                                </motion.div>
+                                </m.div>
                             )}
                         </AnimatePresence>
                     </div>
-                </motion.div>
+                </m.div>
 
                 {/* Content Area */}
                 <div className="relative">
@@ -96,7 +105,7 @@ export default function Lab() {
                         <>
                             <div
                                 ref={scrollRef}
-                                className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory -mx-6 px-6 lg:-mx-12 lg:px-12 after:content-[''] after:shrink-0 after:w-6 lg:after:w-12"
+                                className="flex gap-8 overflow-x-auto pt-6 pb-12 snap-x snap-mandatory -mx-6 px-6 lg:-mx-12 lg:px-12 after:content-[''] after:shrink-0 after:w-6 lg:after:w-12"
                                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                             >
                                 {projects.map((project, index) => (
@@ -108,7 +117,7 @@ export default function Lab() {
 
                             {/* Custom Scroll Indicator */}
                             <div className="w-full h-1 bg-zinc-200 rounded-full mt-4 overflow-hidden relative">
-                                <motion.div
+                                <m.div
                                     className="absolute inset-y-0 left-0 bg-teal-500 origin-left"
                                     style={{ width: "100%", scaleX }}
                                 />
@@ -117,14 +126,14 @@ export default function Lab() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                             {projects.map((project, index) => (
-                                <motion.div 
+                                <m.div 
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
                                     key={index}
                                 >
                                     <LabCard project={project} />
-                                </motion.div>
+                                </m.div>
                             ))}
                         </div>
                     )}
@@ -136,12 +145,12 @@ export default function Lab() {
 
 function LabCard({ project }: { project: typeof projects[0] }) {
     return (
-        <motion.div
+        <m.div
             style={{ perspective: 1000 }}
             className="w-full max-w-[450px] h-[500px] mx-auto"
         >
             <Link href={project.href} target="_blank" className="block h-full group">
-                <motion.div
+                <m.div
                     layout
                     whileHover={{ 
                         y: -8,
@@ -189,8 +198,8 @@ function LabCard({ project }: { project: typeof projects[0] }) {
                             mixBlendMode: "overlay",
                         }}
                     />
-                </motion.div>
+                </m.div>
             </Link>
-        </motion.div>
+        </m.div>
     );
 }

@@ -9,7 +9,7 @@
 }
 
 :root {
-  --background: #fafafa;
+  --background: #ffffff;
   --foreground: #18181b;
   --glass-bg: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.2);
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: #ffffff;
   color: var(--foreground);
   font-family: var(--font-raleway), sans-serif !important;
   -webkit-font-smoothing: antialiased;
@@ -57,13 +57,12 @@ h1, h2, h3, h4, h5, h6, .font-sans {
 @media screen and (max-width: 1536px) and (min-width: 1024px) and (max-height: 950px) {
   html {
     font-size: 15px; /* Subtle scale down from 16px */
-    zoom: 0.92;      /* Global zoom for better breathing room */
   }
 }
 
 /* Extra optimization for very short laptop screens */
 @media screen and (max-height: 800px) and (min-width: 1024px) {
   html {
-    zoom: 0.88;
+    font-size: 14px;
   }
 }

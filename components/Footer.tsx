@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 
@@ -42,21 +42,16 @@ export default function Footer() {
     };
 
     return (
-        <footer ref={footerRef} className="w-full bg-transparent pt-32 pb-32 md:pb-12 mt-24 border-t border-zinc-200/20 relative z-10">
+        <footer 
+            ref={footerRef} 
+            className="w-full bg-transparent pt-32 pb-32 md:pb-12 mt-24 border-t border-zinc-200/20 relative z-10"
+            style={{ contentVisibility: "auto", containIntrinsicSize: "0 500px" }}
+        >
             <div className="container mx-auto px-6 lg:px-12 flex flex-col justify-between min-h-[400px]">
 
                 {/* Top Section */}
                 <div className="space-y-12 relative py-4">
-                    {/* Floating ambient glow tracking scroll */}
-                    <motion.div 
-                        style={{ 
-                            left: glowX,
-                            scale: glowScale,
-                            opacity: glowOpacity
-                        }}
-                        className="absolute top-1/2 -translate-y-1/2 w-80 h-32 bg-gradient-to-r from-teal-400/25 to-emerald-400/25 rounded-full blur-[80px] pointer-events-none -z-10"
-                    />
-                    <motion.h2 
+                    <m.h2 
                         style={{
                             backgroundImage: "linear-gradient(90deg, #18181b 0%, #18181b 38%, #0d9488 45%, #2dd4bf 50%, #a7f3d0 53%, #0d9488 58%, #18181b 68%, #18181b 100%)",
                             backgroundSize: "250% 100%",
@@ -68,7 +63,7 @@ export default function Footer() {
                         className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-tight relative z-10"
                     >
                         Let&apos;s Communicate.
-                    </motion.h2>
+                    </m.h2>
 
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
                         {/* Email Interaction */}
@@ -87,14 +82,14 @@ export default function Footer() {
                             {/* Copied Tooltip */}
                             <AnimatePresence>
                                 {copied && (
-                                    <motion.span
+                                    <m.span
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -10 }}
                                         className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-900 text-zinc-50 text-xs rounded-md whitespace-nowrap"
                                     >
                                         Copied to clipboard!
-                                    </motion.span>
+                                    </m.span>
                                 )}
                             </AnimatePresence>
                         </button>
@@ -117,7 +112,7 @@ export default function Footer() {
                     <div className="flex flex-wrap items-center gap-x-2 text-2xl md:text-3xl lg:text-4xl font-light text-zinc-400">
                         <span>I am</span>
                         <AnimatePresence mode="wait">
-                            <motion.span
+                            <m.span
                                 key={identityIndex}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -126,11 +121,11 @@ export default function Footer() {
                                 className="text-zinc-400"
                             >
                                 {/^[AEIOUaeiou]/i.test(identities[identityIndex]) ? "an" : "a"}
-                            </motion.span>
+                            </m.span>
                         </AnimatePresence>
                         <div className="inline-flex items-center min-h-[1.5em] relative" style={{ perspective: "1000px" }}>
                             <AnimatePresence mode="wait">
-                                <motion.span
+                                <m.span
                                     key={identityIndex}
                                     initial={{ y: 25, opacity: 0, rotateX: -70 }}
                                     animate={{ y: 0, opacity: 1, rotateX: 0 }}
@@ -140,7 +135,7 @@ export default function Footer() {
                                 >
                                     {identities[identityIndex]}
                                     <span className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-400 to-emerald-400" />
-                                </motion.span>
+                                </m.span>
                             </AnimatePresence>
                         </div>
                     </div>

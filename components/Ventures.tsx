@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { m, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Code2, Network, BrainCircuit, Coffee, Cpu } from "lucide-react";
 
@@ -138,9 +138,14 @@ export default function Ventures() {
     });
 
     return (
-        <section id="ventures" className="w-full bg-transparent py-32 relative z-10 overflow-hidden scroll-mt-20" ref={containerRef}>
+        <section 
+            id="ventures" 
+            className="w-full bg-transparent py-32 relative z-10 overflow-hidden scroll-mt-20" 
+            ref={containerRef}
+            style={{ contentVisibility: "auto", containIntrinsicSize: "0 1200px" }}
+        >
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
-                <motion.div 
+                <m.div 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
@@ -154,12 +159,12 @@ export default function Ventures() {
                     <p className="text-[1.15rem] leading-[1.7] text-zinc-600 font-normal font-body">
                         A timeline of leadership in AI architecture, deep-tech research, and the foundational social calibration forged in high-pressure environments.
                     </p>
-                </motion.div>
+                </m.div>
 
                 <div id="ventures" className="relative max-w-6xl mx-auto scroll-mt-32">
                     {/* The Timeline Line */}
                     <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-zinc-200 -translate-x-1/2" />
-                    <motion.div
+                    <m.div
                         className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-teal-500 -translate-x-1/2 origin-top will-change-transform"
                         style={{ scaleY }}
                     />
@@ -176,7 +181,7 @@ export default function Ventures() {
                             const variants = getCardVariants(exp.id);
 
                             return (
-                                <motion.div
+                                <m.div
                                     key={exp.id}
                                     initial={{ opacity: 0, y: 50 }}
                                     whileInView={{ opacity: 1, y: 0 }}
@@ -190,7 +195,7 @@ export default function Ventures() {
                                     </div>
 
                                     <div className={`ml-14 md:ml-0 md:w-[45%] ${isEven ? 'md:pr-12 lg:pr-16 text-left md:text-right' : 'md:pl-12 lg:pl-16 text-left'}`}>
-                                        <motion.div 
+                                        <m.div 
                                             variants={variants}
                                             initial="inactive"
                                             whileInView="active"
@@ -236,21 +241,17 @@ export default function Ventures() {
                                                     </span>
                                                 ))}
                                             </div>
-                                        </motion.div>
+                                        </m.div>
                                     </div>
 
                                     {/* Empty space for opposite side on md+ screens */}
                                     <div className="hidden md:block md:w-[45%]" />
-                                </motion.div>
+                                </m.div>
                             );
                         })}
                     </div>
                 </div>
             </div>
-
-            {/* Background decorative elements */}
-            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/3 w-[500px] h-[500px] bg-zinc-200/50 rounded-full blur-3xl pointer-events-none" />
         </section>
     );
 }

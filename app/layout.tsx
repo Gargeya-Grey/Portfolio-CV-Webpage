@@ -3,6 +3,7 @@ import { Raleway, Lato } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import ScrollProgress from "@/components/ScrollProgress";
+import LazyMotionProvider from "@/components/LazyMotionProvider";
 import JapaneseGlassBackground from "@/components/JapaneseGlassBackground";
 
 const raleway = Raleway({
@@ -32,11 +33,16 @@ export default function RootLayout({
       <body
         className={`${raleway.variable} ${lato.variable} text-zinc-900 antialiased selection:bg-teal-500 selection:text-white tracking-tight leading-relaxed relative min-h-screen`}
       >
-        <JapaneseGlassBackground />
-        <ScrollProgress />
-        {children}
-        <Navigation />
+        <LazyMotionProvider>
+          <JapaneseGlassBackground />
+          <ScrollProgress />
+          {children}
+          <Navigation />
+        </LazyMotionProvider>
       </body>
     </html>
   );
 }
+
+
+
