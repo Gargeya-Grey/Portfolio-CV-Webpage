@@ -7,6 +7,7 @@ import { m, AnimatePresence } from "framer-motion";
 const navItems = [
     { name: "Bio", href: "#bio" },
     { name: "Ventures", href: "#ventures" },
+    { name: "Education", href: "#education" },
     { name: "Lab", href: "#lab" },
     { name: "Contact", href: "mailto:gargeya.sharma@gmail.com" },
 ];

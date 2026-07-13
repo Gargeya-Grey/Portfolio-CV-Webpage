@@ -11,6 +11,11 @@ const Lab = dynamic(() => import("@/components/Lab"), {
   ssr: true
 });
 
+const Education = dynamic(() => import("@/components/Education"), {
+  loading: () => <div className="min-h-screen" />,
+  ssr: true
+});
+
 const Footer = dynamic(() => import("@/components/Footer"), {
   ssr: true
 });
@@ -20,6 +25,7 @@ export default function Home() {
     <main>
       <Hero />
       <Ventures />
+      <Education />
       <Lab />
       <Footer />
     </main>
