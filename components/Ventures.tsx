@@ -117,7 +117,7 @@ export default function Ventures() {
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-10 sm:gap-12 md:gap-14 xl:gap-16 2xl:gap-24 items-start">
                     
                     {/* Left Sticky Column */}
-                    <div className="xl:col-span-5 xl:sticky xl:top-[min(30vh,12rem)] self-start min-w-0">
+                    <div className="xl:col-span-6 xl:sticky xl:top-[calc(50vh-180px)] self-start min-w-0">
                         <m.div 
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -141,7 +141,7 @@ export default function Ventures() {
                                 Bridging <span className="font-medium text-teal-600">technical depth</span> with human intuition.
                             </h3>
                             
-                            <p className="text-base sm:text-lg leading-relaxed text-zinc-600 font-body mb-6 sm:mb-10 max-w-md">
+                            <p className="text-base sm:text-lg leading-relaxed text-zinc-600 font-body mb-6 sm:mb-10 max-w-lg">
                                 A timeline of leadership in AI architecture, deep-tech research, and the foundational social calibration forged in high-pressure environments.
                             </p>
 
@@ -159,7 +159,7 @@ export default function Ventures() {
                     </div>
 
                     {/* Right Scrolling Column */}
-                    <div className="xl:col-span-7 relative min-w-0">
+                    <div className="xl:col-span-6 relative min-w-0">
                         {/* Connecting line until two-column kicks in */}
                         <div className="absolute left-3 sm:left-6 top-0 bottom-0 w-px bg-zinc-200 xl:hidden -z-10" />
 
@@ -197,6 +197,19 @@ function VentureCard({ exp }: { exp: typeof experiences[0] }) {
 
     const soft = motionMode === "soft";
 
+    const [isActive, setIsActive] = useState(false);
+    useEffect(() => {
+        if (soft) {
+            setIsActive(false);
+            return;
+        }
+        const unsubscribe = scrollYProgress.on("change", (latest) => {
+            const nextActive = latest >= 0.35 && latest <= 0.65;
+            setIsActive((prev) => (prev === nextActive ? prev : nextActive));
+        });
+        return () => unsubscribe();
+    }, [scrollYProgress, soft]);
+
     // Soft mode (≤1279px incl. iPad): no X shove that clips cards past the viewport edge
     const opacity = useTransform(
         scrollYProgress,
@@ -219,11 +232,18 @@ function VentureCard({ exp }: { exp: typeof experiences[0] }) {
         soft ? [0, 0, 0, 0] : [-3, 0, 0, 3]
     );
 
+    const activeClass = isActive 
+        ? "bg-[#e9fcfc]/65 border-teal-500/15 shadow-[0_24px_50px_rgba(13,148,136,0.08)]" 
+        : "bg-[#f3fbfb]/50 border-white/80 shadow-[0_16px_40px_rgba(13,148,136,0.04),0_1px_2px_rgba(13,148,136,0.02)]";
+
+    const activeBorderGlow = isActive ? exp.borderGlow.replace("group-hover:", "") : "";
+    const activeShadowGlow = isActive ? exp.shadowGlow.replace("hover:", "") : "";
+
     return (
         <m.div
             ref={cardRef}
             style={{ opacity, scale, x, rotate }}
-            className={`group relative flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 bg-white/30 backdrop-blur-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.04)] p-5 sm:p-6 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] transition-colors duration-500 hover:bg-white/50 ${exp.shadowGlow} ${exp.borderGlow} will-change-transform min-w-0 max-w-full`}
+            className={`group relative flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 ${activeClass} ${activeBorderGlow} ${activeShadowGlow} p-5 sm:p-6 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] transition-all duration-500 hover:bg-[#e9fcfc]/65 hover:border-teal-500/15 hover:shadow-[0_24px_50px_rgba(13,148,136,0.08)] ${exp.shadowGlow} ${exp.borderGlow} will-change-transform min-w-0 max-w-full`}
         >
             {/* Timeline node until two-column layout */}
             <div className="absolute left-3 sm:left-6 -translate-x-1/2 top-8 sm:top-10 flex xl:hidden items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white border-2 border-zinc-200 shadow-sm transition-colors duration-300">

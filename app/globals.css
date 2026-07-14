@@ -145,7 +145,7 @@ a,
   }
 
   .hero-tagline-type {
-    font-size: 1.125rem !important; /* 18px — ~50% up from 12px tablet band */
+    font-size: 0.95rem !important; /* 15px — beautifully balanced for stacked lines on tablet */
     letter-spacing: 0.16em !important;
   }
 }

@@ -7,7 +7,7 @@ export default function Hero() {
     return (
         <section
             id="bio"
-            className="short-landscape-hero relative min-h-dvh w-full flex flex-col items-center justify-center overflow-hidden bg-transparent scroll-mt-20 pt-[max(5rem,calc(env(safe-area-inset-top,0px)+4.5rem))] pb-16 sm:pt-0 sm:pb-0"
+            className="short-landscape-hero relative min-h-dvh w-full flex flex-col items-center justify-center overflow-hidden bg-transparent scroll-mt-20 pt-[max(5rem,calc(env(safe-area-inset-top,0px)+4.5rem))] pb-16 sm:pt-24 sm:pb-16"
         >
             {/* Ambient Background Mesh/Mosaic Gradient */}
             <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#e9fcfc]">
@@ -137,11 +137,15 @@ export default function Hero() {
                                 Edudojo.ai
                             </Link>
                         </h4>
-                        {/* Stack taglines until xl so the teal bullet never floats alone between squeezed lines */}
-                        <div className="hero-tagline-type flex flex-col xl:flex-row items-center justify-center gap-2 xl:gap-5 mt-1 sm:mt-2 text-[11px] md:text-[12px] xl:text-[13px] font-bold tracking-[0.12em] md:tracking-[0.16em] xl:tracking-[0.24em] uppercase text-zinc-600/90 font-sans max-w-lg md:max-w-2xl xl:max-w-none px-2">
-                            <span className="text-center leading-relaxed">Bridging Computer Vision, LLMs & Psychology</span>
-                            <span className="hidden xl:inline text-teal-500/60" aria-hidden>•</span>
-                            <span className="text-center leading-relaxed">Theatre Artist turned AI Engineer</span>
+                        {/* Centered stacked taglines for clean vertical alignment across all screen sizes */}
+                        <div className="hero-tagline-type flex flex-col items-center justify-center gap-2 mt-2 text-[11px] md:text-[12px] xl:text-[13px] font-bold tracking-[0.12em] md:tracking-[0.16em] xl:tracking-[0.24em] uppercase text-zinc-600/90 font-sans max-w-lg md:max-w-2xl xl:max-w-none px-2">
+                            <span className="text-center leading-relaxed">Bridging Student-Centric Pedagogy, LLMs & Deeper Human Evaluation</span>
+                            <span className="text-center leading-relaxed">
+                                Theatre Artist turned{" "}
+                                <span className="bg-teal-600 text-white px-1.5 py-0.5 rounded-sm shadow-[0_1.5px_3px_rgba(0,0,0,0.12)] inline-block ml-1 font-extrabold">
+                                    AI Engineer
+                                </span>
+                            </span>
                         </div>
                     </m.div>
                 </div>

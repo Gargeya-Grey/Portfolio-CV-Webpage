@@ -246,7 +246,7 @@ function EducationDesktopSticky() {
                     <SectionHeading />
                 </div>
                 <m.div
-                    style={{ x }}
+                    style={{ x, willChange: "transform" }}
                     className="flex w-[200vw] items-center relative z-10 pt-12 md:pt-4 -mt-4 md:-mt-8"
                 >
                     {educationData.map((edu, idx) => (
