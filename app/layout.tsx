@@ -19,6 +19,7 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cv.sgargeya.com"),
   title: {
     default: "Gargeya Sharma | Founder & AI Architect",
     template: "%s | Gargeya Sharma"
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "Gargeya Sharma Portfolio",
     images: [
       {
-        url: "https://cv.sgargeya.com/og-image.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Gargeya Sharma | Founder & AI Architect"
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
     title: "Gargeya Sharma | Founder & AI Architect",
     description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
     creator: "@GargeyaGrey",
-    images: ["https://cv.sgargeya.com/og-image.png"]
+    images: ["/og-image.png"]
   },
   alternates: {
     canonical: "https://cv.sgargeya.com"
