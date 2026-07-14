@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Raleway, Lato } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
@@ -23,6 +23,14 @@ export const metadata: Metadata = {
   description: "Personal portfolio of Gargeya Sharma",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#e9fcfc",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${raleway.variable} ${lato.variable} text-zinc-900 antialiased selection:bg-teal-500 selection:text-white tracking-tight leading-relaxed relative min-h-screen`}
+        className={`${raleway.variable} ${lato.variable} text-zinc-900 antialiased selection:bg-teal-500 selection:text-white tracking-tight leading-relaxed relative min-h-dvh`}
       >
         <LazyMotionProvider>
           <JapaneseGlassBackground />

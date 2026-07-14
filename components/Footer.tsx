@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Copy, Check, Github, Linkedin } from "lucide-react";
+import { Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 
 const identities = [
@@ -23,11 +23,7 @@ export default function Footer() {
     });
 
     const x = useTransform(scrollYProgress, [0.0, 1.0], ["120%", "-120%"]);
-    const glowX = useTransform(scrollYProgress, [0.0, 1.0], ["-20%", "120%"]);
-    const glowScale = useTransform(scrollYProgress, [0.0, 0.5, 1.0], [0.6, 1.3, 0.6]);
-    const glowOpacity = useTransform(scrollYProgress, [0.0, 0.2, 0.8, 1.0], [0, 0.25, 0.25, 0]);
 
-    // Typewriter/Ticker Effect
     useEffect(() => {
         const interval = setInterval(() => {
             setIdentityIndex((prev) => (prev + 1) % identities.length);
@@ -44,13 +40,17 @@ export default function Footer() {
     return (
         <footer 
             ref={footerRef} 
-            className="w-full bg-transparent pt-32 pb-32 md:pb-12 mt-24 border-t border-zinc-200/20 relative z-10"
-            style={{ contentVisibility: "auto", containIntrinsicSize: "0 500px" }}
+            className="w-full bg-transparent pt-16 sm:pt-24 md:pt-32 mt-8 sm:mt-16 md:mt-20 border-t border-zinc-200/20 relative z-20 isolate"
+            style={{
+                contentVisibility: "auto",
+                containIntrinsicSize: "0 500px",
+                paddingBottom: "max(6rem, calc(env(safe-area-inset-bottom, 0px) + 5rem))",
+            }}
         >
-            <div className="container mx-auto px-6 lg:px-12 flex flex-col justify-between min-h-[400px]">
+            <div className="container mx-auto px-page lg:px-12 flex flex-col justify-between min-h-0 md:min-h-[400px] gap-12 sm:gap-16">
 
                 {/* Top Section */}
-                <div className="space-y-12 relative py-4">
+                <div className="space-y-8 sm:space-y-12 relative py-2 sm:py-4">
                     <m.h2 
                         style={{
                             backgroundImage: "linear-gradient(90deg, #18181b 0%, #18181b 38%, #0d9488 45%, #2dd4bf 50%, #a7f3d0 53%, #0d9488 58%, #18181b 68%, #18181b 100%)",
@@ -60,26 +60,24 @@ export default function Footer() {
                             color: "transparent",
                             backgroundPositionX: x
                         }}
-                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-tight relative z-10"
+                        className="text-[clamp(2rem,9vw,6rem)] sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-[1.1] relative z-10 break-balance"
                     >
                         Let&apos;s Communicate.
                     </m.h2>
 
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
-                        {/* Email Interaction */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 md:gap-8">
                         <button
                             onClick={handleCopyEmail}
-                            className="group relative flex items-center gap-4 px-6 sm:px-8 py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-[border-color,box-shadow] duration-200 hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-hidden"
+                            className="group relative flex items-center gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-[border-color,box-shadow] duration-200 hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-hidden min-w-0"
                         >
                             <div className="flex flex-col items-start min-w-0 flex-1">
-                                <span className="text-xs font-medium text-zinc-400 uppercase tracking-wilder">Email</span>
-                                <span className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 break-all font-body">gargeya.sharma@gmail.com</span>
+                                <span className="text-xs font-medium text-zinc-400 uppercase tracking-widest">Email</span>
+                                <span className="text-sm sm:text-base md:text-xl font-medium text-zinc-800 break-all font-body">gargeya.sharma@gmail.com</span>
                             </div>
-                            <div className="ml-auto md:ml-4 w-10 h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors duration-200">
-                                {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                            <div className="ml-auto md:ml-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors duration-200 shrink-0">
+                                {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : <Copy className="w-4 h-4 sm:w-5 sm:h-5" />}
                             </div>
 
-                            {/* Copied Tooltip */}
                             <AnimatePresence>
                                 {copied && (
                                     <m.span
@@ -94,22 +92,21 @@ export default function Footer() {
                             </AnimatePresence>
                         </button>
 
-                        {/* Socials */}
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
                             <SocialLink href="https://linkedin.com/in/gargeya-sharma" icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
                             <SocialLink href="https://github.com/Gargeya-Grey" icon={<Github className="w-5 h-5" />} label="GitHub" />
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom Section: Ticker & Info */}
-                <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 pt-24 border-t border-zinc-200/50">
-                    <div className="flex flex-col gap-2">
+                {/* Bottom Section */}
+                <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 pt-10 sm:pt-16 md:pt-24 border-t border-zinc-200/50">
+                    <div className="flex flex-col gap-1 sm:gap-2">
                         <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2026</span>
                         <span className="text-sm text-zinc-400 font-body">Jaipur, India (Pink City) / Remote</span>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-x-2 text-2xl md:text-3xl lg:text-4xl font-light text-zinc-400">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-zinc-400">
                         <span>I am</span>
                         <AnimatePresence mode="wait">
                             <m.span
@@ -150,7 +147,7 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
         <Link
             href={href}
             target="_blank"
-            className="flex items-center gap-2 px-6 py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-colors duration-200 group"
+            className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-colors duration-200 group text-sm sm:text-base"
         >
             {label}
             <span className="text-zinc-400 group-hover:text-zinc-900 transition-colors duration-200">
