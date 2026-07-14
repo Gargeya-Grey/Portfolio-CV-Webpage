@@ -19,8 +19,51 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Gargeya Sharma",
-  description: "Personal portfolio of Gargeya Sharma",
+  title: {
+    default: "Gargeya Sharma | Founder & AI Architect",
+    template: "%s | Gargeya Sharma"
+  },
+  description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
+  keywords: [
+    "Gargeya Sharma",
+    "AI Architect",
+    "Edudojo.ai",
+    "Machine Learning Engineer",
+    "Computer Vision",
+    "LLMs",
+    "Agentic Systems",
+    "Theatre Artist Turned AI Engineer",
+    "Portfolio",
+    "CV"
+  ],
+  authors: [{ name: "Gargeya Sharma" }],
+  creator: "Gargeya Sharma",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://cv.sgargeya.com",
+    title: "Gargeya Sharma | Founder & AI Architect",
+    description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
+    siteName: "Gargeya Sharma Portfolio",
+    images: [
+      {
+        url: "https://cv.sgargeya.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Gargeya Sharma | Founder & AI Architect"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gargeya Sharma | Founder & AI Architect",
+    description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
+    creator: "@GargeyaGrey",
+    images: ["https://cv.sgargeya.com/og-image.png"]
+  },
+  alternates: {
+    canonical: "https://cv.sgargeya.com"
+  }
 };
 
 export const viewport: Viewport = {

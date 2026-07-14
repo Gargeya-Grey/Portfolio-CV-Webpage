@@ -248,11 +248,16 @@ function LabDesktopSticky() {
                 {/* Progress lifted from viewport bottom edge for landscape comfort */}
                 <div
                     className="absolute left-0 right-0 z-30 flex items-center justify-center px-page md:px-24"
-                    style={{ bottom: "max(1.75rem, calc(env(safe-area-inset-bottom, 0px) + 1.25rem))" }}
+                    style={{ top: `calc(50% + ${translations.cardH / 2}px + 80px)` }}
                 >
-                    <div className="flex items-center gap-3 sm:gap-6 md:gap-8 w-full max-w-xl">
-                        <span className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest w-10 sm:w-12 shrink-0">Start</span>
-                        <div className="relative flex-1 h-[3px] sm:h-[4px] bg-zinc-200/60 rounded-full shadow-inner min-w-0">
+                    <div className="flex flex-col gap-4 w-full max-w-xl">
+                        {/* Top Labels Row */}
+                        <div className="flex justify-between w-full px-2">
+                            <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Start</span>
+                            <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400 text-right">End</span>
+                        </div>
+                        {/* Progress Bar Row */}
+                        <div className="relative h-[4px] bg-zinc-200/60 rounded-full shadow-inner mx-4">
                             <m.div
                                 className="absolute top-0 left-0 bottom-0 bg-teal-500 rounded-full origin-left"
                                 style={{ scaleX: progressScaleClamped }}
@@ -263,13 +268,12 @@ function LabDesktopSticky() {
                                 ))}
                             </div>
                             <m.div
-                                className="absolute top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-2 border-teal-500 shadow-md flex items-center justify-center -ml-2.5 sm:-ml-3 z-10"
+                                className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border-2 border-teal-500 shadow-md flex items-center justify-center -ml-3 z-10"
                                 style={{ left: progressLeft }}
                             >
-                                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-teal-500 animate-pulse" />
+                                <div className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse" />
                             </m.div>
                         </div>
-                        <span className="text-[9px] sm:text-[10px] font-bold text-zinc-400 uppercase tracking-widest w-10 sm:w-12 text-right shrink-0">End</span>
                     </div>
                 </div>
             </div>
@@ -387,9 +391,9 @@ const LabIndexTick = React.memo(function LabIndexTick({
 
     if (checkpoint - 0.08 >= 0) {
         range.push(checkpoint - 0.08);
-        scaleOutput.push(0.9);
+        scaleOutput.push(0.95);
         colorOutput.push("#a1a1aa");
-        opacityOutput.push(0.5);
+        opacityOutput.push(0.7);
     }
 
     if (range.length === 0 || range[range.length - 1] < checkpoint) {
@@ -401,9 +405,9 @@ const LabIndexTick = React.memo(function LabIndexTick({
 
     if (checkpoint + 0.08 <= 1) {
         range.push(checkpoint + 0.08);
-        scaleOutput.push(0.9);
+        scaleOutput.push(0.95);
         colorOutput.push("#a1a1aa");
-        opacityOutput.push(0.5);
+        opacityOutput.push(0.7);
     }
 
     const scale = useTransform(scrollProgress, range, scaleOutput);
@@ -414,10 +418,10 @@ const LabIndexTick = React.memo(function LabIndexTick({
     return (
         <m.div
             style={{ left: leftPercent, scale, color, opacity }}
-            className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center -translate-x-1/2 mt-4 sm:mt-5"
+            className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center -translate-x-1/2 mt-5"
         >
             <div className="w-1 h-1 rounded-full bg-current mb-1" />
-            <span className="text-[9px] sm:text-[10px] font-black tracking-wider font-mono select-none">
+            <span className="text-xs font-bold tracking-wider font-mono select-none">
                 {String(index + 1).padStart(2, "0")}
             </span>
         </m.div>

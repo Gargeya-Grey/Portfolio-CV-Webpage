@@ -245,10 +245,9 @@ function EducationDesktopSticky() {
                 <div className="edu-title-block absolute top-20 md:top-28 left-0 right-0 z-20 pointer-events-none px-page md:left-8 lg:left-32 max-w-4xl">
                     <SectionHeading />
                 </div>
-
                 <m.div
                     style={{ x }}
-                    className="flex w-[200vw] items-center relative z-10 pt-16 md:pt-10"
+                    className="flex w-[200vw] items-center relative z-10 pt-12 md:pt-4 -mt-4 md:-mt-8"
                 >
                     {educationData.map((edu, idx) => (
                         <m.div
@@ -261,34 +260,36 @@ function EducationDesktopSticky() {
                     ))}
                 </m.div>
 
-                <div
-                    className="edu-progress absolute left-0 right-0 z-20 flex items-center justify-center px-page md:px-24"
-                    style={{ bottom: "max(1.75rem, calc(env(safe-area-inset-bottom, 0px) + 1.25rem))" }}
-                >
-                    <div className="flex items-center gap-3 sm:gap-6 md:gap-8 w-full max-w-xl">
-                        <m.span style={{ color: mastersLabelColor }} className="text-[10px] sm:text-xs font-bold uppercase tracking-wider w-14 sm:w-20 shrink-0">
-                            Masters
-                        </m.span>
-                        <div className="relative flex-1 h-[3px] sm:h-[4px] bg-zinc-200/60 rounded-full shadow-inner min-w-0">
-                            <m.div
+                {/* Fixed Scrolling Progress Timeline Indicator at the bottom */}
+                <div className="absolute bottom-28 md:bottom-40 left-10 md:left-24 right-10 md:right-24 z-20 flex items-center justify-center">
+                    <div className="flex flex-col gap-4 w-full max-w-xl">
+                        {/* Top Labels Row */}
+                        <div className="flex justify-between w-full px-2">
+                            <m.span style={{ color: mastersLabelColor }} className="text-[11px] font-black uppercase tracking-widest">Masters</m.span>
+                            <m.span style={{ color: bachelorsLabelColor }} className="text-[11px] font-black uppercase tracking-widest">Bachelors</m.span>
+                        </div>
+                        {/* Progress Bar Row */}
+                        <div className="relative h-[4px] bg-zinc-200/60 rounded-full shadow-inner mx-4">
+                            <m.div 
                                 className="absolute top-0 left-0 bottom-0 bg-teal-500 rounded-full origin-left"
                                 style={{ scaleX: scrollYProgress }}
                             />
+                            
+                            {/* Chronological Ruler Ticks */}
                             <div className="absolute inset-0 pointer-events-none">
                                 {[2023, 2022, 2021, 2020, 2019, 2018].map((year, i) => (
                                     <YearTick key={year} year={year} index={i} scrollProgress={scrollYProgress} />
                                 ))}
                             </div>
-                            <m.div
-                                className="absolute top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-2 border-teal-500 shadow-md flex items-center justify-center -ml-2.5 sm:-ml-3 z-10"
+
+                            {/* Floating indicator node with visual anchor */}
+                            <m.div 
+                                className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white border-2 border-teal-500 shadow-md flex items-center justify-center -ml-3 z-10"
                                 style={{ left: handleLeft }}
                             >
-                                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-teal-500 animate-pulse" />
+                                <div className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse" />
                             </m.div>
                         </div>
-                        <m.span style={{ color: bachelorsLabelColor }} className="text-[10px] sm:text-xs font-bold uppercase tracking-wider w-14 sm:w-20 text-right shrink-0">
-                            Bachelors
-                        </m.span>
                     </div>
                 </div>
             </div>
@@ -316,41 +317,37 @@ export default function Education() {
     );
 }
 
-function YearTick({
-    year,
-    index,
-    scrollProgress,
-}: {
-    year: number;
-    index: number;
-    scrollProgress: MotionValue<number>;
-}) {
+function YearTick({ year, index, scrollProgress }: { year: number; index: number; scrollProgress: any }) {
     const checkpoint = index * 0.2;
+    
+    // Construct strictly increasing keyframe offsets within [0, 1] range to avoid Web Animations API crash
+    const range = [];
+    const scaleOutput = [];
+    const colorOutput = [];
+    const opacityOutput = [];
 
-    const range: number[] = [];
-    const scaleOutput: number[] = [];
-    const colorOutput: string[] = [];
-    const opacityOutput: number[] = [];
-
+    // Left boundary
     if (checkpoint - 0.15 >= 0) {
         range.push(checkpoint - 0.15);
-        scaleOutput.push(0.85);
+        scaleOutput.push(0.95);
         colorOutput.push("#a1a1aa");
-        opacityOutput.push(0.4);
+        opacityOutput.push(0.7);
     }
-
+    
+    // Center point (checkpoint)
     if (range.length === 0 || range[range.length - 1] < checkpoint) {
         range.push(checkpoint);
-        scaleOutput.push(1.25);
+        scaleOutput.push(1.3);
         colorOutput.push("#0d9488");
         opacityOutput.push(1.0);
     }
 
+    // Right boundary
     if (checkpoint + 0.15 <= 1) {
         range.push(checkpoint + 0.15);
-        scaleOutput.push(0.85);
+        scaleOutput.push(0.95);
         colorOutput.push("#a1a1aa");
-        opacityOutput.push(0.4);
+        opacityOutput.push(0.7);
     }
 
     const scale = useTransform(scrollProgress, range, scaleOutput);
@@ -359,12 +356,12 @@ function YearTick({
     const leftPercent = `${index * 20}%`;
 
     return (
-        <m.div
+        <m.div 
             style={{ left: leftPercent, scale, color, opacity }}
-            className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center -translate-x-1/2 mt-4 sm:mt-5"
+            className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center -translate-x-1/2 mt-5"
         >
-            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-current mb-1" />
-            <span className="text-[9px] sm:text-[10px] font-black tracking-wider font-sans select-none">{year}</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-current mb-1" />
+            <span className="text-xs font-bold tracking-wider font-sans select-none">{year}</span>
         </m.div>
     );
 }
