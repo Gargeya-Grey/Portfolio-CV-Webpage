@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 const identities = [
     "AI Engineer",
@@ -101,9 +102,16 @@ export default function Footer() {
 
                 {/* Bottom Section */}
                 <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 pt-10 sm:pt-16 md:pt-24 border-t border-zinc-200/50">
-                    <div className="flex flex-col gap-1 sm:gap-2">
-                        <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2026</span>
-                        <span className="text-sm text-zinc-400 font-body">Jaipur, India (Pink City) / Remote</span>
+                    <div className="flex items-start gap-3 sm:gap-4">
+                        <Logo
+                            variant="light"
+                            size={40}
+                            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-sm ring-1 ring-zinc-200/70 shrink-0"
+                        />
+                        <div className="flex flex-col gap-1 sm:gap-2">
+                            <span className="text-sm font-medium text-zinc-400 font-body">Gargeya Sharma © 2026</span>
+                            <span className="text-sm text-zinc-400 font-body">Jaipur, India (Pink City) / Remote</span>
+                        </div>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-zinc-400">

@@ -1,11 +1,18 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-zinc-50 flex flex-col items-center justify-center p-6 text-center">
+      <Logo
+        variant="light"
+        size={72}
+        className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-2xl shadow-md ring-1 ring-zinc-200/80 mb-8"
+        priority
+      />
       <h2 className="text-4xl font-serif text-zinc-900 mb-4">404 - Page Not Found</h2>
       <p className="text-zinc-600 mb-8 max-w-md">
-        The page you are looking for doesn't exist or has been moved.
+        The page you are looking for doesn&apos;t exist or has been moved.
       </p>
       <Link 
         href="/"

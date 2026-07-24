@@ -1,0 +1,29 @@
+{
+  "name": "Gargeya Sharma | Portfolio",
+  "short_name": "SGargeya",
+  "description": "Founder & Lead AI Architect @ Edudojo.ai — portfolio and CV.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e9fcfc",
+  "theme_color": "#e9fcfc",
+  "icons": [
+    {
+      "src": "/logo/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/icon-dark-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

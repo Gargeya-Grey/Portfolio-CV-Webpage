@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { m, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Logo from "@/components/Logo";
 
 const navItems = [
     { name: "Bio", href: "#bio" },
@@ -90,15 +91,22 @@ export default function Navigation() {
                     className="pointer-events-auto flex items-center gap-1 sm:gap-2 md:gap-3 rounded-full bg-white/70 backdrop-blur-lg px-2.5 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.06)] border border-zinc-200/50 max-w-[calc(100vw-1rem)]"
                     aria-label="Primary"
                 >
-                    {/* Brand Name */}
+                    {/* Brand mark + name */}
                     <Link
                         href="#"
                         onClick={() => {
                             setActiveSection("");
                             closeMenu();
                         }}
-                        className="px-2 sm:px-3 md:px-5 py-2 sm:py-2.5 text-xs sm:text-sm md:text-base font-bold text-teal-600 tracking-tight whitespace-nowrap transition-colors duration-200 hover:text-teal-500 shrink-0"
+                        className="flex items-center gap-2 sm:gap-2.5 px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 text-xs sm:text-sm md:text-base font-bold text-teal-600 tracking-tight whitespace-nowrap transition-colors duration-200 hover:text-teal-500 shrink-0"
+                        aria-label="Gargeya Sharma — home"
                     >
+                        <Logo
+                            variant="light"
+                            size={28}
+                            priority
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-md shadow-sm ring-1 ring-zinc-200/60"
+                        />
                         <span className="hidden min-[360px]:inline">Gargeya Sharma</span>
                         <span className="inline min-[360px]:hidden">G. Sharma</span>
                     </Link>

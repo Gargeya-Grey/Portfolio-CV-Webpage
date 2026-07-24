@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import ScrollProgress from "@/components/ScrollProgress";
 import LazyMotionProvider from "@/components/LazyMotionProvider";
 import JapaneseGlassBackground from "@/components/JapaneseGlassBackground";
+import { logo } from "@/lib/logo";
 
 const raleway = Raleway({
   variable: "--font-raleway",
@@ -64,7 +65,28 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://cv.sgargeya.com"
-  }
+  },
+  icons: {
+    // Light/dark favicons follow the user's OS color scheme.
+    // app/icon.png + app/apple-icon.png also serve as defaults via the App Router.
+    icon: [
+      {
+        url: logo.light.svg,
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: logo.dark.svg,
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: dark)",
+      },
+      { url: "/logo/icon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/logo/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/logo/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export const viewport: Viewport = {
