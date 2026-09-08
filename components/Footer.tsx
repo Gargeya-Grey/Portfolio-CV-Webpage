@@ -51,7 +51,7 @@ export default function Footer() {
             style={{
                 contentVisibility: "auto",
                 containIntrinsicSize: "0 500px",
-                paddingBottom: "max(6rem, calc(env(safe-area-inset-bottom, 0px) + 5rem))",
+                paddingBottom: "max(8rem, calc(env(safe-area-inset-bottom, 0px) + 6.5rem))",
             }}
         >
             <div className="container mx-auto px-page lg:px-12 flex flex-col justify-between min-h-0 md:min-h-[400px] gap-12 sm:gap-16">

@@ -4,7 +4,7 @@ export default function Hero() {
     return (
         <section
             id="bio"
-            className="short-landscape-hero relative min-h-dvh w-full flex flex-col items-center justify-center overflow-hidden bg-transparent scroll-mt-20 pt-[max(5rem,calc(env(safe-area-inset-top,0px)+4.5rem))] pb-16 sm:pt-24 sm:pb-16"
+            className="short-landscape-hero relative min-h-dvh w-full flex flex-col items-center justify-center overflow-hidden bg-transparent scroll-mt-8 pt-[max(2.5rem,env(safe-area-inset-top,0px))] pb-[max(7.5rem,calc(env(safe-area-inset-bottom,0px)+6rem))]"
         >
             <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#e9fcfc]">
                 <div
@@ -32,60 +32,46 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="w-full max-w-7xl mx-auto px-page relative z-10 flex flex-col items-center justify-center text-center">
-                <div className="short-landscape-hero-space space-y-8 sm:space-y-12 md:space-y-20 lg:space-y-24 w-full max-w-7xl mx-auto flex flex-col items-center">
-                    <div className="font-medium tracking-tight text-teal-950 leading-[1.08] sm:leading-[1.1] flex flex-col items-center w-full min-w-0 px-0 sm:px-2">
-                        <div className="hero-enter hero-enter-1 flex flex-col xl:flex-row items-center justify-center xl:whitespace-nowrap w-full min-w-0 gap-1 sm:gap-0">
-                            <span className="short-landscape-hero-type hero-display-type sm:mr-[0.25em] inline-block break-balance">
-                                Architecting
-                            </span>
-                            <span className="short-landscape-hero-type hero-display-type font-bold inline-flex items-center max-w-full">
-                                Intelligence
-                                <span className="text-teal-500 font-black ml-0.5 sm:ml-1 scale-125 translate-y-[-0.05em]">.</span>
-                            </span>
-                        </div>
-
-                        <div className="hero-enter hero-enter-2 flex flex-col xl:flex-row items-center justify-center xl:whitespace-nowrap text-teal-900/50 mt-4 sm:mt-6 md:mt-8 lg:mt-10 w-full min-w-0">
-                            <span className="short-landscape-hero-type hero-display-type sm:mr-[0.25em] inline-block">
-                                Curating
-                            </span>
-                            <span className="short-landscape-hero-type hero-display-type font-bold inline-flex items-center">
-                                ART
-                                <span className="text-teal-500 font-black ml-0.5 sm:ml-1 scale-125 translate-y-[-0.05em]">.</span>
-                            </span>
-                        </div>
+            <div className="w-full max-w-4xl mx-auto px-page relative z-10 flex flex-col items-center justify-center text-center">
+                <div className="short-landscape-hero-space flex flex-col items-center w-full">
+                    <div className="hero-enter hero-enter-1 flex items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-14">
+                        <span className="name-pill inline-flex items-center rounded-full bg-teal-700 text-white px-5 sm:px-6 py-2 sm:py-2.5 text-lg sm:text-xl font-semibold tracking-tight">
+                            Gargeya
+                        </span>
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-medium text-zinc-900 tracking-tight">
+                            Sharma
+                        </span>
                     </div>
-                    <div className="hero-enter hero-enter-3 short-landscape-hero-meta w-full max-w-2xl md:max-w-3xl xl:max-w-5xl mx-auto px-2 sm:px-6 font-body mt-6 sm:mt-10 md:mt-14 lg:mt-16 xl:mt-24 text-center flex flex-col items-center gap-3 sm:gap-4">
-                        <h4 className="hero-body-type text-[clamp(1.05rem,2.4vw,1.6rem)] font-normal text-teal-950">
+
+                    <h1 className="hero-enter hero-enter-2 font-medium tracking-tight text-teal-950 leading-[1.15] break-balance text-[clamp(2.15rem,6vw,4.25rem)]">
+                        Architecting Intelligence.
+                    </h1>
+                    <p className="hero-enter hero-enter-2 mt-3 sm:mt-4 font-medium tracking-tight text-teal-900/45 leading-[1.15] break-balance text-[clamp(1.85rem,5.2vw,3.5rem)]">
+                        Curating Art.
+                    </p>
+
+                    <div className="hero-enter hero-enter-3 mt-10 sm:mt-14 flex flex-col items-center gap-4 max-w-2xl">
+                        <p className="text-[clamp(1.05rem,2.2vw,1.45rem)] font-normal text-teal-950 font-body">
                             Founder @{" "}
                             <Link
                                 href="https://edudojo.ai"
                                 target="_blank"
-                                className="pressable text-teal-600 hover:text-teal-700 transition-colors duration-[180ms] ease inline-flex items-center gap-1 font-semibold"
+                                className="pressable text-teal-600 hover:text-teal-700 transition-colors duration-[180ms] ease inline-flex items-center font-semibold"
                             >
                                 Edudojo.ai
                             </Link>
-                        </h4>
-                        <div className="hero-tagline-type flex flex-col items-center justify-center gap-2 mt-2 text-[11px] md:text-[12px] xl:text-[13px] font-semibold tracking-[0.1em] md:tracking-[0.14em] xl:tracking-[0.16em] uppercase text-zinc-600/90 font-sans max-w-lg md:max-w-2xl xl:max-w-none px-2">
-                            <span className="text-center leading-relaxed">Bridging Student-Centric Pedagogy, LLMs & Deeper Human Evaluation</span>
-                            <span className="text-center leading-relaxed">
-                                Theatre Artist turned{" "}
-                                <span className="bg-teal-600 text-white px-1.5 py-0.5 rounded-sm inline-block ml-1 font-extrabold">
-                                    AI Engineer
-                                </span>
+                        </p>
+                        <p className="text-sm sm:text-base text-zinc-600 font-body leading-relaxed max-w-xl">
+                            Bridging student-centric pedagogy, LLMs, and deeper human evaluation.
+                        </p>
+                        <p className="text-sm sm:text-base text-zinc-600 font-body leading-relaxed">
+                            Theatre artist turned{" "}
+                            <span className="bg-teal-600 text-white px-1.5 py-0.5 rounded-sm font-semibold tracking-tight">
+                                AI Engineer
                             </span>
-                        </div>
+                            .
+                        </p>
                     </div>
-                </div>
-            </div>
-
-            <div
-                className="hero-enter hero-enter-4 short-landscape-hide absolute bottom-3 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-2 z-20"
-                style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom, 0px))" }}
-            >
-                <span className="text-[10px] sm:text-xs font-semibold text-teal-900/45 uppercase tracking-[0.18em]">Scroll</span>
-                <div className="w-[22px] sm:w-[26px] h-[36px] sm:h-[44px] rounded-full border border-teal-900/18 flex justify-center p-1.5 bg-white/35 backdrop-blur-sm">
-                    <div className="scroll-dot w-1 h-1 sm:w-1.5 sm:h-1.5 bg-teal-800/80 rounded-full" />
                 </div>
             </div>
         </section>

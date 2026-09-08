@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { m, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import Logo from "@/components/Logo";
 import { DURATION, EASE_OUT, SPRING_UI, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
@@ -17,7 +16,7 @@ const navItems = [
 ];
 
 export default function Navigation() {
-    const [activeSection, setActiveSection] = useState<string>("");
+    const [activeSection, setActiveSection] = useState<string>("#bio");
     const [hoveredSection, setHoveredSection] = useState<string | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const skipMenuAnimation = useRef(false);
@@ -35,8 +34,8 @@ export default function Navigation() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY < 300) {
-                setActiveSection("");
+            if (window.scrollY < 280) {
+                setActiveSection("#bio");
                 return;
             }
 
@@ -90,37 +89,16 @@ export default function Navigation() {
             <div
                 className="fixed z-50 flex justify-center pointer-events-none left-0 right-0"
                 style={{
-                    top: "max(0.75rem, env(safe-area-inset-top, 0px))",
+                    bottom: "max(0.85rem, env(safe-area-inset-bottom, 0px))",
                     paddingLeft: "max(0.5rem, env(safe-area-inset-left, 0px))",
                     paddingRight: "max(0.5rem, env(safe-area-inset-right, 0px))",
                 }}
             >
                 <nav
-                    className="nav-enter pointer-events-auto glass-surface flex items-center gap-1 sm:gap-2 md:gap-3 rounded-full px-2.5 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3.5 max-w-[calc(100vw-1rem)]"
+                    className="nav-enter pointer-events-auto glass-surface flex items-center gap-0.5 sm:gap-1 rounded-full px-2 sm:px-3 py-1.5 sm:py-2 max-w-[calc(100vw-1rem)]"
                     aria-label="Primary"
                 >
-                    <Link
-                        href="#"
-                        onClick={() => {
-                            setActiveSection("");
-                            closeMenu({ instant: true });
-                        }}
-                        className="pressable flex items-center gap-2 sm:gap-2.5 px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 text-xs sm:text-sm md:text-base font-bold text-teal-600 tracking-tight whitespace-nowrap transition-colors duration-[180ms] ease hover:text-teal-500 shrink-0"
-                        aria-label="Gargeya Sharma — home"
-                    >
-                        <Logo
-                            variant="light"
-                            size={28}
-                            priority
-                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-md shadow-sm ring-1 ring-zinc-200/60"
-                        />
-                        <span className="hidden min-[360px]:inline">Gargeya Sharma</span>
-                        <span className="inline min-[360px]:hidden">G. Sharma</span>
-                    </Link>
-
-                    <div className="w-px h-5 sm:h-7 bg-zinc-200/80 shrink-0" />
-
-                    <div className="relative hidden md:flex items-center gap-0.5 sm:gap-1 lg:gap-2">
+                    <div className="relative hidden sm:flex items-center">
                         {navItems.map((item) => {
                             const isActive = activeSection === item.href;
                             const isHovered = hoveredSection === item.name;
@@ -132,14 +110,14 @@ export default function Navigation() {
                                     onMouseEnter={() => setHoveredSection(item.name)}
                                     onMouseLeave={() => setHoveredSection(null)}
                                     aria-current={isActive ? "page" : undefined}
-                                    className={`pressable group relative px-2.5 lg:px-5 py-1.5 lg:py-2.5 text-xs lg:text-sm font-medium transition-colors duration-[180ms] ease z-10 whitespace-nowrap ${isActive ? "text-teal-900" : "text-zinc-500 hover:text-zinc-800"}`}
+                                    className={`pressable group relative px-3 md:px-4 lg:px-5 py-2 lg:py-2.5 text-[13px] lg:text-sm font-medium transition-colors duration-[180ms] ease z-10 whitespace-nowrap ${isActive ? "text-teal-900" : "text-zinc-500 hover:text-zinc-800"}`}
                                 >
                                     <span className="relative z-10">{item.name}</span>
                                     <AnimatePresence>
                                         {isActive && (
                                             <m.span
                                                 layoutId="active-pill"
-                                                className="absolute inset-0 rounded-full bg-teal-500/10 border border-teal-500/20 z-0"
+                                                className="absolute inset-0 rounded-full bg-white/80 border border-zinc-200/70 z-0"
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 exit={{ opacity: 0 }}
@@ -149,7 +127,7 @@ export default function Navigation() {
                                         {isHovered && !isActive && (
                                             <m.span
                                                 layoutId="hover-pill"
-                                                className="absolute inset-0 rounded-full bg-zinc-100/80 border border-zinc-200/50 z-0"
+                                                className="absolute inset-0 rounded-full bg-zinc-100/70 z-0"
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 exit={{ opacity: 0 }}
@@ -162,31 +140,16 @@ export default function Navigation() {
                         })}
                     </div>
 
-                    <div className="relative hidden sm:flex md:hidden items-center gap-0.5 max-w-[min(52vw,22rem)] overflow-x-auto overscroll-x-contain">
-                        {navItems.map((item) => {
-                            const isActive = activeSection === item.href;
-                            return (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    aria-current={isActive ? "page" : undefined}
-                                    className={`pressable relative px-2.5 py-1.5 text-[11px] font-medium whitespace-nowrap rounded-full transition-colors duration-[180ms] ease ${isActive ? "text-teal-900 bg-teal-500/10 border border-teal-500/20" : "text-zinc-500 hover:text-zinc-800"}`}
-                                >
-                                    {item.name}
-                                </Link>
-                            );
-                        })}
-                    </div>
-
                     <button
                         type="button"
-                        className="pressable sm:hidden flex items-center justify-center w-9 h-9 rounded-full text-zinc-600 hover:bg-zinc-100/80 transition-colors duration-[180ms] ease shrink-0"
+                        className="pressable sm:hidden flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-zinc-700 text-sm font-medium"
                         aria-expanded={menuOpen}
                         aria-controls="mobile-nav-menu"
                         aria-label={menuOpen ? "Close menu" : "Open menu"}
                         onClick={() => (menuOpen ? closeMenu() : openMenu())}
                     >
-                        {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+                        Menu
                     </button>
                 </nav>
             </div>
@@ -204,13 +167,13 @@ export default function Navigation() {
                         transition={{ duration: menuDuration, ease: EASE_OUT }}
                         className="fixed inset-0 z-40 sm:hidden bg-[#e9fcfc]/95 backdrop-blur-xl"
                         style={{
-                            paddingTop: "max(5rem, calc(env(safe-area-inset-top, 0px) + 4.5rem))",
-                            paddingBottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
+                            paddingTop: "max(1.5rem, env(safe-area-inset-top, 0px))",
+                            paddingBottom: "max(5.5rem, calc(env(safe-area-inset-bottom, 0px) + 4.5rem))",
                             paddingLeft: "max(1.25rem, env(safe-area-inset-left, 0px))",
                             paddingRight: "max(1.25rem, env(safe-area-inset-right, 0px))",
                         }}
                     >
-                        <nav className="flex flex-col gap-2 max-w-sm mx-auto">
+                        <nav className="flex flex-col gap-2 max-w-sm mx-auto justify-end h-full">
                             {navItems.map((item, i) => {
                                 const isActive = activeSection === item.href;
                                 return (
