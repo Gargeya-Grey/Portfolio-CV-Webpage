@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useRef } from "react";
-import { m, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
+import { m, useScroll, useTransform, useSpring, useReducedMotion, type MotionValue } from "framer-motion";
 import { GraduationCap, Award, BookOpen } from "lucide-react";
 import { useStickyScrollMode } from "@/lib/useStickyScrollMode";
+import { DURATION, EASE_OUT, STAGGER } from "@/lib/motion";
 
 type EduItem = {
     year: string;
@@ -153,17 +154,8 @@ function EducationPhoneStack() {
             <div className="container mx-auto px-page max-w-3xl">
                 <SectionHeading className="mb-10" />
                 <div className="flex flex-col gap-10">
-                    {educationData.map((edu) => (
-                        <m.div
-                            key={edu.year}
-                            initial={{ opacity: 0, y: 24 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-40px" }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
-                            className="rounded-[1.5rem] bg-white/40 backdrop-blur-sm border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)] p-5 sm:p-7"
-                        >
-                            <EducationCard edu={edu} compact />
-                        </m.div>
+                    {educationData.map((edu, index) => (
+                        <EducationStackCard key={edu.year} edu={edu} index={index} />
                     ))}
                 </div>
             </div>
@@ -317,7 +309,23 @@ export default function Education() {
     );
 }
 
-function YearTick({ year, index, scrollProgress }: { year: number; index: number; scrollProgress: any }) {
+function EducationStackCard({ edu, index }: { edu: EduItem; index: number }) {
+    const reduce = useReducedMotion();
+
+    return (
+        <m.div
+            initial={reduce ? false : { opacity: 0, transform: "translateY(8px)" }}
+            whileInView={{ opacity: 1, transform: "translateY(0px)" }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: DURATION.enter, ease: EASE_OUT, delay: STAGGER * index }}
+            className="rounded-[1.5rem] bg-white/40 backdrop-blur-sm border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)] p-5 sm:p-7"
+        >
+            <EducationCard edu={edu} compact />
+        </m.div>
+    );
+}
+
+function YearTick({ year, index, scrollProgress }: { year: number; index: number; scrollProgress: MotionValue<number> }) {
     const checkpoint = index * 0.2;
     
     // Construct strictly increasing keyframe offsets within [0, 1] range to avoid Web Animations API crash

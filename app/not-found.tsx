@@ -14,9 +14,9 @@ export default function NotFound() {
       <p className="text-zinc-600 mb-8 max-w-md">
         The page you are looking for doesn&apos;t exist or has been moved.
       </p>
-      <Link 
+      <Link
         href="/"
-        className="px-8 py-4 bg-[#14b8a6] text-white rounded-full font-medium shadow-lg shadow-teal-500/20 transition-transform duration-200 hover:scale-105 active:scale-95"
+        className="pressable px-8 py-4 bg-[#14b8a6] text-white rounded-full font-medium shadow-lg shadow-teal-500/20 transition-colors duration-[180ms] ease hover:bg-teal-600"
       >
         Return Home
       </Link>

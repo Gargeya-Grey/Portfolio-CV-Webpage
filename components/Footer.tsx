@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { m, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 
 const identities = [
     "AI Engineer",
@@ -17,6 +18,7 @@ export default function Footer() {
     const [copied, setCopied] = useState(false);
     const [identityIndex, setIdentityIndex] = useState(0);
     const footerRef = useRef<HTMLDivElement>(null);
+    const reduce = useReducedMotion();
 
     const { scrollYProgress } = useScroll({
         target: footerRef,
@@ -28,7 +30,7 @@ export default function Footer() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIdentityIndex((prev) => (prev + 1) % identities.length);
-        }, 3000);
+        }, 4000);
         return () => clearInterval(interval);
     }, []);
 
@@ -38,9 +40,14 @@ export default function Footer() {
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const identityTransition = {
+        duration: reduce ? 0.16 : DURATION.ui,
+        ease: EASE_OUT,
+    };
+
     return (
-        <footer 
-            ref={footerRef} 
+        <footer
+            ref={footerRef}
             className="w-full bg-transparent pt-16 sm:pt-24 md:pt-32 mt-8 sm:mt-16 md:mt-20 border-t border-zinc-200/20 relative z-20 isolate"
             style={{
                 contentVisibility: "auto",
@@ -50,10 +57,9 @@ export default function Footer() {
         >
             <div className="container mx-auto px-page lg:px-12 flex flex-col justify-between min-h-0 md:min-h-[400px] gap-12 sm:gap-16">
 
-                {/* Top Section */}
                 <div className="space-y-8 sm:space-y-12 relative py-2 sm:py-4">
-                    <m.h2 
-                        style={{
+                    <m.h2
+                        style={reduce ? undefined : {
                             backgroundImage: "linear-gradient(90deg, #18181b 0%, #18181b 38%, #0d9488 45%, #2dd4bf 50%, #a7f3d0 53%, #0d9488 58%, #18181b 68%, #18181b 100%)",
                             backgroundSize: "250% 100%",
                             backgroundClip: "text",
@@ -69,23 +75,35 @@ export default function Footer() {
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 md:gap-8">
                         <button
                             onClick={handleCopyEmail}
-                            className="group relative flex items-center gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-[border-color,box-shadow] duration-200 hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-hidden min-w-0"
+                            className="pressable group relative flex items-center gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-[border-color,box-shadow] duration-[180ms] ease hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-visible min-w-0"
                         >
                             <div className="flex flex-col items-start min-w-0 flex-1">
                                 <span className="text-xs font-medium text-zinc-400 uppercase tracking-widest">Email</span>
                                 <span className="text-sm sm:text-base md:text-xl font-medium text-zinc-800 break-all font-body">gargeya.sharma@gmail.com</span>
                             </div>
-                            <div className="ml-auto md:ml-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors duration-200 shrink-0">
-                                {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : <Copy className="w-4 h-4 sm:w-5 sm:h-5" />}
+                            <div className="ml-auto md:ml-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors duration-[180ms] ease shrink-0">
+                                <AnimatePresence mode="wait">
+                                    <m.span
+                                        key={copied ? "check" : "copy"}
+                                        initial={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+                                        animate={reduce ? { opacity: 1 } : { opacity: 1, filter: "blur(0px)" }}
+                                        exit={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+                                        transition={{ duration: DURATION.press, ease: EASE_OUT }}
+                                        className="flex items-center justify-center"
+                                    >
+                                        {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : <Copy className="w-4 h-4 sm:w-5 sm:h-5" />}
+                                    </m.span>
+                                </AnimatePresence>
                             </div>
 
                             <AnimatePresence>
                                 {copied && (
                                     <m.span
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-900 text-zinc-50 text-xs rounded-md whitespace-nowrap"
+                                        initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "scale(0.95) translateY(4px)" }}
+                                        animate={reduce ? { opacity: 1 } : { opacity: 1, transform: "scale(1) translateY(0px)" }}
+                                        exit={reduce ? { opacity: 0 } : { opacity: 0, transform: "scale(0.95) translateY(4px)" }}
+                                        transition={{ duration: 0.16, ease: EASE_OUT }}
+                                        className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-900 text-zinc-50 text-xs rounded-md whitespace-nowrap origin-bottom"
                                     >
                                         Copied to clipboard!
                                     </m.span>
@@ -100,7 +118,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Section */}
                 <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 pt-10 sm:pt-16 md:pt-24 border-t border-zinc-200/50">
                     <div className="flex items-start gap-3 sm:gap-4">
                         <Logo
@@ -118,25 +135,25 @@ export default function Footer() {
                         <span>I am</span>
                         <AnimatePresence mode="wait">
                             <m.span
-                                key={identityIndex}
+                                key={`article-${identityIndex}`}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}
+                                transition={identityTransition}
                                 className="text-zinc-400"
                             >
                                 {/^[AEIOUaeiou]/i.test(identities[identityIndex]) ? "an" : "a"}
                             </m.span>
                         </AnimatePresence>
-                        <div className="inline-flex items-center min-h-[1.5em] relative" style={{ perspective: "1000px" }}>
+                        <div className="inline-flex items-center min-h-[1.5em] relative">
                             <AnimatePresence mode="wait">
                                 <m.span
                                     key={identityIndex}
-                                    initial={{ y: 25, opacity: 0, rotateX: -70 }}
-                                    animate={{ y: 0, opacity: 1, rotateX: 0 }}
-                                    exit={{ y: -25, opacity: 0, rotateX: 70 }}
-                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                                    className="font-semibold text-zinc-800 relative pb-1 origin-center"
+                                    initial={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+                                    animate={reduce ? { opacity: 1 } : { opacity: 1, filter: "blur(0px)" }}
+                                    exit={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+                                    transition={identityTransition}
+                                    className="font-semibold text-zinc-800 relative pb-1"
                                 >
                                     {identities[identityIndex]}
                                     <span className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-400 to-emerald-400" />
@@ -155,10 +172,10 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
         <Link
             href={href}
             target="_blank"
-            className="flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-colors duration-200 group text-sm sm:text-base"
+            className="pressable flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium hover:bg-zinc-50 hover:border-zinc-300 transition-colors duration-[180ms] ease group text-sm sm:text-base"
         >
             {label}
-            <span className="text-zinc-400 group-hover:text-zinc-900 transition-colors duration-200">
+            <span className="text-zinc-400 group-hover:text-zinc-900 transition-colors duration-[180ms] ease">
                 {icon}
             </span>
         </Link>

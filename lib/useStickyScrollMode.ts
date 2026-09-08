@@ -22,6 +22,8 @@ export function computeStickyScrollMode(
 
     if (typeof window === "undefined") return false;
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+
     const desktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     return desktopPointer;
 }
@@ -36,6 +38,7 @@ export function useStickyScrollMode(): boolean {
 
         const mqHover = window.matchMedia("(hover: hover)");
         const mqPointer = window.matchMedia("(pointer: fine)");
+        const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
         let timer: ReturnType<typeof setTimeout>;
         const onResize = () => {
@@ -47,6 +50,7 @@ export function useStickyScrollMode(): boolean {
         window.visualViewport?.addEventListener("resize", onResize);
         mqHover.addEventListener("change", update);
         mqPointer.addEventListener("change", update);
+        mqMotion.addEventListener("change", update);
 
         return () => {
             clearTimeout(timer);
@@ -54,6 +58,7 @@ export function useStickyScrollMode(): boolean {
             window.visualViewport?.removeEventListener("resize", onResize);
             mqHover.removeEventListener("change", update);
             mqPointer.removeEventListener("change", update);
+            mqMotion.removeEventListener("change", update);
         };
     }, []);
 

@@ -93,9 +93,9 @@ function LabSwipeCard({ project }: { project: (typeof projects)[0] }) {
     const Icon = getProjectIcon(project.type);
 
     return (
-        <Link href={project.href} target="_blank" className="block group h-full">
+        <Link href={project.href} target="_blank" className="pressable block group h-full">
             <article
-                className={`relative w-full min-h-[22rem] sm:min-h-[24rem] md:min-h-[26rem] rounded-2xl sm:rounded-3xl border bg-white/95 backdrop-blur-sm p-5 sm:p-6 md:p-8 shadow-[0_12px_28px_rgba(0,0,0,0.05)] transition-colors duration-300 flex flex-col ${
+                className={`interactive-card relative w-full min-h-[22rem] sm:min-h-[24rem] md:min-h-[26rem] rounded-2xl sm:rounded-3xl border bg-white/95 backdrop-blur-sm p-5 sm:p-6 md:p-8 shadow-[0_12px_28px_rgba(0,0,0,0.05)] flex flex-col ${
                     project.isLatest
                         ? "border-teal-500/40 shadow-[0_12px_28px_rgba(13,148,136,0.06)]"
                         : "border-zinc-200/90"
@@ -103,7 +103,7 @@ function LabSwipeCard({ project }: { project: (typeof projects)[0] }) {
             >
                 <div className="flex items-start justify-between gap-3 mb-4">
                     <div
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border shrink-0 ${
+                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border shrink-0 transition-colors duration-[180ms] ease ${
                             project.isLatest
                                 ? "bg-teal-50 border-teal-100 text-teal-600"
                                 : "bg-zinc-50 border-zinc-100 text-zinc-400 group-hover:text-teal-600 group-hover:bg-teal-50"
@@ -119,7 +119,7 @@ function LabSwipeCard({ project }: { project: (typeof projects)[0] }) {
                 </div>
 
                 <h3
-                    className={`text-xl sm:text-2xl font-semibold tracking-tight mb-2 transition-colors duration-200 line-clamp-2 ${
+                    className={`text-xl sm:text-2xl font-semibold tracking-tight mb-2 transition-colors duration-[180ms] ease line-clamp-2 ${
                         project.isLatest ? "text-zinc-900 group-hover:text-teal-800" : "text-zinc-900 group-hover:text-teal-900"
                     }`}
                 >
@@ -135,14 +135,14 @@ function LabSwipeCard({ project }: { project: (typeof projects)[0] }) {
                         {project.tags.map(tag => (
                             <span
                                 key={tag}
-                                className="text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white/50 border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors duration-200 font-body"
+                                className="text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white/50 border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors duration-[180ms] ease font-body"
                             >
                                 {tag}
                             </span>
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400 group-hover:text-teal-600 transition-colors duration-200">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400 group-hover:text-teal-600 transition-colors duration-[180ms] ease">
                         {project.type === "writing" ? "Read Article" : "View Code"} <ArrowUpRight className="w-4 h-4" />
                     </div>
                 </div>
@@ -295,18 +295,9 @@ const LabCarouselCard = React.memo(function LabCarouselCard({
 
     return (
         <m.div style={{ perspective: 1000, width, height }} className="mx-auto">
-            <Link href={project.href} target="_blank" className="block h-full group">
-                <m.div
-                    layout
-                    whileHover={{
-                        y: -8,
-                        scale: 1.01,
-                        boxShadow: project.isLatest
-                            ? "0 20px 30px -5px rgba(20, 184, 166, 0.12)"
-                            : "0 15px 20px -5px rgba(20, 184, 166, 0.08)"
-                    }}
-                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                    className={`relative w-full h-full bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between cursor-pointer overflow-hidden border transition-colors duration-300 ${
+            <Link href={project.href} target="_blank" className="pressable block h-full group">
+                <div
+                    className={`interactive-card relative w-full h-full bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between cursor-pointer overflow-hidden border ${
                         compact ? "p-4" : "p-5 sm:p-8 md:p-10"
                     } ${
                         project.isLatest
@@ -317,7 +308,7 @@ const LabCarouselCard = React.memo(function LabCarouselCard({
                     <div className={compact ? "space-y-3" : "space-y-4 sm:space-y-6"}>
                         <div className="flex items-center justify-between">
                             <div
-                                className={`rounded-full flex items-center justify-center border transition-all duration-200 group-hover:scale-110 ${
+                                className={`rounded-full flex items-center justify-center border transition-colors duration-[180ms] ease ${
                                     compact ? "w-9 h-9" : "w-10 h-10 sm:w-12 sm:h-12"
                                 } ${
                                     project.isLatest
@@ -335,7 +326,7 @@ const LabCarouselCard = React.memo(function LabCarouselCard({
                         </div>
 
                         <h3
-                            className={`font-semibold tracking-tight transition-colors duration-200 line-clamp-3 ${
+                            className={`font-semibold tracking-tight transition-colors duration-[180ms] ease line-clamp-3 ${
                                 compact ? "text-lg" : "text-xl sm:text-2xl md:text-3xl"
                             } ${
                                 project.isLatest ? "text-zinc-900 group-hover:text-teal-800" : "text-zinc-900 group-hover:text-teal-900"
@@ -354,18 +345,18 @@ const LabCarouselCard = React.memo(function LabCarouselCard({
                             {project.tags.slice(0, compact ? 3 : project.tags.length).map(tag => (
                                 <span
                                     key={tag}
-                                    className="text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/50 border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors duration-200 font-body"
+                                    className="text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/50 border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors duration-[180ms] ease font-body"
                                 >
                                     {tag}
                                 </span>
                             ))}
                         </div>
 
-                        <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-zinc-400 group-hover:text-teal-600 transition-colors duration-200">
+                        <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-zinc-400 group-hover:text-teal-600 transition-colors duration-[180ms] ease">
                             {project.type === "writing" ? "Read Article" : "View Code"} <ArrowUpRight className="w-4 h-4" />
                         </div>
                     </div>
-                </m.div>
+                </div>
             </Link>
         </m.div>
     );
