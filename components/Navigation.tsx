@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { m, AnimatePresence, useReducedMotion } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import { DURATION, EASE_OUT, SPRING_UI, STAGGER } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 const navItems = [
     { name: "Bio", href: "#bio" },
@@ -20,7 +21,7 @@ export default function Navigation() {
     const [hoveredSection, setHoveredSection] = useState<string | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const skipMenuAnimation = useRef(false);
-    const reduce = useReducedMotion();
+    const reduce = usePrefersReducedMotion();
 
     const closeMenu = useCallback((options?: { instant?: boolean }) => {
         skipMenuAnimation.current = Boolean(options?.instant);
@@ -94,11 +95,8 @@ export default function Navigation() {
                     paddingRight: "max(0.5rem, env(safe-area-inset-right, 0px))",
                 }}
             >
-                <m.nav
-                    initial={reduce ? false : { opacity: 0, transform: "translateY(-16px)" }}
-                    animate={{ opacity: 1, transform: "translateY(0px)" }}
-                    transition={{ duration: DURATION.enter, ease: EASE_OUT }}
-                    className="pointer-events-auto glass-surface flex items-center gap-1 sm:gap-2 md:gap-3 rounded-full px-2.5 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3.5 max-w-[calc(100vw-1rem)]"
+                <nav
+                    className="nav-enter pointer-events-auto glass-surface flex items-center gap-1 sm:gap-2 md:gap-3 rounded-full px-2.5 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3.5 max-w-[calc(100vw-1rem)]"
                     aria-label="Primary"
                 >
                     <Link
@@ -190,7 +188,7 @@ export default function Navigation() {
                     >
                         {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </button>
-                </m.nav>
+                </nav>
             </div>
 
             <AnimatePresence>
@@ -218,9 +216,9 @@ export default function Navigation() {
                                 return (
                                     <m.div
                                         key={item.name}
-                                        initial={reduce ? false : { opacity: 0, transform: "translateY(8px) scale(0.97)" }}
+                                        initial={{ opacity: 0, transform: "translateY(8px) scale(0.97)" }}
                                         animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
-                                        transition={{ delay: reduce ? 0 : STAGGER * i, duration: DURATION.ui, ease: EASE_OUT }}
+                                        transition={{ delay: reduce ? 0 : STAGGER * i, duration: reduce ? 0 : DURATION.ui, ease: EASE_OUT }}
                                     >
                                         <Link
                                             href={item.href}

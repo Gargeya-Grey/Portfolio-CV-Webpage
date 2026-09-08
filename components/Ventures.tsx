@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { m, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
+import { m, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Code2, Network, BrainCircuit, Coffee, Cpu, Briefcase } from "lucide-react";
 import { DURATION, EASE_OUT } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 const experiences = [
     {
@@ -87,7 +88,7 @@ const experiences = [
 export default function Ventures() {
     const containerRef = useRef<HTMLDivElement>(null);
     const cardsContainerRef = useRef<HTMLDivElement>(null);
-    const reduce = useReducedMotion();
+    const reduce = usePrefersReducedMotion();
 
     const { scrollYProgress } = useScroll({
         target: cardsContainerRef,
@@ -116,14 +117,14 @@ export default function Ventures() {
 
                     <div className="xl:col-span-6 xl:sticky xl:top-[calc(50vh-180px)] self-start min-w-0">
                         <m.div
-                            initial={reduce ? false : { opacity: 0, transform: "translateX(-12px)" }}
+                            initial={{ opacity: 0, transform: "translateX(-12px)" }}
                             whileInView={{ opacity: 1, transform: "translateX(0px)" }}
                             viewport={{ once: true, margin: "-80px" }}
-                            transition={{ duration: DURATION.enter, ease: EASE_OUT }}
+                            transition={{ duration: reduce ? 0 : DURATION.enter, ease: EASE_OUT }}
                             className="relative"
                         >
                             <m.div
-                                style={reduce ? undefined : { y: bgY }}
+                                style={{ y: bgY }}
                                 className="absolute -left-10 -top-10 w-40 sm:w-64 h-40 sm:h-64 bg-teal-100/40 rounded-full blur-3xl -z-10 mix-blend-multiply"
                             />
 
@@ -174,7 +175,7 @@ export default function Ventures() {
 function VentureCard({ exp }: { exp: typeof experiences[0] }) {
     const Icon = exp.icon;
     const cardRef = useRef<HTMLDivElement>(null);
-    const reduce = useReducedMotion();
+    const reduce = usePrefersReducedMotion();
     const [motionMode, setMotionMode] = useState<"soft" | "full">("soft");
 
     useEffect(() => {
@@ -221,7 +222,7 @@ function VentureCard({ exp }: { exp: typeof experiences[0] }) {
     return (
         <m.div
             ref={cardRef}
-            style={reduce ? undefined : { opacity }}
+            style={{ opacity }}
             className={`surface-card group relative flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 ${activeClass} ${activeBorderGlow} ${activeShadowGlow} p-5 sm:p-6 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] ${exp.shadowGlow} ${exp.borderGlow} min-w-0 max-w-full`}
         >
             <div className="absolute left-3 sm:left-6 -translate-x-1/2 top-8 sm:top-10 flex xl:hidden items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white border-2 border-zinc-200 shadow-sm transition-colors duration-[180ms] ease">

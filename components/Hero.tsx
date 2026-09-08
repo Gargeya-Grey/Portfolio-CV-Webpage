@@ -1,12 +1,6 @@
-"use client";
-
-import { m, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { DURATION, EASE_OUT, STAGGER } from "@/lib/motion";
 
 export default function Hero() {
-    const reduce = useReducedMotion();
-
     return (
         <section
             id="bio"
@@ -40,32 +34,8 @@ export default function Hero() {
 
             <div className="w-full max-w-7xl mx-auto px-page relative z-10 flex flex-col items-center justify-center text-center">
                 <div className="short-landscape-hero-space space-y-8 sm:space-y-12 md:space-y-20 lg:space-y-24 w-full max-w-7xl mx-auto flex flex-col items-center">
-                    <m.div
-                        initial={reduce ? false : "hidden"}
-                        animate="visible"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: {
-                                opacity: 1,
-                                transition: {
-                                    staggerChildren: STAGGER,
-                                    delayChildren: 0.12,
-                                }
-                            }
-                        }}
-                        className="font-medium tracking-tight text-teal-950 leading-[1.08] sm:leading-[1.1] flex flex-col items-center w-full min-w-0 px-0 sm:px-2"
-                    >
-                        <m.div
-                            variants={{
-                                hidden: { opacity: 0, transform: "translateY(12px)" },
-                                visible: {
-                                    opacity: 1,
-                                    transform: "translateY(0px)",
-                                    transition: { duration: DURATION.enter + 0.16, ease: EASE_OUT }
-                                }
-                            }}
-                            className="flex flex-col xl:flex-row items-center justify-center xl:whitespace-nowrap w-full min-w-0 gap-1 sm:gap-0"
-                        >
+                    <div className="font-medium tracking-tight text-teal-950 leading-[1.08] sm:leading-[1.1] flex flex-col items-center w-full min-w-0 px-0 sm:px-2">
+                        <div className="hero-enter hero-enter-1 flex flex-col xl:flex-row items-center justify-center xl:whitespace-nowrap w-full min-w-0 gap-1 sm:gap-0">
                             <span className="short-landscape-hero-type hero-display-type sm:mr-[0.25em] inline-block break-balance">
                                 Architecting
                             </span>
@@ -73,19 +43,9 @@ export default function Hero() {
                                 Intelligence
                                 <span className="text-teal-500 font-black ml-0.5 sm:ml-1 scale-125 translate-y-[-0.05em]">.</span>
                             </span>
-                        </m.div>
+                        </div>
 
-                        <m.div
-                            variants={{
-                                hidden: { opacity: 0, transform: "translateY(12px)" },
-                                visible: {
-                                    opacity: 1,
-                                    transform: "translateY(0px)",
-                                    transition: { duration: DURATION.enter + 0.16, ease: EASE_OUT }
-                                }
-                            }}
-                            className="flex flex-col xl:flex-row items-center justify-center xl:whitespace-nowrap text-teal-900/50 mt-4 sm:mt-6 md:mt-8 lg:mt-10 w-full min-w-0"
-                        >
+                        <div className="hero-enter hero-enter-2 flex flex-col xl:flex-row items-center justify-center xl:whitespace-nowrap text-teal-900/50 mt-4 sm:mt-6 md:mt-8 lg:mt-10 w-full min-w-0">
                             <span className="short-landscape-hero-type hero-display-type sm:mr-[0.25em] inline-block">
                                 Curating
                             </span>
@@ -93,14 +53,9 @@ export default function Hero() {
                                 ART
                                 <span className="text-teal-500 font-black ml-0.5 sm:ml-1 scale-125 translate-y-[-0.05em]">.</span>
                             </span>
-                        </m.div>
-                    </m.div>
-                    <m.div
-                        initial={reduce ? false : { opacity: 0, transform: "translateY(10px)" }}
-                        animate={{ opacity: 1, transform: "translateY(0px)" }}
-                        transition={{ duration: DURATION.enter, delay: reduce ? 0 : 0.28, ease: EASE_OUT }}
-                        className="short-landscape-hero-meta w-full max-w-2xl md:max-w-3xl xl:max-w-5xl mx-auto px-2 sm:px-6 font-body mt-6 sm:mt-10 md:mt-14 lg:mt-16 xl:mt-24 text-center flex flex-col items-center gap-3 sm:gap-4"
-                    >
+                        </div>
+                    </div>
+                    <div className="hero-enter hero-enter-3 short-landscape-hero-meta w-full max-w-2xl md:max-w-3xl xl:max-w-5xl mx-auto px-2 sm:px-6 font-body mt-6 sm:mt-10 md:mt-14 lg:mt-16 xl:mt-24 text-center flex flex-col items-center gap-3 sm:gap-4">
                         <h4 className="hero-body-type text-[clamp(1.05rem,2.4vw,1.6rem)] font-normal text-teal-950">
                             Founder @{" "}
                             <Link
@@ -120,22 +75,19 @@ export default function Hero() {
                                 </span>
                             </span>
                         </div>
-                    </m.div>
+                    </div>
                 </div>
             </div>
 
-            <m.div
-                initial={reduce ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: reduce ? 0 : 0.7, duration: DURATION.enter, ease: EASE_OUT }}
-                className="short-landscape-hide absolute bottom-3 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-2 z-20"
+            <div
+                className="hero-enter hero-enter-4 short-landscape-hide absolute bottom-3 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 sm:gap-2 z-20"
                 style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom, 0px))" }}
             >
                 <span className="text-[10px] sm:text-xs font-semibold text-teal-900/45 uppercase tracking-[0.18em]">Scroll</span>
                 <div className="w-[22px] sm:w-[26px] h-[36px] sm:h-[44px] rounded-full border border-teal-900/18 flex justify-center p-1.5 bg-white/35 backdrop-blur-sm">
                     <div className="scroll-dot w-1 h-1 sm:w-1.5 sm:h-1.5 bg-teal-800/80 rounded-full" />
                 </div>
-            </m.div>
+            </div>
         </section>
     );
 }

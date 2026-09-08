@@ -304,6 +304,19 @@ a,
     animation: none !important;
   }
 
+  .footer-headline {
+    background-image: none !important;
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .hero-enter,
+  .nav-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .pressable:active,
   .interactive-card:hover,
   .interactive-card:active {
@@ -431,5 +444,53 @@ a,
   50% {
     transform: translateY(10px);
     opacity: 0.15;
+  }
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: hero-enter 280ms var(--ease-out) both;
+  }
+
+  .hero-enter-1 {
+    animation-delay: 120ms;
+  }
+
+  .hero-enter-2 {
+    animation-delay: 170ms;
+  }
+
+  .hero-enter-3 {
+    animation-delay: 280ms;
+  }
+
+  .hero-enter-4 {
+    animation-delay: 400ms;
+  }
+
+  .nav-enter {
+    animation: nav-enter 280ms var(--ease-out) both;
   }
 }

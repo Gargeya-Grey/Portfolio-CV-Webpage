@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useRef } from "react";
-import { m, useScroll, useTransform, useSpring, useReducedMotion, type MotionValue } from "framer-motion";
+import { m, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
 import { GraduationCap, Award, BookOpen } from "lucide-react";
 import { useStickyScrollMode } from "@/lib/useStickyScrollMode";
 import { DURATION, EASE_OUT, STAGGER } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 type EduItem = {
     year: string;
@@ -310,14 +311,14 @@ export default function Education() {
 }
 
 function EducationStackCard({ edu, index }: { edu: EduItem; index: number }) {
-    const reduce = useReducedMotion();
+    const reduce = usePrefersReducedMotion();
 
     return (
         <m.div
-            initial={reduce ? false : { opacity: 0, transform: "translateY(8px)" }}
+            initial={{ opacity: 0, transform: "translateY(8px)" }}
             whileInView={{ opacity: 1, transform: "translateY(0px)" }}
             viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: DURATION.enter, ease: EASE_OUT, delay: STAGGER * index }}
+            transition={{ duration: reduce ? 0 : DURATION.enter, ease: EASE_OUT, delay: reduce ? 0 : STAGGER * index }}
             className="rounded-[1.5rem] bg-white/40 backdrop-blur-sm border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04)] p-5 sm:p-7"
         >
             <EducationCard edu={edu} compact />

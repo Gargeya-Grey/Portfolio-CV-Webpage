@@ -1,11 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { m, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
 import { DURATION, EASE_OUT } from "@/lib/motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 export default function Card({ children, className }: { children: ReactNode; className?: string }) {
-    const reduce = useReducedMotion();
+    const reduce = usePrefersReducedMotion();
 
     return (
         <m.div
@@ -18,9 +19,9 @@ export default function Card({ children, className }: { children: ReactNode; cla
                 cursor-default
                 ${className || ""}
             `}
-            initial={reduce ? false : { opacity: 0, transform: "translateY(8px)" }}
+            initial={{ opacity: 0, transform: "translateY(8px)" }}
             whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-            transition={{ duration: DURATION.enter, ease: EASE_OUT }}
+            transition={{ duration: reduce ? 0 : DURATION.enter, ease: EASE_OUT }}
             viewport={{ once: true }}
         >
             {children}

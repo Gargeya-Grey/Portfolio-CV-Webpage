@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { m, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { m, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Copy, Check, Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
@@ -18,7 +18,6 @@ export default function Footer() {
     const [copied, setCopied] = useState(false);
     const [identityIndex, setIdentityIndex] = useState(0);
     const footerRef = useRef<HTMLDivElement>(null);
-    const reduce = useReducedMotion();
 
     const { scrollYProgress } = useScroll({
         target: footerRef,
@@ -41,7 +40,7 @@ export default function Footer() {
     };
 
     const identityTransition = {
-        duration: reduce ? 0.16 : DURATION.ui,
+        duration: DURATION.ui,
         ease: EASE_OUT,
     };
 
@@ -59,7 +58,7 @@ export default function Footer() {
 
                 <div className="space-y-8 sm:space-y-12 relative py-2 sm:py-4">
                     <m.h2
-                        style={reduce ? undefined : {
+                        style={{
                             backgroundImage: "linear-gradient(90deg, #18181b 0%, #18181b 38%, #0d9488 45%, #2dd4bf 50%, #a7f3d0 53%, #0d9488 58%, #18181b 68%, #18181b 100%)",
                             backgroundSize: "250% 100%",
                             backgroundClip: "text",
@@ -67,7 +66,7 @@ export default function Footer() {
                             color: "transparent",
                             backgroundPositionX: x
                         }}
-                        className="text-[clamp(2rem,9vw,6rem)] sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-[1.1] relative z-10 break-balance"
+                        className="footer-headline text-[clamp(2rem,9vw,6rem)] sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-[1.1] relative z-10 break-balance"
                     >
                         Let&apos;s Communicate.
                     </m.h2>
@@ -85,9 +84,9 @@ export default function Footer() {
                                 <AnimatePresence mode="wait">
                                     <m.span
                                         key={copied ? "check" : "copy"}
-                                        initial={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
-                                        animate={reduce ? { opacity: 1 } : { opacity: 1, filter: "blur(0px)" }}
-                                        exit={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
                                         transition={{ duration: DURATION.press, ease: EASE_OUT }}
                                         className="flex items-center justify-center"
                                     >
@@ -99,9 +98,9 @@ export default function Footer() {
                             <AnimatePresence>
                                 {copied && (
                                     <m.span
-                                        initial={reduce ? { opacity: 0 } : { opacity: 0, transform: "scale(0.95) translateY(4px)" }}
-                                        animate={reduce ? { opacity: 1 } : { opacity: 1, transform: "scale(1) translateY(0px)" }}
-                                        exit={reduce ? { opacity: 0 } : { opacity: 0, transform: "scale(0.95) translateY(4px)" }}
+                                        initial={{ opacity: 0, transform: "scale(0.95) translateY(4px)" }}
+                                        animate={{ opacity: 1, transform: "scale(1) translateY(0px)" }}
+                                        exit={{ opacity: 0, transform: "scale(0.95) translateY(4px)" }}
                                         transition={{ duration: 0.16, ease: EASE_OUT }}
                                         className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-900 text-zinc-50 text-xs rounded-md whitespace-nowrap origin-bottom"
                                     >
@@ -149,9 +148,9 @@ export default function Footer() {
                             <AnimatePresence mode="wait">
                                 <m.span
                                     key={identityIndex}
-                                    initial={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
-                                    animate={reduce ? { opacity: 1 } : { opacity: 1, filter: "blur(0px)" }}
-                                    exit={reduce ? { opacity: 0 } : { opacity: 0, filter: "blur(2px)" }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
                                     transition={identityTransition}
                                     className="font-semibold text-zinc-800 relative pb-1"
                                 >
