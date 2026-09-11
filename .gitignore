@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# local eval / agent run artifacts
+/run
+
 # cloudflare / opennext
 .open-next
 .dev.vars

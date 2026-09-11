@@ -6,6 +6,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import LazyMotionProvider from "@/components/LazyMotionProvider";
 import JapaneseGlassBackground from "@/components/JapaneseGlassBackground";
 import { logo } from "@/lib/logo";
+import { SITE } from "@/lib/site";
 
 const raleway = Raleway({
   variable: "--font-raleway",
@@ -20,10 +21,10 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cv.sgargeya.com"),
+  metadataBase: new URL(SITE.origin),
   title: {
-    default: "Gargeya Sharma | Founder & AI Architect",
-    template: "%s | Gargeya Sharma"
+    default: `${SITE.name} | Founder & AI Architect`,
+    template: `%s | ${SITE.name}`
   },
   description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
   keywords: [
@@ -38,33 +39,33 @@ export const metadata: Metadata = {
     "Portfolio",
     "CV"
   ],
-  authors: [{ name: "Gargeya Sharma" }],
-  creator: "Gargeya Sharma",
+  authors: [{ name: SITE.name }],
+  creator: SITE.name,
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://cv.sgargeya.com",
-    title: "Gargeya Sharma | Founder & AI Architect",
+    url: SITE.origin,
+    title: `${SITE.name} | Founder & AI Architect`,
     description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
-    siteName: "Gargeya Sharma Portfolio",
+    siteName: `${SITE.name} Portfolio`,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Gargeya Sharma | Founder & AI Architect"
+        alt: `${SITE.name} | Founder & AI Architect`
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gargeya Sharma | Founder & AI Architect",
+    title: `${SITE.name} | Founder & AI Architect`,
     description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
     creator: "@GargeyaGrey",
     images: ["/og-image.png"]
   },
   alternates: {
-    canonical: "https://cv.sgargeya.com"
+    canonical: SITE.origin
   },
   icons: {
     // Light/dark favicons follow the user's OS color scheme.
@@ -107,8 +108,8 @@ export default function RootLayout({
       <body
         className={`${raleway.variable} ${lato.variable} text-zinc-900 antialiased selection:bg-teal-500 selection:text-white tracking-tight leading-relaxed relative min-h-dvh`}
       >
+        <JapaneseGlassBackground />
         <LazyMotionProvider>
-          <JapaneseGlassBackground />
           <ScrollProgress />
           {children}
           <Navigation />

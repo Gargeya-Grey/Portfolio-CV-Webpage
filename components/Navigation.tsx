@@ -1,19 +1,21 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import Link from "next/link";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { DURATION, EASE_OUT, SPRING_UI, STAGGER } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { subscribeLayout } from "@/lib/subscribeLayout";
 
 const navItems = [
     { name: "Bio", href: "#bio" },
     { name: "Ventures", href: "#ventures" },
     { name: "Education", href: "#education" },
     { name: "Lab", href: "#lab" },
-    { name: "Contact", href: "mailto:gargeya.sharma@gmail.com" },
-];
+    { name: "Contact", href: "#contact" },
+] as const;
+
+const sectionIds = navItems.map((item) => item.href.slice(1));
 
 export default function Navigation() {
     const [activeSection, setActiveSection] = useState<string>("#bio");
@@ -34,26 +36,51 @@ export default function Navigation() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY < 280) {
-                setActiveSection("#bio");
-                return;
+            let next = "#bio";
+
+            if (window.scrollY >= 280) {
+                const nearBottom =
+                    window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 96;
+                if (nearBottom) {
+                    next = "#contact";
+                } else {
+                    const line = window.innerHeight * 0.42;
+                    let current = "bio";
+                    for (const id of sectionIds) {
+                        const element = document.getElementById(id);
+                        if (!element) continue;
+                        if (element.getBoundingClientRect().top <= line) current = id;
+                    }
+                    next = `#${current}`;
+                }
             }
 
-            const sections = navItems.filter(item => item.href.startsWith("#")).map(item => item.href.replace("#", ""));
-            const buffer = Math.min(220, Math.max(120, window.innerHeight * 0.25));
-            const current = sections.find(section => {
-                const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    return rect.top <= buffer && rect.bottom >= buffer;
-                }
-                return false;
-            });
-            if (current) setActiveSection(`#${current}`);
+            setActiveSection((prev) => (prev === next ? prev : next));
         };
 
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
+        const observer = new IntersectionObserver(handleScroll, {
+            threshold: [0, 0.15, 0.35, 0.5, 0.65, 0.85, 1],
+        });
+
+        const bind = () => {
+            for (const id of sectionIds) {
+                const element = document.getElementById(id);
+                if (element) observer.observe(element);
+            }
+            handleScroll();
+        };
+
+        bind();
+        const unsub = subscribeLayout(handleScroll);
+        window.addEventListener("hashchange", handleScroll);
+        const retry = window.setTimeout(bind, 0);
+
+        return () => {
+            unsub();
+            observer.disconnect();
+            window.removeEventListener("hashchange", handleScroll);
+            window.clearTimeout(retry);
+        };
     }, []);
 
     useEffect(() => {
@@ -95,7 +122,7 @@ export default function Navigation() {
                 }}
             >
                 <nav
-                    className="nav-enter pointer-events-auto glass-surface flex items-center gap-0.5 sm:gap-1 rounded-full px-2 sm:px-3 py-1.5 sm:py-2 max-w-[calc(100vw-1rem)]"
+                    className="nav-enter pointer-events-auto glass-surface site-nav flex items-center gap-0.5 sm:gap-1 rounded-full px-2 sm:px-3 py-1.5 sm:py-2 max-w-[calc(100vw-1rem)]"
                     aria-label="Primary"
                 >
                     <div className="relative hidden sm:flex items-center">
@@ -104,29 +131,25 @@ export default function Navigation() {
                             const isHovered = hoveredSection === item.name;
 
                             return (
-                                <Link
+                                <a
                                     key={item.name}
                                     href={item.href}
                                     onMouseEnter={() => setHoveredSection(item.name)}
                                     onMouseLeave={() => setHoveredSection(null)}
                                     aria-current={isActive ? "page" : undefined}
-                                    className={`pressable group relative px-3 md:px-4 lg:px-5 py-2 lg:py-2.5 text-[13px] lg:text-sm font-medium transition-colors duration-[180ms] ease z-10 whitespace-nowrap ${isActive ? "text-teal-900" : "text-zinc-500 hover:text-zinc-800"}`}
+                                    className={`pressable group relative px-2.5 md:px-4 lg:px-5 py-2 lg:py-2.5 text-[12px] md:text-[13px] lg:text-sm font-medium transition-colors duration-[180ms] ease z-10 whitespace-nowrap ${isActive ? "text-white" : "text-zinc-500 hover:text-zinc-800"}`}
                                 >
                                     <span className="relative z-10">{item.name}</span>
+                                    {isActive && (
+                                        <m.span
+                                            layoutId="active-pill"
+                                            className="absolute inset-0 rounded-full lock-pill z-0"
+                                            transition={SPRING_UI}
+                                        />
+                                    )}
                                     <AnimatePresence>
-                                        {isActive && (
-                                            <m.span
-                                                layoutId="active-pill"
-                                                className="absolute inset-0 rounded-full bg-white/80 border border-zinc-200/70 z-0"
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                                transition={SPRING_UI}
-                                            />
-                                        )}
                                         {isHovered && !isActive && (
                                             <m.span
-                                                layoutId="hover-pill"
                                                 className="absolute inset-0 rounded-full bg-zinc-100/70 z-0"
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
@@ -135,7 +158,7 @@ export default function Navigation() {
                                             />
                                         )}
                                     </AnimatePresence>
-                                </Link>
+                                </a>
                             );
                         })}
                     </div>
@@ -183,9 +206,22 @@ export default function Navigation() {
                                         animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
                                         transition={{ delay: reduce ? 0 : STAGGER * i, duration: reduce ? 0 : DURATION.ui, ease: EASE_OUT }}
                                     >
-                                        <Link
+                                        <a
                                             href={item.href}
-                                            onClick={() => closeMenu()}
+                                            onClick={(event) => {
+                                                event.preventDefault();
+                                                const href = item.href;
+                                                skipMenuAnimation.current = true;
+                                                document.body.style.overflow = "";
+                                                setMenuOpen(false);
+                                                window.setTimeout(() => {
+                                                    document.getElementById(href.slice(1))?.scrollIntoView({
+                                                        behavior: "auto",
+                                                        block: "start",
+                                                    });
+                                                    if (location.hash !== href) location.hash = href;
+                                                }, 50);
+                                            }}
                                             aria-current={isActive ? "page" : undefined}
                                             className={`pressable flex items-center justify-between px-5 py-4 rounded-2xl text-lg font-medium transition-colors duration-[180ms] ease ${
                                                 isActive
@@ -197,7 +233,7 @@ export default function Navigation() {
                                             {isActive && (
                                                 <span className="w-2 h-2 rounded-full bg-teal-500" aria-hidden />
                                             )}
-                                        </Link>
+                                        </a>
                                     </m.div>
                                 );
                             })}

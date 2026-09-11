@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { m, useScroll, useTransform, useSpring } from "framer-motion";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { m } from "framer-motion";
 import { ArrowUpRight, Code2, Network, BrainCircuit, Coffee, Cpu, Briefcase } from "lucide-react";
 import { DURATION, EASE_OUT } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { SITE } from "@/lib/site";
+import { subscribeLayout } from "@/lib/subscribeLayout";
 
 const experiences = [
     {
         id: "edudojo",
+        pill: "Edudojo",
         role: "Founder & Lead AI Architect",
         company: "Edudojo.ai",
         date: "May 2026 – Present",
@@ -19,12 +21,11 @@ const experiences = [
         icon: BrainCircuit,
         color: "text-teal-600",
         bg: "bg-teal-50",
-        borderGlow: "group-hover:border-teal-200",
-        shadowGlow: "hover:shadow-[0_20px_40px_-15px_rgba(20,184,166,0.15)]",
-        link: "https://edudojo.ai"
+        link: SITE.edudojo
     },
     {
         id: "evolve",
+        pill: "Evvolv",
         role: "Founding AI Engineer / Member",
         company: "Evvolv",
         date: "Nov 2025 – May 2026",
@@ -34,12 +35,11 @@ const experiences = [
         icon: Cpu,
         color: "text-violet-600",
         bg: "bg-violet-50",
-        borderGlow: "group-hover:border-violet-200",
-        shadowGlow: "hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.15)]",
         link: null
     },
     {
         id: "rvs",
+        pill: "Consensus+",
         role: "Data Scientist & Automation Specialist",
         company: "RVS Consensus+",
         date: "Jul 2024 – Nov 2025",
@@ -49,12 +49,11 @@ const experiences = [
         icon: Code2,
         color: "text-indigo-600",
         bg: "bg-indigo-50",
-        borderGlow: "group-hover:border-indigo-200",
-        shadowGlow: "hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)]",
         link: null
     },
     {
         id: "imperial",
+        pill: "Imperial",
         role: "Machine Learning Consultant",
         company: "Imperial College London",
         date: "Jul 2023 – Oct 2023",
@@ -64,12 +63,11 @@ const experiences = [
         icon: Network,
         color: "text-blue-600",
         bg: "bg-blue-50",
-        borderGlow: "group-hover:border-blue-200",
-        shadowGlow: "hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)]",
         link: null
     },
     {
         id: "mitchells",
+        pill: "Hospitality",
         role: "VIP Bartender",
         company: "Mitchells & Butlers / Compass Group",
         date: "Dec 2022 – Nov 2025",
@@ -79,43 +77,119 @@ const experiences = [
         icon: Coffee,
         color: "text-amber-600",
         bg: "bg-amber-50",
-        borderGlow: "group-hover:border-amber-200",
-        shadowGlow: "hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.15)]",
         link: null
     }
-];
+] as const;
+
+type Experience = (typeof experiences)[number];
+type StackState = "behind" | "current" | "ahead";
+
+function isDesktopStack() {
+    return window.innerWidth >= 1280;
+}
+
+function stickyBandY() {
+    const card = document.querySelector<HTMLElement>("#ventures .venture-lock");
+    if (card) {
+        const top = parseFloat(getComputedStyle(card).top);
+        if (Number.isFinite(top)) return top;
+    }
+    return Math.min(216, Math.max(88, window.innerHeight * 0.5 - 256));
+}
+
+function scrollToExperience(id: string) {
+    const target = document.getElementById(`experience-${id}`);
+    const stack = document.querySelector<HTMLElement>("#ventures .venture-stack");
+    if (!target) return;
+
+    if (!isDesktopStack() || !stack) {
+        window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 88) });
+        return;
+    }
+
+    const cards = [...stack.querySelectorAll<HTMLElement>(".venture-lock")];
+    const gap = parseFloat(getComputedStyle(stack).rowGap || getComputedStyle(stack).gap) || 0;
+    let y = stack.getBoundingClientRect().top + window.scrollY;
+    for (const card of cards) {
+        if (card === target) break;
+        y += card.offsetHeight + gap;
+    }
+    window.scrollTo({ top: Math.max(0, y - stickyBandY()) });
+}
+
+function readLockedId(previous: string, cards: HTMLElement[]): string {
+    if (cards.length === 0) return previous;
+
+    if (isDesktopStack()) {
+        const lockY = stickyBandY() + 1;
+        let current: string | null = null;
+        for (const card of cards) {
+            if (card.getBoundingClientRect().top <= lockY) {
+                current = card.dataset.lockId ?? current;
+            }
+        }
+        return current ?? previous;
+    }
+
+    const viewBottom = window.innerHeight;
+    let bestId: string | null = null;
+    let bestVisible = 0;
+    for (const card of cards) {
+        const rect = card.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(rect.bottom, viewBottom) - Math.max(rect.top, 0));
+        if (visible > bestVisible) {
+            bestVisible = visible;
+            bestId = card.dataset.lockId ?? null;
+        }
+    }
+    return bestId ?? previous;
+}
+
+function stackState(index: number, lockedIndex: number): StackState {
+    if (index < lockedIndex) return "behind";
+    if (index === lockedIndex) return "current";
+    return "ahead";
+}
 
 export default function Ventures() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const cardsContainerRef = useRef<HTMLDivElement>(null);
     const reduce = usePrefersReducedMotion();
+    const stackRef = useRef<HTMLDivElement>(null);
+    const [lockedId, setLockedId] = useState<string>(experiences[0].id);
+    const lockedIndex = Math.max(0, experiences.findIndex((exp) => exp.id === lockedId));
+    const locked = experiences[lockedIndex];
 
-    const { scrollYProgress } = useScroll({
-        target: cardsContainerRef,
-        offset: ["start center", "end center"]
-    });
+    useEffect(() => {
+        const stack = stackRef.current;
+        if (!stack) return;
 
-    const scaleY = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
+        const cards = [...stack.querySelectorAll<HTMLElement>("[data-lock-id]")];
 
-    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+        const update = () => {
+            setLockedId((prev) => {
+                const next = readLockedId(prev, cards);
+                return prev === next ? prev : next;
+            });
+        };
 
-    const nowColor = useTransform(scrollYProgress, [0, 0.15], ["#0d9488", "#a1a1aa"]);
-    const startColor = useTransform(scrollYProgress, [0.85, 1], ["#a1a1aa", "#0d9488"]);
+        const unsub = subscribeLayout(update);
+        const observer = new IntersectionObserver(update, { threshold: [0, 0.5, 1] });
+        cards.forEach((node) => observer.observe(node));
+
+        return () => {
+            unsub();
+            observer.disconnect();
+        };
+    }, []);
 
     return (
         <section
             id="ventures"
-            className="w-full py-16 sm:py-24 md:py-32 lg:py-48 relative z-10 scroll-mt-16 sm:scroll-mt-10"
-            ref={containerRef}
+            className="w-full py-16 sm:py-24 md:py-32 lg:py-40 relative z-10 scroll-mt-16 sm:scroll-mt-10"
         >
-            <div className="container mx-auto px-page xl:px-12 relative z-10 max-w-7xl overflow-x-clip">
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-10 sm:gap-12 md:gap-14 xl:gap-16 2xl:gap-24 items-start">
+            <div className="container mx-auto px-page relative z-10 max-w-7xl">
+                <div className="grid grid-cols-1 xl:grid-cols-[minmax(24rem,2fr)_minmax(0,3fr)] gap-10 sm:gap-12 xl:gap-x-10 xl:gap-y-0 items-start">
 
-                    <div className="xl:col-span-6 xl:sticky xl:top-[calc(50vh-180px)] self-start min-w-0">
+                    <div className="xl:sticky xl:top-[var(--sticky-band)] self-start min-w-0 xl:pr-2">
                         <m.div
                             initial={{ opacity: 0, transform: "translateX(-12px)" }}
                             whileInView={{ opacity: 1, transform: "translateX(0px)" }}
@@ -123,10 +197,7 @@ export default function Ventures() {
                             transition={{ duration: reduce ? 0 : DURATION.enter, ease: EASE_OUT }}
                             className="relative"
                         >
-                            <m.div
-                                style={{ y: bgY }}
-                                className="absolute -left-10 -top-10 w-40 sm:w-64 h-40 sm:h-64 bg-teal-100/40 rounded-full blur-3xl -z-10 mix-blend-multiply"
-                            />
+                            <div className="absolute -left-10 -top-10 w-40 sm:w-64 h-40 sm:h-64 bg-teal-100/40 rounded-full blur-3xl -z-10 mix-blend-multiply" />
 
                             <div className="flex items-center gap-3 mb-4 sm:mb-6">
                                 <div className="p-2 sm:p-2.5 rounded-xl bg-teal-50 border border-teal-100/50 shadow-sm">
@@ -135,7 +206,7 @@ export default function Ventures() {
                                 <h2 className="text-xs sm:text-sm font-semibold text-teal-600 tracking-widest uppercase">Experience & Evolution</h2>
                             </div>
 
-                            <h3 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-light text-zinc-900 tracking-tight leading-[1.1] mb-5 sm:mb-8 break-balance">
+                            <h3 className="text-3xl sm:text-4xl md:text-5xl xl:text-[2.85rem] font-light text-zinc-900 tracking-tight leading-[1.12] mb-5 sm:mb-8 break-balance">
                                 Bridging <span className="font-medium text-teal-600">technical depth</span> with human intuition.
                             </h3>
 
@@ -143,25 +214,45 @@ export default function Ventures() {
                                 A timeline of leadership in AI architecture, deep-tech research, and the foundational social calibration forged in high-pressure environments.
                             </p>
 
-                            <div className="hidden xl:flex items-center gap-4">
-                                <m.div style={{ color: nowColor }} className="text-xs font-bold tracking-widest uppercase w-12">Now</m.div>
-                                <div className="relative flex-1 h-1 bg-zinc-200/60 rounded-full overflow-hidden max-w-[200px]">
-                                    <m.div
-                                        className="absolute top-0 left-0 bottom-0 w-full bg-teal-500 rounded-full origin-left"
-                                        style={{ scaleX: scaleY }}
-                                    />
-                                </div>
-                                <m.div style={{ color: startColor }} className="text-xs font-bold tracking-widest uppercase w-12 text-right">Start</m.div>
+                            <div className="hidden xl:flex flex-col gap-2" role="tablist" aria-label="Experience chapters">
+                                {experiences.map((exp) => {
+                                    const isLocked = lockedId === exp.id;
+                                    return (
+                                        <button
+                                            key={exp.id}
+                                            type="button"
+                                            role="tab"
+                                            aria-selected={isLocked}
+                                            onClick={() => scrollToExperience(exp.id)}
+                                            className={`pressable w-fit min-w-[8.5rem] text-left rounded-full px-4 py-2.5 text-sm font-semibold tracking-tight transition-colors duration-[180ms] ease ${
+                                                isLocked ? "lock-pill" : "lock-pill-idle hover:text-zinc-800"
+                                            }`}
+                                        >
+                                            {exp.pill}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </m.div>
                     </div>
 
-                    <div className="xl:col-span-6 relative min-w-0">
-                        <div className="absolute left-3 sm:left-6 top-0 bottom-0 w-px bg-zinc-200 xl:hidden -z-10" />
+                    <div className="relative min-w-0">
+                        <div className="xl:hidden sticky top-3 z-30 flex justify-center mb-6 pointer-events-none">
+                            <div className="pointer-events-auto glass-surface rounded-full px-4 py-2 shadow-sm min-w-[min(100%,18rem)] text-center">
+                                <span className="inline-flex items-center justify-center text-sm font-semibold text-teal-950">
+                                    {locked.company}
+                                </span>
+                            </div>
+                        </div>
 
-                        <div className="flex flex-col gap-8 sm:gap-12 md:gap-16" ref={cardsContainerRef}>
-                            {experiences.map((exp) => (
-                                <VentureCard key={exp.id} exp={exp} />
+                        <div className="venture-stack" ref={stackRef}>
+                            {experiences.map((exp, index) => (
+                                <VentureCard
+                                    key={exp.id}
+                                    exp={exp}
+                                    index={index}
+                                    stack={stackState(index, lockedIndex)}
+                                />
                             ))}
                         </div>
                     </div>
@@ -172,70 +263,43 @@ export default function Ventures() {
     );
 }
 
-function VentureCard({ exp }: { exp: typeof experiences[0] }) {
+function VentureCard({
+    exp,
+    index,
+    stack,
+}: {
+    exp: Experience;
+    index: number;
+    stack: StackState;
+}) {
     const Icon = exp.icon;
-    const cardRef = useRef<HTMLDivElement>(null);
-    const reduce = usePrefersReducedMotion();
-    const [motionMode, setMotionMode] = useState<"soft" | "full">("soft");
-
-    useEffect(() => {
-        const mq = window.matchMedia("(min-width: 1280px)");
-        const update = () => setMotionMode(mq.matches ? "full" : "soft");
-        update();
-        mq.addEventListener("change", update);
-        return () => mq.removeEventListener("change", update);
-    }, []);
-
-    const { scrollYProgress } = useScroll({
-        target: cardRef,
-        offset: ["start 100%", "end 0%"]
-    });
-
-    const soft = motionMode === "soft";
-
-    const [isActive, setIsActive] = useState(false);
-    useEffect(() => {
-        if (soft || reduce) {
-            setIsActive(false);
-            return;
-        }
-        const unsubscribe = scrollYProgress.on("change", (latest) => {
-            const nextActive = latest >= 0.35 && latest <= 0.65;
-            setIsActive((prev) => (prev === nextActive ? prev : nextActive));
-        });
-        return () => unsubscribe();
-    }, [scrollYProgress, soft, reduce]);
-
-    const opacity = useTransform(
-        scrollYProgress,
-        [0, 0.3, 0.4, 0.6, 0.7, 1],
-        soft ? [0.72, 0.9, 1, 1, 0.9, 0.72] : [0.45, 0.75, 1, 1, 0.75, 0.45]
-    );
-
-    const activeClass = isActive
-        ? "bg-[#e9fcfc]/65 border-teal-500/15 shadow-[0_24px_50px_rgba(13,148,136,0.08)]"
-        : "bg-[#f3fbfb]/50 border-white/80 shadow-[0_16px_40px_rgba(13,148,136,0.04),0_1px_2px_rgba(13,148,136,0.02)]";
-
-    const activeBorderGlow = isActive ? exp.borderGlow.replace("group-hover:", "") : "";
-    const activeShadowGlow = isActive ? exp.shadowGlow.replace("hover:", "") : "";
+    const current = stack === "current";
 
     return (
-        <m.div
-            ref={cardRef}
-            style={{ opacity }}
-            className={`surface-card group relative flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 ${activeClass} ${activeBorderGlow} ${activeShadowGlow} p-5 sm:p-6 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] ${exp.shadowGlow} ${exp.borderGlow} min-w-0 max-w-full`}
+        <article
+            id={`experience-${exp.id}`}
+            data-lock-id={exp.id}
+            data-stack={stack}
+            aria-current={current ? "true" : undefined}
+            className={`venture-lock card-shine surface-card group relative flex flex-col md:flex-row md:items-stretch gap-4 sm:gap-6 md:gap-8 p-5 sm:p-6 md:p-8 xl:px-9 min-w-0 max-w-full rounded-[1.5rem] sm:rounded-[2rem] bg-white border ${
+                current ? "border-zinc-200/80" : "border-zinc-200/90"
+            }`}
+            style={{ zIndex: index + 1 }}
         >
-            <div className="absolute left-3 sm:left-6 -translate-x-1/2 top-8 sm:top-10 flex xl:hidden items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white border-2 border-zinc-200 shadow-sm transition-colors duration-[180ms] ease">
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-zinc-300 group-hover:bg-teal-500 transition-colors duration-[180ms] ease" />
-            </div>
+            <div
+                className={`absolute left-0 top-8 bottom-8 w-1 rounded-full transition-colors duration-[180ms] ease ${
+                    current ? "bg-teal-600" : "bg-transparent"
+                }`}
+                aria-hidden
+            />
 
-            <div className="flex-shrink-0 ml-8 sm:ml-12 xl:ml-0">
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center ${exp.bg}`}>
+            <div className="flex-shrink-0">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center ${exp.bg} ${current ? "ring-2 ring-teal-500/30" : ""}`}>
                     <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${exp.color}`} />
                 </div>
             </div>
 
-            <div className="flex-1 ml-8 sm:ml-12 xl:ml-0 min-w-0">
+            <div className="flex-1 min-w-0 relative z-10">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 sm:mb-4 gap-2 min-w-0">
                     <div className="min-w-0 flex-1">
                         <h4 className="text-xl sm:text-2xl md:text-3xl font-semibold text-zinc-900 tracking-tight break-balance">
@@ -243,7 +307,11 @@ function VentureCard({ exp }: { exp: typeof experiences[0] }) {
                         </h4>
                     </div>
                     <div className="flex flex-col items-start sm:items-end gap-1.5 self-start sm:self-auto flex-shrink-0">
-                        <span className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full bg-zinc-100/80 text-xs sm:text-sm font-medium text-zinc-500 whitespace-nowrap font-body border border-zinc-200/50">
+                        <span
+                            className={`inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap font-body transition-colors duration-[180ms] ease ${
+                                current ? "lock-pill" : "bg-zinc-100 text-zinc-500 border border-zinc-200/80"
+                            }`}
+                        >
                             {exp.date}
                         </span>
                         <span className="text-[10px] sm:text-xs font-bold text-zinc-400 uppercase tracking-widest block font-body px-1">
@@ -253,10 +321,10 @@ function VentureCard({ exp }: { exp: typeof experiences[0] }) {
                 </div>
 
                 {exp.link ? (
-                    <Link href={exp.link} target="_blank" className={`pressable inline-flex items-center gap-1.5 font-medium hover:opacity-80 transition-opacity duration-[180ms] ease mb-4 sm:mb-6 text-base sm:text-lg group/link ${exp.color}`}>
+                    <a href={exp.link} target="_blank" rel="noopener noreferrer" className={`pressable inline-flex items-center gap-1.5 font-medium hover:opacity-80 transition-opacity duration-[180ms] ease mb-4 sm:mb-6 text-base sm:text-lg group/link ${exp.color}`}>
                         {exp.company}
                         <ArrowUpRight className="w-4 h-4 transition-transform duration-[160ms] ease-[var(--ease-out)] group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
-                    </Link>
+                    </a>
                 ) : (
                     <p className="text-base sm:text-lg font-medium text-zinc-500 mb-4 sm:mb-6">{exp.company}</p>
                 )}
@@ -265,14 +333,14 @@ function VentureCard({ exp }: { exp: typeof experiences[0] }) {
                     {exp.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 sm:gap-2.5 mt-auto">
-                    {exp.tags.map(tag => (
-                        <span key={tag} className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/50 border border-white/60 text-[11px] sm:text-xs font-medium text-zinc-600 tracking-wide transition-colors duration-[180ms] ease group-hover:bg-white group-hover:border-zinc-300 shadow-sm">
+                <div className="flex flex-wrap gap-2 sm:gap-2.5">
+                    {exp.tags.map((tag) => (
+                        <span key={tag} className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-zinc-50 border border-zinc-200/80 text-[11px] sm:text-xs font-medium text-zinc-600 tracking-wide">
                             {tag}
                         </span>
                     ))}
                 </div>
             </div>
-        </m.div>
+        </article>
     );
 }

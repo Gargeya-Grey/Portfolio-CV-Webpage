@@ -1,24 +1,8 @@
-import dynamic from "next/dynamic";
 import Hero from "@/components/Hero";
-
-const Ventures = dynamic(() => import("@/components/Ventures"), {
-  loading: () => <div className="min-h-screen" />,
-  ssr: true
-});
-
-const Lab = dynamic(() => import("@/components/Lab"), {
-  loading: () => <div className="min-h-screen" />,
-  ssr: true
-});
-
-const Education = dynamic(() => import("@/components/Education"), {
-  loading: () => <div className="min-h-screen" />,
-  ssr: true
-});
-
-const Footer = dynamic(() => import("@/components/Footer"), {
-  ssr: true
-});
+import Ventures from "@/components/Ventures";
+import Education from "@/components/Education";
+import Lab from "@/components/Lab";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (

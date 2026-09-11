@@ -1,4 +1,15 @@
-export const projects = [
+export type ProjectType = "repo" | "academic" | "writing";
+
+export type Project = {
+    title: string;
+    description: string;
+    tags: string[];
+    href: string;
+    isLatest: boolean;
+    type: ProjectType;
+};
+
+export const projects: Project[] = [
     {
         title: "Adversary-Planner-Loop",
         description: "An autonomous agentic loop implementation that pits plan generation against a simulated adversary to verify, stress-test, and refine code execution trees.",
