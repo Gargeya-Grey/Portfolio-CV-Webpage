@@ -285,6 +285,12 @@ a,
   transform: scale(0.97);
 }
 
+/* The mobile sheet owns the viewport, and the page behind it cannot scroll —
+   so the scroll meter has nothing left to report. */
+body[data-menu-open="true"] .scroll-progress {
+  opacity: 0;
+}
+
 .surface-card {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.78),
@@ -612,5 +618,31 @@ a,
 
   .nav-enter {
     animation: nav-enter 280ms var(--ease-out) both;
+  }
+}
+
+/*
+ * Hero coda — on phones the three fascinations arrive one after another rather
+ * than as one block. Delays are set per item and are offset past hero-enter-3
+ * (280ms) so the cascade follows the sentence instead of racing it.
+ */
+@media (prefers-reduced-motion: no-preference) and (max-width: 639px) {
+  .hero-coda > .hero-coda-item {
+    animation: hero-enter 320ms var(--ease-out) both;
+  }
+}
+
+/*
+ * Phone hero sits high. The floating nav is part of the same visual column, so
+ * the room beneath it counts against the room above the eyebrow — and the nav's
+ * reserved padding tilts the centring upward by ~40px.
+ *
+ * Drift the block down with the available height, capped at 2.5rem and clamped
+ * at zero: short screens keep their clearance above the nav, because below
+ * ~660px there is none to give (320x568 already overlaps).
+ */
+@media screen and (max-width: 639px) {
+  .hero-drift {
+    transform: translateY(clamp(0px, (100dvh - 620px) * 0.22, 2.5rem));
   }
 }
