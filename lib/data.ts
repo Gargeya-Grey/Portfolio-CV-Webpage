@@ -11,11 +11,27 @@ export type Project = {
 
 export const projects: Project[] = [
     {
+        title: "Odicto",
+        description: "Hold-to-talk dictation for any app. Local Whisper or Gemini STT pastes at the cursor, with an optional LLM reply and a quiet glass HUD. Private by default on Windows, macOS, and Linux.",
+        tags: ["Dictation", "Whisper", "Python", "Desktop"],
+        href: "https://github.com/Gargeya-Grey/Odicto",
+        isLatest: true,
+        type: "repo"
+    },
+    {
+        title: "Odicto-Mobile",
+        description: "Android voice keyboard that talks to Groq, Gemini, and OpenRouter from the phone. Native IME microphone, optional floating control, and live streaming into the focused field. No desktop backend.",
+        tags: ["Android", "Kotlin", "Capacitor", "Speech-to-Text"],
+        href: "https://github.com/Gargeya-Grey/Odicto-Mobile",
+        isLatest: true,
+        type: "repo"
+    },
+    {
         title: "Adversary-Planner-Loop",
         description: "An autonomous agentic loop implementation that pits plan generation against a simulated adversary to verify, stress-test, and refine code execution trees.",
         tags: ["AI Agents", "Game Theory", "Self-Refinement", "Python"],
         href: "https://github.com/Gargeya-Grey/Adversary-Planner-Loop",
-        isLatest: true,
+        isLatest: false,
         type: "repo"
     },
     {
@@ -23,7 +39,7 @@ export const projects: Project[] = [
         description: "An AI-powered digital clone and personal cognitive agent designed to ingest custom knowledge bases, mimic speech styles, and simulate reasoning paths.",
         tags: ["Digital Twin", "RAG", "LLMs", "Cognitive AI"],
         href: "https://github.com/Gargeya-Grey/TwinAatma",
-        isLatest: true,
+        isLatest: false,
         type: "repo"
     },
     {

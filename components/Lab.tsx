@@ -27,9 +27,14 @@ export default function Lab() {
                     </h3>
                 </div>
 
+                <div className="reveal-list grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 mb-4 sm:mb-5 lg:mb-6">
+                    {projects.slice(0, 2).map((project) => (
+                        <LabCard key={project.title} project={project} featured />
+                    ))}
+                </div>
                 <div className="reveal-list grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-                    {projects.map((project, index) => (
-                        <LabCard key={project.title} project={project} featured={index === 0} />
+                    {projects.slice(2).map((project) => (
+                        <LabCard key={project.title} project={project} featured={false} />
                     ))}
                 </div>
             </div>
@@ -51,7 +56,7 @@ function LabCard({
             href={project.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`pressable block group h-full ${featured ? "sm:col-span-2 xl:col-span-2" : ""}`}
+            className="pressable block group h-full"
         >
             <article
                 className={`interactive-card card-shine relative h-full min-h-[18rem] rounded-2xl sm:rounded-3xl border bg-white/90 p-5 sm:p-6 md:p-8 flex flex-col ${
