@@ -6,6 +6,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import LazyMotionProvider from "@/components/LazyMotionProvider";
 import { logo } from "@/lib/logo";
 import { SITE } from "@/lib/site";
+import { SEO } from "@/lib/seo";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -24,10 +25,10 @@ const editorial = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.origin),
   title: {
-    default: `${SITE.name} | Founder & AI Architect`,
+    default: SEO.title,
     template: `%s | ${SITE.name}`
   },
-  description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
+  description: SEO.description,
   keywords: [
     "Gargeya Sharma",
     "AI Architect",
@@ -40,30 +41,23 @@ export const metadata: Metadata = {
     "Portfolio",
     "CV"
   ],
-  authors: [{ name: SITE.name }],
+  authors: [{ name: SITE.name, url: SITE.website }],
   creator: SITE.name,
   openGraph: {
     type: "website",
     locale: "en_US",
     url: SITE.origin,
-    title: `${SITE.name} | Founder & AI Architect`,
-    description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
-    siteName: `${SITE.name} Portfolio`,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: `${SITE.name} | Founder & AI Architect`
-      }
-    ]
+    title: SEO.title,
+    description: SEO.description,
+    siteName: `${SITE.name} | Digital CV`,
+    images: [SEO.image],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} | Founder & AI Architect`,
-    description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
+    title: SEO.title,
+    description: SEO.description,
     creator: "@GargeyaS",
-    images: ["/og-image.png"]
+    images: [SEO.image],
   },
   alternates: {
     canonical: SITE.origin
