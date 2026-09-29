@@ -1,117 +1,99 @@
-import { ArrowUpRight, Code2, PenTool, FolderOpen } from "lucide-react";
-import { projects, type Project, type ProjectType } from "@/lib/data";
+"use client";
 
-const PROJECT_ICONS = {
-    writing: PenTool,
-    academic: FolderOpen,
-    repo: Code2,
-} as const satisfies Record<ProjectType, typeof Code2>;
+import { Fragment, useState } from "react";
+import { ArrowUpRight, Mic2, Smartphone } from "lucide-react";
+import { projects, type Project, type ProjectType } from "@/lib/data";
+import { SITE } from "@/lib/site";
+
+const filters = [
+  { value: "all", label: "All work" },
+  { value: "repo", label: "Code & tools" },
+  { value: "academic", label: "Research" },
+  { value: "writing", label: "Writing" },
+] as const;
+
+const projectLabels: Record<ProjectType, string> = {
+  repo: "Open source",
+  academic: "Research",
+  writing: "Technical writing",
+};
+
+// Lead the index with published work; keep every entry available in each filter.
+const indexedProjects = [
+  ...projects.slice(2).filter((project) => project.publication),
+  ...projects.slice(2).filter((project) => !project.publication),
+];
 
 export default function Lab() {
-    return (
-        <section
-            id="lab"
-            className="relative w-full scroll-mt-20 py-16 sm:py-24 md:py-32 lg:py-40"
-        >
-            <div className="container mx-auto px-page max-w-6xl">
-                <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-14 md:mb-16">
-                    <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                        <div className="p-2 sm:p-2.5 rounded-xl bg-teal-50 border border-teal-100/50 shadow-sm">
-                            <Code2 className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
-                        </div>
-                        <h2 className="text-[11px] sm:text-sm font-bold text-teal-700 tracking-widest uppercase">The Lab</h2>
-                    </div>
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-zinc-900 tracking-tight leading-[1.15] break-balance">
-                        Experimental code, research papers, and{" "}
-                        <span className="font-semibold text-teal-700">mechanics of intelligence</span>.
-                    </h3>
+  const [filter, setFilter] = useState<"all" | ProjectType>("all");
+  const matches = (project: Project) => filter === "all" || project.type === filter;
+  const visibleCount = projects.filter(matches).length;
+
+  return (
+    <section id="lab" className="cv-section projects-section" aria-labelledby="projects-heading">
+      <div className="page-shell">
+        <header className="section-heading">
+          <div><p className="eyebrow">Selected work</p><h2 id="projects-heading">Ideas, <em>made tangible.</em></h2></div>
+          <p>Independent tools, research, and writing.<br />From experiments to published work.</p>
+        </header>
+        <div className="project-toolbar no-print">
+          <div className="project-filters" role="group" aria-label="Filter projects">
+            {filters.map((item) => <button key={item.value} type="button" aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</button>)}
+          </div>
+          <p className="project-count" role="status">{visibleCount} {visibleCount === 1 ? "entry" : "entries"}</p>
+        </div>
+
+        <div className="featured-projects" data-filter-hidden={!projects.slice(0, 2).some(matches)}>
+          {projects.slice(0, 2).map((project, index) => (
+            <article key={project.title} className="project-card" data-filter-hidden={!matches(project)}>
+              <a href={project.href} target="_blank" rel="noopener noreferrer" className="project-card-link">
+                <div className="project-card-top">
+                  <span className="project-platform">{index === 0 ? <Mic2 size={18} aria-hidden="true" /> : <Smartphone size={18} aria-hidden="true" />}{index === 0 ? "Desktop dictation" : "Android voice keyboard"}</span>
+                  <ArrowUpRight className="project-arrow" size={23} aria-hidden="true" />
                 </div>
-
-                <div className="reveal-list grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 mb-4 sm:mb-5 lg:mb-6">
-                    {projects.slice(0, 2).map((project) => (
-                        <LabCard key={project.title} project={project} featured />
-                    ))}
-                </div>
-                <div className="reveal-list grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-                    {projects.slice(2).map((project) => (
-                        <LabCard key={project.title} project={project} featured={false} />
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-}
-
-function LabCard({
-    project,
-    featured,
-}: {
-    project: Project;
-    featured: boolean;
-}) {
-    const Icon = PROJECT_ICONS[project.type];
-
-    return (
-        <a
-            href={project.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="pressable block group h-full"
-        >
-            <article
-                className={`interactive-card card-shine relative h-full min-h-[18rem] rounded-2xl sm:rounded-3xl border bg-white/90 p-5 sm:p-6 md:p-8 flex flex-col ${
-                    project.isLatest
-                        ? "border-teal-500/40 shadow-[0_16px_36px_rgba(13,148,136,0.08)]"
-                        : "border-zinc-200/90 shadow-[0_12px_28px_rgba(0,0,0,0.04)]"
-                }`}
-            >
-                <div className="flex items-start justify-between gap-3 mb-4">
-                    <div
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border shrink-0 transition-colors duration-[180ms] ease ${
-                            project.isLatest
-                                ? "bg-teal-50 border-teal-100 text-teal-600"
-                                : "bg-zinc-50 border-zinc-100 text-zinc-400 group-hover:text-teal-600 group-hover:bg-teal-50"
-                        }`}
-                    >
-                        <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </div>
-                    {project.isLatest && (
-                        <span className="px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-200/40 text-[9px] font-black text-teal-700 tracking-widest uppercase">
-                            Latest
-                        </span>
-                    )}
-                </div>
-
-                <h3
-                    className={`font-semibold tracking-tight mb-2 transition-colors duration-[180ms] ease ${
-                        featured ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl"
-                    } ${project.isLatest ? "text-zinc-900 group-hover:text-teal-800" : "text-zinc-900 group-hover:text-teal-900"}`}
-                >
-                    {project.title}
-                </h3>
-
-                <p className={`text-sm sm:text-base text-zinc-600 leading-relaxed font-body mb-5 flex-1 ${featured ? "" : "line-clamp-5"}`}>
-                    {project.description}
-                </p>
-
-                <div className="mt-auto">
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-                        {project.tags.map((tag) => (
-                            <span
-                                key={tag}
-                                className="text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white/80 border border-zinc-200/60 text-zinc-600 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 transition-colors duration-[180ms] ease font-body"
-                            >
-                                {tag}
-                            </span>
-                        ))}
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm font-semibold text-zinc-400 group-hover:text-teal-600 transition-colors duration-[180ms] ease">
-                        {project.type === "writing" ? "Read Article" : "View Code"}{" "}
-                        <ArrowUpRight className="w-4 h-4 transition-transform duration-[220ms] ease-[var(--ease-out)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </div>
-                </div>
+                <h3>{index === 0 ? "Odicto" : "Odicto Mobile"}</h3>
+                <p className="entry-description">{project.description}</p>
+                {project.contribution && <p className="project-contribution"><span>My contribution</span>{project.contribution}</p>}
+                <ul className="skill-list" aria-label="Technologies">{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+                <span className="project-action">Explore the code <ArrowUpRight size={15} aria-hidden="true" /></span>
+              </a>
             </article>
-        </a>
-    );
+          ))}
+        </div>
+
+        <div className="project-list">
+          {indexedProjects.map((project) => (
+            <article key={project.title} className={"project-row" + (project.publication ? " project-publication" : "")} data-filter-hidden={!matches(project)}>
+              <a href={project.href} target="_blank" rel="noopener noreferrer">
+                <div className="project-row-title">
+                  <span className="project-kind">{project.publication ? <>{project.publication.kind} <span aria-hidden="true">·</span> {project.publication.year}</> : projectLabels[project.type]}</span>
+                  <h3>{project.title}</h3>
+                  {project.publication && <span className="publication-link">{project.publication.kind === "Journal paper" ? "Read paper" : "Read chapter"} <span aria-hidden="true">↗</span></span>}
+                </div>
+                <div className="project-row-details">
+                  {project.publication && <>
+                    <p className="publication-authors">
+                      {project.publication.authors.map((author, index, authors) => (
+                        <Fragment key={author}>
+                          {index > 0 && (index === authors.length - 1 ? " & " : ", ")}
+                          {author === SITE.name ? <strong>{author}</strong> : author}
+                        </Fragment>
+                      ))}
+                    </p>
+                    <p className="publication-venue"><cite>{project.publication.venue}</cite><span>{project.publication.details}</span></p>
+                  </>}
+                  <p className="project-row-description">{project.description}</p>
+                </div>
+                <ArrowUpRight size={20} className="project-arrow" aria-hidden="true" />
+              </a>
+            </article>
+          ))}
+        </div>
+        <div className="projects-onward no-print">
+          <p>More of what I’m making, thinking, and exploring.</p>
+          <a className="text-link" href={SITE.website + "/playground"} target="_blank" rel="noopener noreferrer">Visit my Playground <ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
+      </div>
+    </section>
+  );
 }

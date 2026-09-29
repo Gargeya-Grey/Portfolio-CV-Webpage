@@ -1,23 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Raleway, Lato } from "next/font/google";
+import { Manrope, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import ScrollProgress from "@/components/ScrollProgress";
 import LazyMotionProvider from "@/components/LazyMotionProvider";
-import JapaneseGlassBackground from "@/components/JapaneseGlassBackground";
 import { logo } from "@/lib/logo";
 import { SITE } from "@/lib/site";
 
-const raleway = Raleway({
-  variable: "--font-raleway",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
-const lato = Lato({
-  variable: "--font-lato",
+const editorial = Instrument_Serif({
+  variable: "--font-editorial",
   subsets: ["latin"],
-  weight: ["300", "400", "700"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE.name} | Founder & AI Architect`,
     description: "Founder & Lead AI Architect @ Edudojo.ai. Engineering process-based human assessment using Socratic AI, bridging student-centric pedagogy, LLMs, and deep cognitive evaluation.",
-    creator: "@GargeyaGrey",
+    creator: "@GargeyaS",
     images: ["/og-image.png"]
   },
   alternates: {
@@ -106,13 +107,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${raleway.variable} ${lato.variable} text-zinc-900 antialiased selection:bg-teal-500 selection:text-white tracking-tight leading-relaxed relative min-h-dvh`}
+        className={`${manrope.variable} ${editorial.variable} antialiased`}
       >
-        <JapaneseGlassBackground />
+        <a className="skip-link" href="#main-content">Skip to content</a>
         <LazyMotionProvider>
           <ScrollProgress />
-          {children}
           <Navigation />
+          {children}
         </LazyMotionProvider>
       </body>
     </html>

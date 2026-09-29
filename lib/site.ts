@@ -6,5 +6,6 @@ export const SITE = {
   website: "https://sgargeya.com",
   linkedin: "https://linkedin.com/in/gargeya-sharma",
   github: "https://github.com/Gargeya-Grey",
+  x: "https://x.com/GargeyaS",
   edudojo: "https://edudojo.ai",
 } as const;

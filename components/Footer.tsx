@@ -1,257 +1,58 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { m, AnimatePresence } from "framer-motion";
-import { Copy, Check, Github, Linkedin, Globe, type LucideIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUp, ArrowUpRight, Check, Copy } from "lucide-react";
 import Logo from "@/components/Logo";
-import { DURATION, EASE_OUT } from "@/lib/motion";
 import { SITE } from "@/lib/site";
-import { subscribeLayout } from "@/lib/subscribeLayout";
-
-const identities = [
-    "AI Engineer",
-    "Theatre Artist",
-    "Psychology Enthusiast",
-    "Founder",
-] as const;
-
-const VOWEL_START = /^[AEIOU]/i;
-
-const identityTransition = {
-    duration: DURATION.ui,
-    ease: EASE_OUT,
-};
-
-const socials: {
-    href: string;
-    label: string;
-    icon: LucideIcon;
-    rel: string;
-}[] = [
-    { href: SITE.linkedin, label: "LinkedIn", icon: Linkedin, rel: "noopener noreferrer" },
-    { href: SITE.github, label: "GitHub", icon: Github, rel: "noopener noreferrer" },
-    { href: SITE.website, label: "sgargeya.com", icon: Globe, rel: "me noopener noreferrer" },
-];
 
 export default function Footer() {
-    const [copied, setCopied] = useState(false);
-    const [identityIndex, setIdentityIndex] = useState(0);
-    const footerRef = useRef<HTMLElement>(null);
-    const headlineRef = useRef<HTMLHeadingElement>(null);
-    const copyReset = useRef(0);
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    useEffect(() => {
-        let interval = 0;
-        const start = () => {
-            if (interval) return;
-            interval = window.setInterval(() => {
-                setIdentityIndex((prev) => (prev + 1) % identities.length);
-            }, 4000);
-        };
-        const stop = () => {
-            window.clearInterval(interval);
-            interval = 0;
-        };
-        const onVisibility = () => {
-            if (document.hidden) stop();
-            else start();
-        };
+  useEffect(() => () => { if (resetTimer.current) clearTimeout(resetTimer.current); }, []);
 
-        onVisibility();
-        document.addEventListener("visibilitychange", onVisibility);
-        return () => {
-            stop();
-            document.removeEventListener("visibilitychange", onVisibility);
-        };
-    }, []);
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(SITE.email);
+      setCopyState("copied");
+    } catch {
+      setCopyState("failed");
+    }
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+    resetTimer.current = setTimeout(() => setCopyState("idle"), 4000);
+  }
 
-    useEffect(() => {
-        const footer = footerRef.current;
-        const headline = headlineRef.current;
-        if (!footer || !headline) return;
-
-        let unsub: (() => void) | undefined;
-
-        const update = () => {
-            const rect = footer.getBoundingClientRect();
-            const view = window.innerHeight;
-            const start = view;
-            const end = -rect.height * 0.35;
-            const t = (start - rect.top) / (start - end || 1);
-            const clamped = Math.min(1, Math.max(0, t));
-            const next = `${(115 - clamped * 150).toFixed(1)}%`;
-            if (headline.style.backgroundPositionX !== next) {
-                headline.style.backgroundPositionX = next;
-            }
-        };
-
-        const io = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-                unsub ??= subscribeLayout(update);
-            } else {
-                unsub?.();
-                unsub = undefined;
-            }
-        });
-
-        io.observe(footer);
-        return () => {
-            io.disconnect();
-            unsub?.();
-        };
-    }, []);
-
-    useEffect(() => () => window.clearTimeout(copyReset.current), []);
-
-    const handleCopyEmail = () => {
-        void navigator.clipboard.writeText(SITE.email).then(() => {
-            setCopied(true);
-            window.clearTimeout(copyReset.current);
-            copyReset.current = window.setTimeout(() => setCopied(false), 2000);
-        });
-    };
-
-    const identity = identities[identityIndex];
-    const article = VOWEL_START.test(identity) ? "an" : "a";
-
-    return (
-        <footer
-            id="contact"
-            ref={footerRef}
-            className="w-full bg-transparent pt-16 sm:pt-24 md:pt-32 mt-8 sm:mt-16 md:mt-20 border-t border-zinc-200/20 relative z-20 isolate scroll-mt-24"
-            style={{
-                paddingBottom: "max(8rem, calc(env(safe-area-inset-bottom, 0px) + 6.5rem))",
-            }}
-        >
-            <div className="container mx-auto px-page lg:px-12 flex flex-col justify-between min-h-0 md:min-h-[400px] gap-12 sm:gap-16">
-
-                <div className="space-y-8 sm:space-y-12 relative py-2 sm:py-4">
-                    <h2
-                        ref={headlineRef}
-                        className="footer-headline text-[clamp(2rem,9vw,6rem)] sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-[1.1] relative z-10 break-balance"
-                    >
-                        Let&apos;s Communicate.
-                    </h2>
-
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 md:gap-8">
-                        <button
-                            type="button"
-                            onClick={handleCopyEmail}
-                            className="pressable group relative flex items-center gap-3 sm:gap-4 px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-zinc-200 hover:border-zinc-300 transition-[border-color,box-shadow] duration-[180ms] ease hover:shadow-lg hover:shadow-zinc-200/50 w-full md:w-auto overflow-visible min-w-0"
-                        >
-                            <div className="flex flex-col items-start min-w-0 flex-1">
-                                <span className="text-xs font-medium text-zinc-400 uppercase tracking-widest">Email</span>
-                                <span className="text-sm sm:text-base md:text-xl font-medium text-zinc-800 break-all font-body">{SITE.email}</span>
-                            </div>
-                            <div className="ml-auto md:ml-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-900 group-hover:text-zinc-50 transition-colors duration-[180ms] ease shrink-0">
-                                <AnimatePresence mode="wait">
-                                    <m.span
-                                        key={copied ? "check" : "copy"}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: DURATION.press, ease: EASE_OUT }}
-                                        className="flex items-center justify-center"
-                                    >
-                                        {copied ? <Check className="w-4 h-4 sm:w-5 sm:h-5" /> : <Copy className="w-4 h-4 sm:w-5 sm:h-5" />}
-                                    </m.span>
-                                </AnimatePresence>
-                            </div>
-
-                            <AnimatePresence>
-                                {copied && (
-                                    <m.span
-                                        initial={{ opacity: 0, transform: "scale(0.95) translateY(4px)" }}
-                                        animate={{ opacity: 1, transform: "scale(1) translateY(0px)" }}
-                                        exit={{ opacity: 0, transform: "scale(0.95) translateY(4px)" }}
-                                        transition={{ duration: 0.16, ease: EASE_OUT }}
-                                        className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-900 text-zinc-50 text-xs rounded-md whitespace-nowrap origin-bottom"
-                                    >
-                                        Copied to clipboard!
-                                    </m.span>
-                                )}
-                            </AnimatePresence>
-                        </button>
-
-                        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-                            {socials.map((social) => (
-                                <SocialLink key={social.href} {...social} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 pt-10 sm:pt-16 md:pt-24 border-t border-zinc-200/50">
-                    <div className="flex items-start gap-3 sm:gap-4">
-                        <Logo
-                            variant="light"
-                            size={40}
-                            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-sm ring-1 ring-zinc-200/70 shrink-0"
-                        />
-                        <div className="flex flex-col gap-1 sm:gap-2">
-                            <span className="text-sm font-medium text-zinc-400 font-body">{SITE.name} © 2026</span>
-                            <span className="text-sm text-zinc-400 font-body">{SITE.location}</span>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-zinc-400">
-                        <span>I am</span>
-                        <AnimatePresence mode="wait">
-                            <m.span
-                                key={`article-${identityIndex}`}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={identityTransition}
-                                className="text-zinc-400"
-                            >
-                                {article}
-                            </m.span>
-                        </AnimatePresence>
-                        <div className="inline-flex items-center min-h-[1.5em] relative">
-                            <AnimatePresence mode="wait">
-                                <m.span
-                                    key={identityIndex}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={identityTransition}
-                                    className="font-semibold text-zinc-800 relative pb-1"
-                                >
-                                    {identity}
-                                    <span className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-400 to-emerald-400" />
-                                </m.span>
-                            </AnimatePresence>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <footer id="contact" className="contact-section" aria-labelledby="contact-heading">
+      <div className="page-shell">
+        <div className="contact-grid">
+          <div className="contact-main">
+            <p className="eyebrow">Get in touch</p>
+            <h2 id="contact-heading">Good work starts with<br /><em>a conversation.</em></h2>
+            <div className="contact-email">
+              <a href={"mailto:" + SITE.email}>{SITE.email}<ArrowUpRight size={22} aria-hidden="true" /></a>
+              <button type="button" className="copy-button no-print" onClick={copyEmail} aria-label="Copy email address">{copyState === "copied" ? <Check size={17} aria-hidden="true" /> : <Copy size={17} aria-hidden="true" />}</button>
             </div>
-        </footer>
-    );
-}
-
-function SocialLink({
-    href,
-    icon: Icon,
-    label,
-    rel,
-}: {
-    href: string;
-    icon: LucideIcon;
-    label: string;
-    rel: string;
-}) {
-    return (
-        <a
-            href={href}
-            target="_blank"
-            rel={rel}
-            className="pressable social-chip flex items-center gap-2 px-4 sm:px-6 py-3 sm:py-4 bg-white rounded-full border border-zinc-200 text-zinc-600 font-medium text-sm sm:text-base"
-        >
-            {label}
-            <span className="text-zinc-400">
-                <Icon className="w-5 h-5" />
-            </span>
-        </a>
-    );
+            <p role="status" className="copy-status no-print">{copyState === "copied" ? "Email copied." : copyState === "failed" ? "Couldn’t copy. Select the email address or open it to get in touch." : ""}</p>
+            <div className="contact-socials">
+              <a href={SITE.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={15} aria-hidden="true" /></a>
+              <a href={SITE.github} target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={15} aria-hidden="true" /></a>
+              <a href={SITE.x} target="_blank" rel="noopener noreferrer" aria-label="X (@GargeyaS)">X <ArrowUpRight size={15} aria-hidden="true" /></a>
+            </div>
+          </div>
+          <a className="website-card" href={SITE.website} target="_blank" rel="me noopener noreferrer">
+            <span className="website-card-top">Beyond the CV <ArrowUpRight size={23} aria-hidden="true" /></span>
+            <h3>A little more<br />{" "}<em>of my world.</em></h3>
+            <p>The things I build, the ideas I write about, and the questions I keep following.</p>
+            <span className="website-card-url">sgargeya.com <ArrowUpRight size={16} aria-hidden="true" /></span>
+          </a>
+        </div>
+        <div className="footer-bottom">
+          <div className="footer-identity"><Logo variant="dark" size={30} alt="" /><span>{SITE.name}<span className="footer-copyright">© {new Date().getFullYear()}</span></span></div>
+          <p>Jaipur, India <span aria-hidden="true">·</span> Remote</p>
+          <a href="#bio" className="back-to-top no-print">Back to top <ArrowUp size={15} aria-hidden="true" /></a>
+        </div>
+      </div>
+    </footer>
+  );
 }

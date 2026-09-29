@@ -6,11 +6,13 @@ Welcome to the repository for my personal brand and interactive digital CV. Buil
 ---
 
 ## ✨ Key Features & Design System
-* **Premium Glassmorphic UI:** Smooth, unified dark/light translucent surfaces utilizing modern Tailwind CSS classes and vanilla backdrop filters.
-* **Fluid Framer Motion Animations:** Curated, performant scroll-triggered transitions, custom scroll indicators, and ticker animations.
-* **Dynamic Experience Timeline:** An interactive timeline tracing experience across AI architecture (Edudojo.ai), enterprise financial automation (RVS Consensus+), ML consulting (Imperial College London), and adaptability foundations.
-* **The Lab Showcase:** A filterable and customizable grid showing public research projects, agentic framework MCP servers, and writing profiles.
-* **Edge-Native Performance:** Optimized specifically for high-speed edge loading on global servers.
+* **Preserved Glass Hero:** The original mint and blue light field, fluted columns, grain, and ambient motion remain the visual signature.
+* **A Shared Personal Identity:** Instrument Serif, Manrope, navy ink, and teal connect the CV with [sgargeya.com](https://sgargeya.com). See [DESIGN.md](DESIGN.md) for the design direction.
+* **Readable Career History:** A continuous experience chronology, a distinct current role, and compact academic records. The content remains readable without JavaScript.
+* **Evidence First:** Linked publication credits, Imperial research, and a scoped RVS automation result follow the introduction.
+* **Project Index:** Featured voice tools explain their practical use and the engineering contribution; publications lead the filterable index of research, code, and writing.
+* **Accessible Navigation and Contact:** A persistent section index, keyboard-accessible mobile dialog, reduced-motion support, direct email, and copy feedback.
+* **Print / Save PDF:** A separate print layout includes the complete CV even when the project index is filtered.
 
 ---
 

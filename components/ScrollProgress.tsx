@@ -1,8 +1,10 @@
 "use client";
 
 import { m, useScroll, useSpring } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 export default function ScrollProgress() {
+    const reduce = usePrefersReducedMotion();
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {
         stiffness: 100,
@@ -12,8 +14,9 @@ export default function ScrollProgress() {
 
     return (
         <m.div
+            aria-hidden="true"
             className="scroll-progress fixed top-0 left-0 right-0 h-0.5 bg-teal-500 origin-left z-[100] transition-opacity duration-200"
-            style={{ scaleX }}
+            style={{ scaleX: reduce ? scrollYProgress : scaleX }}
         />
     );
 }
