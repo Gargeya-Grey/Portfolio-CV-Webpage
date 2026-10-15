@@ -24,13 +24,13 @@ In a tab on `http://localhost:3108` run with `javascript_tool`:
 ```
 
 - `h1` is missing: the page did not render; read `preview_logs` with `level: 'error'`.
-- `paper` is not `#f7f6f3` (light) or `#151413` (dark): the stylesheet did not load or the tokens changed.
+- `paper` is not `#f7f6f3` (light) or `#151413` (dark, `html.dark`): the stylesheet did not load or the tokens changed.
 
 ## Drive
 
 - Open your own tab (`tabs_create`, then `navigate` with that `tabId`) when other agents may share the pane.
 - Sections and their anchors: `#bio` (hero), `#ventures` (experience), `#education`, `#lab` (projects, with filters), `#contact` (inverted band and footer). Feature files in `features/` give the details.
-- Dark mode follows the system setting only (there is no toggle). Use `resize_window` with `colorScheme: 'dark'` on your tab, then `'light'` to return.
+- Dark mode: the header button labelled "Switch to dark mode" / "Switch to light mode" sets `html.dark` and saves `localStorage.theme`. Without a saved value, the system setting decides (`resize_window` with `colorScheme`). To test the system path, first run `localStorage.removeItem('theme')` and reload. Clear `localStorage.theme` when you finish, so the next run starts from the system setting.
 - Phone width: `resize_window` with `preset: 'mobile'` (375 x 812). Reset with `preset: 'desktop'` when done.
 - Print: the browser pane has no print preview and cannot emulate print media. Check print by reading the `@media print` block in `app/globals.css`, and, when print matters, ask the owner to save a PDF from a real browser (Ctrl+P). Say in the report that print was not checked in the pane.
 - Prefer `read_page` / `find` for text and structure; take a screenshot for every visual claim.

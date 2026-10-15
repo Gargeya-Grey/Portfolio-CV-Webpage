@@ -1,7 +1,8 @@
 # Header and navigation
 
 ## Sub-features
-- Fixed header with the SGargeya mark (ink mark in light, light mark in dark), "Gargeya / Digital CV", four section links, and "Personal website".
+- Fixed header with the SGargeya mark (ink mark in light, light mark in dark), "Gargeya / Digital CV", four section links, "Personal website", and the theme toggle.
+- Theme toggle: click it, expect `document.documentElement.classList.contains('dark')` to flip and `localStorage.theme` to match; after a reload the choice stays. Exactly one header mark is visible in each theme.
 - Active section: the link turns full ink and gets one 4px papaya dot under it.
 - Below 960px: a menu button opens a modal `<dialog id="mobile-navigation">` with focus containment and Escape to close.
 

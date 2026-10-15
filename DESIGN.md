@@ -12,13 +12,13 @@ The CV uses the personal website's design system: the Edudojo design family in t
 - Papaya `--leaf` `#ff8000` is a signal: dots, the hero's period, the progress bar, focus on the dark band. It is never small text; orange text uses `--leaf-ink` `#b04a00`.
 - Navigation and project filters use the website's grammar: muted labels, full ink on hover, one 4px papaya dot under the one in use. Section labels carry a 6px papaya dot.
 - The current role is the one raised object (white, 20px radius), like the website's "now" card. The contact section is the website's inverted band (`--band`).
-- Dark mode follows the system setting (no toggle), with the website's soft dark values. It applies to screens only; print stays light.
+- Dark mode uses the website's soft dark values. A toggle in the header (a 6px square with a hairline, as on the website) switches it and saves the choice in `localStorage.theme`. Without a saved choice, the system setting decides. An init script in `app/layout.tsx` sets `html.dark` before the first paint. Dark mode applies to screens only; print stays light.
 - The brand mark is the website's dot G, copied from its `public/brand/` into `public/logo/` (transparent `sgargeya-mark-on-*.svg` for page chrome, tiles for icons). `app/icon.svg` and `app/apple-icon.png` are the website's own files. Regenerate the mark on the website, then copy; never hand-edit a cut.
 - A clear route to `sgargeya.com` in the header and contact section, plus the personal site's `/playground` from the project index.
 
 ## The hero is the anchor
 
-Keep the hero's layers in `components/Hero.tsx`: the field, glass columns, central light and blur, SVG grain, and the two ambient colour fields. Owner decision, 15 October 2026: the layers stay, in the family colours. The field is warm paper (`--hero-field`), the ambient fields are papaya and sand, and dark mode lowers each layer. Their styles live under `.hero-field`, `.hero-light`, `.hero-grain`, `.hero-columns` and `.ambient-blob*` in `app/globals.css`.
+Keep the hero's layers in `components/Hero.tsx`: the field, glass columns, central light and blur, SVG grain, and the two ambient colour fields. Owner decision, 15 October 2026: the layers stay, in the family colours. The field is warm paper (`--hero-field`), the ambient fields are papaya and sand, and dark mode lowers each layer. The grain is a CSS background image, not a live SVG filter, so the browser draws it once instead of on every repaint. Their styles live under `.hero-field`, `.hero-light`, `.hero-grain`, `.hero-columns` and `.ambient-blob*` in `app/globals.css`.
 
 ## CV structure
 

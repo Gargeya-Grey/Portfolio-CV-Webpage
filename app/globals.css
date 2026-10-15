@@ -36,9 +36,10 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
-/* Soft dark mode, as on the website: text about 13.6:1, never pure white. Screen only: print stays light. */
-@media screen and (prefers-color-scheme: dark) {
-  :root {
+/* Soft dark mode, as on the website: text about 13.6:1, never pure white. The init script in app/layout.tsx
+ * sets html.dark from the saved choice or the system setting; the header toggle changes it. Screen only: print stays light. */
+@media screen {
+  :root.dark {
     color-scheme: dark;
     --paper: #151413;
     --paper-raised: #1c1b19;
@@ -56,11 +57,11 @@
     --hero-field: #181715;
     --hero-light: rgb(255 240 220 / 3.5%);
   }
-  :root .hero-columns { background-image: linear-gradient(to right, rgba(255, 255, 255, 0.025) 0%, rgba(0, 0, 0, 0.22) 100%); }
-  :root .ambient-blob { mix-blend-mode: screen; }
-  :root .ambient-blob-a { background: rgb(255 128 0 / 0.07); }
-  :root .ambient-blob-b { background: rgb(150 120 90 / 0.08); }
-  :root .hero-grain { opacity: 0.05; }
+  :root.dark .hero-columns { background-image: linear-gradient(to right, rgba(255, 255, 255, 0.025) 0%, rgba(0, 0, 0, 0.22) 100%); }
+  :root.dark .ambient-blob { mix-blend-mode: screen; }
+  :root.dark .ambient-blob-a { background: rgb(255 128 0 / 0.07); }
+  :root.dark .ambient-blob-b { background: rgb(150 120 90 / 0.08); }
+  :root.dark .hero-grain { opacity: 0.05; }
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 104px; }
@@ -104,6 +105,14 @@ svg { flex-shrink: 0; }
 .desktop-navigation a[aria-current="location"]::after { transform: translateX(-50%) scale(1); }
 .header-website { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; min-height: 44px; }
 .header-website:hover { color: var(--leaf-ink); }
+/* Edudojo's control: a 6px square with a hairline, muted ink that darkens on hover. */
+.theme-toggle { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--rule); border-radius: 6px; background: transparent; color: var(--ink-2); flex-shrink: 0; }
+.theme-toggle:hover { color: var(--ink); }
+/* Show one mark and one icon per theme. Two classes, so these beat `.brand-link img`. */
+.theme-toggle .theme-icon-sun, .brand-mark.brand-mark-dark { display: none; }
+:root.dark .theme-toggle .theme-icon-sun, :root.dark .brand-mark.brand-mark-dark { display: block; }
+:root.dark .theme-toggle .theme-icon-moon, :root.dark .brand-mark.brand-mark-light { display: none; }
+.header-actions { display: flex; align-items: center; gap: 18px; }
 .menu-trigger { display: none; width: 44px; height: 44px; place-items: center; border: 1px solid var(--line); background: transparent; border-radius: 6px; color: var(--ink); }
 .mobile-navigation { background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 0; width: min(480px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); margin: auto; }
 .mobile-navigation::backdrop { background: rgb(27 26 24 / 40%); backdrop-filter: blur(8px); }
@@ -322,7 +331,7 @@ svg { flex-shrink: 0; }
   .desktop-navigation { display: none; }
   .header-inner { min-height: 72px; gap: 20px; }
   .brand-descriptor { display: block; }
-  .header-website { margin-left: auto; }
+  .header-actions { margin-left: auto; gap: 12px; }
   .menu-trigger { display: grid; }
   .section-layout { grid-template-columns: 1fr; gap: 36px; }
   .section-intro { position: static; }

@@ -22,6 +22,10 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+// Runs before the first paint, so the page never flashes the wrong theme. Same rule as the website:
+// a saved choice wins, otherwise the system setting.
+const themeInitScript = `try{if(localStorage.theme==='dark'||(!('theme' in localStorage)&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(_){}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.origin),
   title: {
@@ -90,7 +94,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${instrumentSans.variable} ${plexMono.variable} antialiased`}
       >
