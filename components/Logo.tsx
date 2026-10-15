@@ -1,44 +1,26 @@
-import Image from "next/image";
-import { logo, type LogoVariant } from "@/lib/logo";
+import { logo } from "@/lib/logo";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
-  /** Visual variant. Site chrome is light; use "light" by default. */
-  variant?: LogoVariant;
-  /** Prefer SVG for UI; PNG for contexts that need raster (rare in components). */
-  format?: "svg" | "png" | "png960";
+  /** `auto` follows the colour scheme; `onDark` is for the inverted contact band. */
+  variant?: "auto" | "onLight" | "onDark";
   /** CSS size of the square mark (width & height). */
   size?: number;
   className?: string;
-  priority?: boolean;
   alt?: string;
 };
 
-/**
- * Brand mark. Square tile with the G + green accent.
- * Defaults to the light-mode asset (for the site's light UI).
- */
-export default function Logo({
-  variant = "light",
-  format = "svg",
-  size = 32,
-  className,
-  priority = false,
-  alt = "SGargeya",
-}: LogoProps) {
-  const asset = logo[variant];
-  const src =
-    format === "png" ? asset.png : format === "png960" ? asset.png960 : asset.svg;
-
+/** The transparent SGargeya mark for page chrome, as in the personal website's header. */
+export default function Logo({ variant = "auto", size = 32, className, alt = "SGargeya" }: LogoProps) {
+  const src = variant === "onDark" ? logo.mark.onDark : logo.mark.onLight;
+  // A plain img inside <picture>: next/image cannot switch sources by colour scheme, and the SVG is tiny.
+  // eslint-disable-next-line @next/next/no-img-element
+  const img = <img src={src} alt={alt} width={size} height={size} className={cn("brand-mark select-none", className)} decoding="async" />;
+  if (variant !== "auto") return img;
   return (
-    <Image
-      src={src}
-      alt={alt}
-      width={size}
-      height={size}
-      priority={priority}
-      className={cn("rounded-lg object-cover select-none", className)}
-      sizes={`${size}px`}
-    />
+    <picture>
+      <source srcSet={logo.mark.onDark} media="(prefers-color-scheme: dark)" />
+      {img}
+    </picture>
   );
 }

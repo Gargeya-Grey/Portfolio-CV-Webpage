@@ -4,16 +4,21 @@ This is the professional, shareable overview of Gargeya's work. The companion pe
 
 ## Shared identity
 
-The reference is the companion project's `docs/personal-world-design.md` and its implemented typography, rather than its older Edudojo-branded root design file.
+The CV uses the personal website's design system: the Edudojo design family in the site's own colours, McLaren papaya on warm graphite. The reference is `W:\Personal-Brand-Website\DESIGN.md` and the token block in its `app/field.css`. When the website changes a token, copy the value into the token block at the top of `app/globals.css`; never change a colour in a component.
 
-- Instrument Serif for the name and short editorial headings; Manrope for career records, body copy, and controls.
-- Navy ink `#142936`, readable teal `#08796d`, cool paper `#f3f6f5`, and mint `#83dfc1` on the dark contact surface.
-- Fine rules, generous spacing, modest corners, and different layouts for experience, education, and projects.
+- Instrument Sans for headings, text and controls (headings weight 500, tracking -0.035em to -0.045em). IBM Plex Mono for dates only. Do not reintroduce Instrument Serif or Manrope.
+- An `<em>` in a heading is the sentence's second tone: upright, in `--ink-2`. Never an italic accent.
+- Warm paper `#f7f6f3`, ink `#1b1a18`, muted ink `#5e5a55`, hairlines `#e3e0da`, the warm wash `--sage` `#f1ede7`, and the anthracite filled button `--forest`.
+- Papaya `--leaf` `#ff8000` is a signal: dots, the hero's period, the progress bar, focus on the dark band. It is never small text; orange text uses `--leaf-ink` `#b04a00`.
+- Navigation and project filters use the website's grammar: muted labels, full ink on hover, one 4px papaya dot under the one in use. Section labels carry a 6px papaya dot.
+- The current role is the one raised object (white, 20px radius), like the website's "now" card. The contact section is the website's inverted band (`--band`).
+- Dark mode follows the system setting (no toggle), with the website's soft dark values. It applies to screens only; print stays light.
+- The brand mark is the website's dot G, copied from its `public/brand/` into `public/logo/` (transparent `sgargeya-mark-on-*.svg` for page chrome, tiles for icons). `app/icon.svg` and `app/apple-icon.png` are the website's own files. Regenerate the mark on the website, then copy; never hand-edit a cut.
 - A clear route to `sgargeya.com` in the header and contact section, plus the personal site's `/playground` from the project index.
 
 ## The hero is the anchor
 
-Preserve the original background layers in `components/Hero.tsx`: the `#e9fcfc` field, glass columns, central light and blur, SVG grain, and the two ambient colour fields. Their styles live under `.hero-columns` and `.ambient-blob*` in `app/globals.css`. Typography and navigation can evolve around this background.
+Keep the hero's layers in `components/Hero.tsx`: the field, glass columns, central light and blur, SVG grain, and the two ambient colour fields. Owner decision, 15 October 2026: the layers stay, in the family colours. The field is warm paper (`--hero-field`), the ambient fields are papaya and sand, and dark mode lowers each layer. Their styles live under `.hero-field`, `.hero-light`, `.hero-grain`, `.hero-columns` and `.ambient-blob*` in `app/globals.css`.
 
 ## CV structure
 
@@ -42,4 +47,4 @@ The opening states the professional focus in learning, assessment, and automatio
 
 `app/globals.css` owns the visual tokens, layouts, responsive rules, and print styles. `components/Hero.tsx`, `Ventures.tsx`, `Education.tsx`, and `Lab.tsx` own the main sections. `Navigation.tsx`, `ProfileSummary.tsx`, `PrintButton.tsx`, and `Footer.tsx` provide the surrounding actions. Project data lives in `lib/data.ts`; canonical contact and profile links live in `lib/site.ts`.
 
-Verification evidence is local and ignored by Git: the original redesign checks are under `run/cv-redesign/`, the publication additions and Edudojo corrections under `run/cv-research/`, and the positioning and three-page print refinement under `run/cv-positioning/`.
+Prove a change with the verification skill in `.agents/skills/verify-cv/` (launch, light and dark, 375px, the feature map). Earlier verification evidence is local and ignored by Git: the original redesign checks are under `run/cv-redesign/`, the publication additions and Edudojo corrections under `run/cv-research/`, and the positioning and three-page print refinement under `run/cv-positioning/`.

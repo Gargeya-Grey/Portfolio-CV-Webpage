@@ -4,12 +4,12 @@ import { SITE } from "@/lib/site";
 export default function Hero() {
   return (
     <section id="bio" className="cv-hero relative overflow-hidden">
-      {/* Preserve the original glass columns, light field, grain, and ambient motion. */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#e9fcfc]" aria-hidden="true">
+      {/* The original glass columns, light field, grain and ambient motion, in the warm family colours (app/globals.css). */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 hero-field" aria-hidden="true">
         <div className="hero-columns absolute inset-0 z-10" />
-        <div aria-hidden className="absolute left-1/2 top-1/2 z-[15] h-[68%] w-[min(92vw,56rem)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/45 blur-3xl" />
+        <div aria-hidden className="absolute left-1/2 top-1/2 z-[15] h-[68%] w-[min(92vw,56rem)] -translate-x-1/2 -translate-y-1/2 rounded-full hero-light blur-3xl" />
         <div aria-hidden className="absolute left-1/2 top-1/2 z-[16] h-[60%] w-[min(88vw,52rem)] -translate-x-1/2 -translate-y-1/2 rounded-[2.5rem] backdrop-blur-[3px]" />
-        <div className="absolute inset-0 z-20 opacity-[0.07] mix-blend-overlay" aria-hidden>
+        <div className="hero-grain absolute inset-0 z-20 mix-blend-overlay" aria-hidden>
           <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" preserveAspectRatio="none">
             <filter id="mosaicNoise">
               <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />

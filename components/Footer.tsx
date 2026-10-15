@@ -48,7 +48,7 @@ export default function Footer() {
           </a>
         </div>
         <div className="footer-bottom">
-          <div className="footer-identity"><Logo variant="dark" size={30} alt="" /><span>{SITE.name}<span className="footer-copyright">© {new Date().getFullYear()}</span></span></div>
+          <div className="footer-identity"><Logo variant="onDark" size={28} alt="" /><span>{SITE.name}<span className="footer-copyright">© {new Date().getFullYear()}</span></span></div>
           <p>Jaipur, India <span aria-hidden="true">·</span> Remote</p>
           <a href="#bio" className="back-to-top no-print">Back to top <ArrowUp size={15} aria-hidden="true" /></a>
         </div>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" fill="none">
+  <!-- The mark, small cut (built by scripts/build-brand-mark.mjs). No tile; the ink follows the browser's theme. -->
+  <style>
+    .g { fill: #1B1A18; } .s { stroke: #1B1A18; }
+    @media (prefers-color-scheme: dark) { .g { fill: #EEECE8; } .s { stroke: #EEECE8; } }
+  </style>
+  <g transform="translate(2 -5.5)"><path d="M98.53 227.8A140 140 0 1 0 378 240H280" class="s" stroke-width="74" fill="none"/><circle cx="98.53" cy="227.8" r="37" class="g"/><circle cx="127.33" cy="152.91" r="27" class="g"/><circle cx="177.85" cy="110.41" r="22.86" class="g"/><circle cx="234.18" cy="94.09" r="19.68" class="g"/><circle cx="286.84" cy="98.17" r="17" class="g"/><circle cx="232" cy="240" r="34" fill="#FF8000"/></g>
+</svg>

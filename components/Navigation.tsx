@@ -85,7 +85,7 @@ export default function Navigation() {
       <header className="site-header no-print" data-scrolled={scrolled}>
         <div className="page-shell header-inner">
           <Link href="/#bio" className="brand-link" aria-label="Gargeya Sharma, back to introduction">
-            <Logo size={32} alt="" priority />
+            <Logo size={30} alt="" />
             <span>Gargeya</span><span className="brand-descriptor">Digital CV</span>
           </Link>
           <nav className="desktop-navigation" aria-label="Primary">

@@ -6,8 +6,8 @@ Welcome to the repository for my personal brand and interactive digital CV. Buil
 ---
 
 ## ✨ Key Features & Design System
-* **Preserved Glass Hero:** The original mint and blue light field, fluted columns, grain, and ambient motion remain the visual signature.
-* **A Shared Personal Identity:** Instrument Serif, Manrope, navy ink, and teal connect the CV with [sgargeya.com](https://sgargeya.com). See [DESIGN.md](DESIGN.md) for the design direction.
+* **Glass Hero, Warm Colours:** The original fluted columns, light, grain, and ambient motion remain the visual signature, now in warm paper and papaya.
+* **A Shared Personal Identity:** The CV uses the design system of [sgargeya.com](https://sgargeya.com): Instrument Sans, warm paper, papaya dots, the dot G mark, and a soft dark mode. See [DESIGN.md](DESIGN.md) for the design direction.
 * **Readable Career History:** A continuous experience chronology, a distinct current role, and compact academic records. The content remains readable without JavaScript.
 * **Evidence First:** Linked publication credits, Imperial research, and a scoped RVS automation result follow the introduction.
 * **Project Index:** Featured voice tools explain their practical use and the engineering contribution; publications lead the filterable index of research, code, and writing.
