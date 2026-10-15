@@ -24,7 +24,8 @@ const plexMono = IBM_Plex_Mono({
 
 // Runs before the first paint, so the page never flashes the wrong theme. Same rule as the website:
 // a saved choice wins, otherwise the system setting.
-const themeInitScript = `try{if(localStorage.theme==='dark'||(!('theme' in localStorage)&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(_){}`;
+// Storage can be blocked, so it has its own try: the system setting still decides then.
+const themeInitScript = `(function(){var s=null;try{s=localStorage.theme}catch(_){}if(s==='dark'||(s!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.origin),

@@ -9,7 +9,7 @@
 Open `/`. The hero fills the first screen.
 
 ## Driving it with the browser pane
-- Screenshot the first screen in light and dark (`resize_window` `colorScheme`).
+- Screenshot the first screen in light and dark. Switch with the header toggle ("Switch to dark mode"), or clear `localStorage.theme`, reload, and use `resize_window` `colorScheme`.
 - `getComputedStyle(document.querySelector('.hero-period')).color` is `rgb(255, 128, 0)`.
 - With reduced motion (`matchMedia('(prefers-reduced-motion: reduce)')`), the ambient fields do not animate.
 

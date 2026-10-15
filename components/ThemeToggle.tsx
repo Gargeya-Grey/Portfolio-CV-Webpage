@@ -7,7 +7,20 @@ import { Moon, Sun } from "lucide-react";
 export default function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
-  useEffect(() => setDark(document.documentElement.classList.contains("dark")), []);
+  useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
+    // Without a saved choice, follow a change of the system setting at once.
+    const system = window.matchMedia("(prefers-color-scheme: dark)");
+    const follow = (event: MediaQueryListEvent) => {
+      let saved: string | null = null;
+      try { saved = localStorage.getItem("theme"); } catch { /* storage blocked: follow the system */ }
+      if (saved) return;
+      document.documentElement.classList.toggle("dark", event.matches);
+      setDark(event.matches);
+    };
+    system.addEventListener("change", follow);
+    return () => system.removeEventListener("change", follow);
+  }, []);
 
   function toggle() {
     const next = !document.documentElement.classList.contains("dark");
