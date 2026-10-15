@@ -9,14 +9,7 @@ export default function Hero() {
         <div className="hero-columns absolute inset-0 z-10" />
         <div aria-hidden className="absolute left-1/2 top-1/2 z-[15] h-[68%] w-[min(92vw,56rem)] -translate-x-1/2 -translate-y-1/2 rounded-full hero-light blur-3xl" />
         <div aria-hidden className="absolute left-1/2 top-1/2 z-[16] h-[60%] w-[min(88vw,52rem)] -translate-x-1/2 -translate-y-1/2 rounded-[2.5rem] backdrop-blur-[3px]" />
-        <div className="hero-grain absolute inset-0 z-20 mix-blend-overlay" aria-hidden>
-          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full" preserveAspectRatio="none">
-            <filter id="mosaicNoise">
-              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
-            </filter>
-            <rect width="100%" height="100%" filter="url(#mosaicNoise)" />
-          </svg>
-        </div>
+        <div className="hero-grain absolute inset-0 z-20 mix-blend-overlay" aria-hidden />
         <div className="absolute inset-0 z-0">
           <div className="ambient-blob ambient-blob-a" />
           <div className="ambient-blob ambient-blob-b" />
