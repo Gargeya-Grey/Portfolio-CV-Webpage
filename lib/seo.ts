@@ -6,11 +6,11 @@ export const SEO = {
   description: `${SITE.name}, AI engineer and founder of Edudojo.ai. Building AI systems for learning, assessment, and automation. Explore research, projects, and experience.`,
   image: {
     // Change the version when replacing artwork so social crawlers see a new URL.
-    url: "/og-image.png?v=glass-20260929",
-    width: 1730,
-    height: 909,
+    url: "/og-image.png?v=paper-20261015",
+    width: 1200,
+    height: 630,
     type: "image/png",
-    alt: "Gargeya Sharma — AI engineer, founder, and theatre artist. Architecting intelligence. Curating art. Navy editorial typography beside a mint glass sculpture.",
+    alt: "Gargeya Sharma — AI engineer, founder, and theatre artist. Architecting intelligence. Curating art. Founder & Lead AI Architect at Edudojo.ai. Dark type and the dot G mark on warm paper, with a papaya full stop.",
   },
 } as const;
 

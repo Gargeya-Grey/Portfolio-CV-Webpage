@@ -14,7 +14,7 @@ The canonical CV is `https://cv.sgargeya.com`. It is a single profile page; expe
 | Canonical page inventory | `app/sitemap.ts` |
 | Approved banner | `public/og-image.png` |
 
-The banner is 1730 × 909 pixels. Its versioned metadata URL changes when the artwork changes. Open Graph and Twitter use the same image, description, and accessible image text. Declared dimensions must match the file.
+The banner is 1200 × 630 pixels. Its versioned metadata URL changes when the artwork changes. Open Graph and Twitter use the same image, description, and accessible image text. Declared dimensions must match the file.
 
 ## Search and AI answers
 
@@ -30,4 +30,6 @@ Run `npm run lint` and the production build before release. Inspect the resultin
 
 The configured production integration publishes `main` from GitHub to the Cloudflare Worker `portfolio`. Search Console/Bing Webmaster Tools indexing and social-platform recrawls are separate from deployment. Existing shared posts may keep a cached preview until their platform fetches the page again.
 
-Local evidence for the 2026-09-29 update is retained in the ignored `run/social-preview-01a0ed8f/` directory: the generation prompt, approved proposal, previous banner, build logs, and verification results. The banner was created with the built-in image-generation tool. The deployed site depends only on `public/og-image.png`; it does not depend on the local evidence directory.
+The 2026-10-15 banner is a typographic card in the CV's design (warm paper, ink, Instrument Sans, the dot G mark, papaya only as a signal). Its HTML source, the rendered file, and the previous banner are in the ignored `run/social-preview-20261015/` directory of the main checkout. To re-make it, render `og.html` at 1200 × 630 with a headless browser (for example `msedge --headless=new --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=8000 --screenshot=og.png og.html`).
+
+Local evidence for the earlier 2026-09-29 update is retained in the ignored `run/social-preview-01a0ed8f/` directory: the generation prompt, approved proposal, previous banner, build logs, and verification results. That banner was created with the built-in image-generation tool. The deployed site depends only on `public/og-image.png`; it does not depend on the local evidence directory.
