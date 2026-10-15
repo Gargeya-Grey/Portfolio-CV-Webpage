@@ -15,7 +15,7 @@ export default function ScrollProgress() {
     return (
         <m.div
             aria-hidden="true"
-            className="scroll-progress fixed top-0 left-0 right-0 h-0.5 bg-teal-500 origin-left z-[100] transition-opacity duration-200"
+            className="scroll-progress fixed top-0 left-0 right-0 h-0.5 bg-[var(--leaf)] origin-left z-[100] transition-opacity duration-200"
             style={{ scaleX: reduce ? scrollYProgress : scaleX }}
         />
     );

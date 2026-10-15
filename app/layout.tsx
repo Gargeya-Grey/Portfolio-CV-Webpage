@@ -1,26 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Instrument_Serif } from "next/font/google";
+import { Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import ScrollProgress from "@/components/ScrollProgress";
 import LazyMotionProvider from "@/components/LazyMotionProvider";
-import { logo } from "@/lib/logo";
 import { SITE } from "@/lib/site";
 import { SEO } from "@/lib/seo";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+// The personal website's type family (Edudojo design family). Instrument Sans carries headings,
+// text and UI. IBM Plex Mono marks real data only: dates.
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const editorial = Instrument_Serif({
-  variable: "--font-editorial",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  weight: ["400", "500"],
   display: "swap",
 });
+
+// Runs before the first paint, so the page never flashes the wrong theme. Same rule as the website:
+// a saved choice wins, otherwise the system setting.
+// Storage can be blocked, so it has its own try: the system setting still decides then.
+const themeInitScript = `(function(){var s=null;try{s=localStorage.theme}catch(_){}if(s==='dark'||(s!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.origin),
@@ -62,25 +67,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE.origin
   },
+  // app/icon.svg (ink follows the colour scheme) and app/apple-icon.png come from the App Router.
   icons: {
-    // Light/dark favicons follow the user's OS color scheme.
-    // app/icon.png + app/apple-icon.png also serve as defaults via the App Router.
     icon: [
-      {
-        url: logo.light.svg,
-        type: "image/svg+xml",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: logo.dark.svg,
-        type: "image/svg+xml",
-        media: "(prefers-color-scheme: dark)",
-      },
       { url: "/logo/icon-32.png", type: "image/png", sizes: "32x32" },
       { url: "/logo/icon-192.png", type: "image/png", sizes: "192x192" },
       { url: "/logo/icon-512.png", type: "image/png", sizes: "512x512" },
     ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
 };
@@ -90,7 +83,10 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   viewportFit: "cover",
-  themeColor: "#e9fcfc",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f6f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#151413" },
+  ],
 };
 
 export default function RootLayout({
@@ -99,9 +95,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
-        className={`${manrope.variable} ${editorial.variable} antialiased`}
+        className={`${instrumentSans.variable} ${plexMono.variable} antialiased`}
       >
         <a className="skip-link" href="#main-content">Skip to content</a>
         <LazyMotionProvider>
@@ -113,6 +112,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
-

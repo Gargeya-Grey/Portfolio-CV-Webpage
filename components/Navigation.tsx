@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 import { SITE } from "@/lib/site";
 import { subscribeLayout } from "@/lib/subscribeLayout";
 
@@ -85,14 +86,17 @@ export default function Navigation() {
       <header className="site-header no-print" data-scrolled={scrolled}>
         <div className="page-shell header-inner">
           <Link href="/#bio" className="brand-link" aria-label="Gargeya Sharma, back to introduction">
-            <Logo size={32} alt="" priority />
+            <Logo size={30} alt="" />
             <span>Gargeya</span><span className="brand-descriptor">Digital CV</span>
           </Link>
           <nav className="desktop-navigation" aria-label="Primary">
             {navItems.map((item) => <Link key={item.href} href={"/" + item.href} aria-current={activeSection === item.href ? "location" : undefined}>{item.name}</Link>)}
           </nav>
-          <a href={SITE.website} className="header-website" target="_blank" rel="me noopener noreferrer">Personal website <ArrowUpRight size={15} aria-hidden="true" /></a>
-          <button type="button" className="menu-trigger" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={openMenu}><Menu size={23} aria-hidden="true" /></button>
+          <div className="header-actions">
+            <a href={SITE.website} className="header-website" target="_blank" rel="me noopener noreferrer">Personal website <ArrowUpRight size={15} aria-hidden="true" /></a>
+            <ThemeToggle />
+            <button type="button" className="menu-trigger" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded={menuOpen} onClick={openMenu}><Menu size={23} aria-hidden="true" /></button>
+          </div>
         </div>
       </header>
       <dialog ref={dialogRef} id="mobile-navigation" className="mobile-navigation no-print" aria-label="Site navigation" onClose={handleClose} onKeyDown={handleMenuKeyDown} onClick={(event) => { if (event.target === event.currentTarget) closeMenu(); }}>

@@ -4,8 +4,8 @@
   "description": "Founder & Lead AI Architect @ Edudojo.ai — portfolio and CV.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#e9fcfc",
-  "theme_color": "#e9fcfc",
+  "background_color": "#f7f6f3",
+  "theme_color": "#f7f6f3",
   "icons": [
     {
       "src": "/logo/icon-192.png",

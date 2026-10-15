@@ -1,15 +1,15 @@
 /**
- * SGargeya brand assets.
+ * SGargeya brand assets, copied from the personal website (W:\Personal-Brand-Website\public\brand).
+ * Regenerate them there with scripts/build-brand-mark.mjs, then copy; never hand-edit a cut.
  *
- * - light: light tile + dark mark — use on light / glass UI
- * - dark: dark tile + light mark — use on dark UI or dark system chrome
- *
- * Sizes:
- * - svg: crisp UI (nav, footer)
- * - 960 png: icons / medium density
- * - full png (1920): high-res / social
+ * - mark: the transparent G for page chrome. onLight = ink mark, onDark = light mark.
+ * - light / dark: the full tile (social, app icons). public/logo/icon-*.png are resized from these.
  */
 export const logo = {
+  mark: {
+    onLight: "/logo/sgargeya-mark-on-light.svg",
+    onDark: "/logo/sgargeya-mark-on-dark.svg",
+  },
   light: {
     svg: "/logo/sgargeya-logo-light.svg",
     png960: "/logo/sgargeya-logo-light-960.png",
@@ -21,5 +21,3 @@ export const logo = {
     png: "/logo/sgargeya-logo-dark.png",
   },
 } as const;
-
-export type LogoVariant = keyof typeof logo;

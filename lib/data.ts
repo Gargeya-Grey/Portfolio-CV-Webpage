@@ -39,6 +39,14 @@ export const projects: Project[] = [
         type: "repo"
     },
     {
+        title: "proof",
+        description: "A verification-first plugin for coding agents. One router sends each task to a matching workflow (grilling, test-driven development, codebase design, writing for agents) and treats done as passing checks. It works the same on Claude Code, Codex, Grok and other Agent Skills hosts.",
+        tags: ["AI Agents", "Agent Skills", "Claude Code", "Verification"],
+        href: "https://github.com/Gargeya-Grey/proof",
+        isLatest: true,
+        type: "repo"
+    },
+    {
         title: "Adversary-Planner-Loop",
         description: "An agent loop that challenges generated plans with a simulated adversary, then refines them before code execution.",
         tags: ["AI Agents", "Game Theory", "Self-Refinement", "Python"],
