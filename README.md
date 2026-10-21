@@ -17,7 +17,7 @@ Welcome to the repository for my personal brand and interactive digital CV. Buil
 ---
 
 ## 🛠️ Technology Stack
-* **Framework:** [Next.js 15+](https://nextjs.org/) (React 19, App Router)
+* **Framework:** [Next.js 16](https://nextjs.org/) (React 19, App Router)
 * **Styling:** [Tailwind CSS 4.x](https://tailwindcss.com/) & PostCSS
 * **Animation:** [Framer Motion 12.x](https://www.framer.com/motion/)
 * **Icons:** [Lucide React](https://lucide.dev/)
@@ -28,7 +28,7 @@ Welcome to the repository for my personal brand and interactive digital CV. Buil
 ## 🚀 Getting Started & Local Development
 
 ### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
+Make sure you have [Node.js](https://nodejs.org/) installed (v22+ required).
 
 ### 1. Clone the Repository
 ```bash

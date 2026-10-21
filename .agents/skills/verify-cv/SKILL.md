@@ -9,7 +9,7 @@ The surface is one public web page (`/`) plus a 404 page. Drive it with the Clau
 
 ## Launch
 
-1. Install once per checkout: `npm ci`. `postinstall` applies `patches/` with patch-package.
+1. Install once per checkout: `npm ci`. Needs Node 22 (`.node-version`).
 2. Start the server with `preview_start` and the name `cv` (`.claude/launch.json`: `npx next dev -p 3108`). The personal website uses port 3107, so both can run at once.
 3. Ready = `http://localhost:3108/` shows the heading "Gargeya Sharma." (`find` with query `Gargeya Sharma`).
 
