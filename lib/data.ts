@@ -48,7 +48,7 @@ export const projects: Project[] = [
     },
     {
         title: "Adversary-Planner-Loop",
-        description: "An agent loop that challenges generated plans with a simulated adversary, then refines them before code execution.",
+        description: "A model-agnostic generator-and-evaluator loop that sharpens engineering plans. It writes the prompts and JSON schemas, and your agent runs them.",
         tags: ["AI Agents", "Game Theory", "Self-Refinement", "Python"],
         href: "https://github.com/Gargeya-Grey/Adversary-Planner-Loop",
         isLatest: false,
@@ -56,8 +56,8 @@ export const projects: Project[] = [
     },
     {
         title: "TwinAatma",
-        description: "A personal AI agent exploring how custom knowledge and speech patterns can shape a digital counterpart.",
-        tags: ["Digital Twin", "RAG", "LLMs", "Cognitive AI"],
+        description: "Local-first memory for AI agents. Notes stay as markdown you own, an MCP server lets any agent search them, and changes to your profile need your explicit yes.",
+        tags: ["AI Agents", "MCP", "Memory", "Local-first"],
         href: "https://github.com/Gargeya-Grey/TwinAatma",
         isLatest: false,
         type: "repo"
@@ -72,7 +72,7 @@ export const projects: Project[] = [
     },
     {
         title: "Documenter-MCP",
-        description: "An MCP server that scans codebases for documentation gaps and generates improvements using AI agents.",
+        description: "An MCP server that checks a repository's documentation and says whether it needs fixing or writing.",
         tags: ["AI Agents", "MCP", "Python", "LLMs"],
         href: "https://github.com/Gargeya-Grey/Documenter-MCP",
         isLatest: false,
@@ -126,8 +126,8 @@ export const projects: Project[] = [
     },
     {
         title: "Analytics Vidhya",
-        description: "17+ articles explaining computer vision and neural networks, including denoising autoencoders and YOLO object detection.",
-        tags: ["Writing", "Computer Vision", "Educator"],
+        description: "17 articles on data science and machine learning.",
+        tags: ["Writing", "Data Science", "Machine Learning"],
         href: "https://www.analyticsvidhya.com/blog/author/gargeya/",
         isLatest: false,
         type: "writing"
