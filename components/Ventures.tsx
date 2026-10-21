@@ -11,7 +11,7 @@ const experiences = [
     description: "Building Socratic AI for learning and assessment, shaped around how each learner thinks.",
     highlights: [
       "English and Hindi today, with an architecture designed for more languages.",
-      "Developing with Parishkar College (Autonomous) as a 3,000-student research lab, drawing on its director’s expertise in pedagogy and human development.",
+      "In beta. The current pilot status is always at edudojo.ai/pilot.",
       "Building progress tracking for learners, teachers, and evaluators to measure support over time. Individual journeys help teachers and AI tailor its content, approach, and timing.",
     ],
     tags: ["AI architecture", "Generative AI", "Education strategy"],
