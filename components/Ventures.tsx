@@ -34,7 +34,7 @@ const experiences = [
     company: "RVS Consensus+",
     date: "Jul 2024 – Nov 2025",
     location: "London, UK",
-    description: "Built data pipelines and real-time dashboards processing 10M+ transaction rows from SIX, Reuters, and 15+ global Tier-1 banks.",
+    description: "Built data pipelines and real-time dashboards processing 10M+ transaction rows from SIX, Reuters, and 15+ global Tier-1 banks, including four of the 29 banks the Financial Stability Board names as globally systemically important.",
     highlights: [
       "Standardized Python prototyping and dashboard templates across the team, making the path from idea to demo to production approximately 20× faster.",
       "Automated bank rate-submission operations around mid-month and month-end reporting, saving 5+ hours daily.",

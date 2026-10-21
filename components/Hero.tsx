@@ -24,7 +24,7 @@ export default function Hero() {
           <span className="status-dot" aria-hidden="true" />
           Founder &amp; Lead AI Architect at <a href={SITE.edudojo} target="_blank" rel="noopener noreferrer">Edudojo.ai <ArrowUpRight size={14} aria-hidden="true" /></a>
         </p>
-        <p className="hero-description hero-enter hero-enter-2">I build AI systems for learning, assessment, and automation, combining research with product engineering.</p>
+        <p className="hero-description hero-enter hero-enter-2">I build AI systems for learning, assessment, and automation, combining research with product engineering. I started in professional theatre before moving into AI, which is why I care so much about how a system speaks, listens and teaches.</p>
         <div className="hero-actions hero-enter hero-enter-3 no-print">
           <a className="button button-primary" href="#ventures">Explore my experience <ArrowDown size={16} aria-hidden="true" /></a>
           <a className="button button-secondary" href="#contact">Get in touch <ArrowUpRight size={16} aria-hidden="true" /></a>
