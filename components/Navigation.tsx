@@ -6,7 +6,6 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE } from "@/lib/site";
-import { subscribeLayout } from "@/lib/subscribeLayout";
 
 const navItems = [
   { name: "Experience", href: "#ventures" },
@@ -19,22 +18,99 @@ export default function Navigation() {
   const [activeSection, setActiveSection] = useState("#bio");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number; visible: boolean }>({
+    left: 0,
+    width: 0,
+    visible: false,
+  });
+
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const previousOverflow = useRef("");
 
+  // Cache section vertical offsets outside the scroll loop so scrolling never forces reflows.
   useEffect(() => {
-    const update = () => {
-      setScrolled(window.scrollY > 24);
+    let thresholds: { href: string; top: number }[] = [];
+    let maxScroll = 0;
+    let rafId = 0;
+
+    const measure = () => {
+      const scrollY = window.scrollY;
+      thresholds = navItems.map((item) => {
+        const el = document.getElementById(item.href.slice(1));
+        return {
+          href: item.href,
+          top: el ? el.getBoundingClientRect().top + scrollY : Infinity,
+        };
+      });
+      maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    };
+
+    const updateFromScroll = () => {
+      rafId = 0;
+      const y = window.scrollY;
+      setScrolled(y > 24);
+
       let next = "#bio";
-      for (const item of navItems) {
-        if ((document.getElementById(item.href.slice(1))?.getBoundingClientRect().top ?? Infinity) <= 160) next = item.href;
+      for (const item of thresholds) {
+        if (y + 160 >= item.top) next = item.href;
       }
-      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) next = "#contact";
+      if (y > 0 && maxScroll > 0 && y >= maxScroll - 8) {
+        next = "#contact";
+      }
       setActiveSection(next);
     };
-    update();
-    return subscribeLayout(update);
+
+    const onScroll = () => {
+      if (!rafId) rafId = window.requestAnimationFrame(updateFromScroll);
+    };
+
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+
+    measure();
+    updateFromScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => {
+            measure();
+            onScroll();
+          })
+        : null;
+    if (resizeObserver) {
+      resizeObserver.observe(document.body);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      resizeObserver?.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
   }, []);
+
+  // Position the gliding active pill over the current desktop nav item.
+  useEffect(() => {
+    const syncPill = () => {
+      const link = linkRefs.current[activeSection];
+      if (!link || activeSection === "#bio") {
+        setPillStyle((prev) => (prev.visible ? { ...prev, visible: false } : prev));
+        return;
+      }
+      setPillStyle({ left: link.offsetLeft, width: link.offsetWidth, visible: true });
+    };
+
+    syncPill();
+    window.addEventListener("resize", syncPill, { passive: true });
+    document.fonts?.ready.then(syncPill).catch(() => {});
+    return () => window.removeEventListener("resize", syncPill);
+  }, [activeSection]);
 
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 960px)");
@@ -90,7 +166,30 @@ export default function Navigation() {
             <span>Gargeya</span><span className="brand-descriptor">Digital CV</span>
           </Link>
           <nav className="desktop-navigation" aria-label="Primary">
-            {navItems.map((item) => <Link key={item.href} href={"/" + item.href} aria-current={activeSection === item.href ? "location" : undefined}>{item.name}</Link>)}
+            <span
+              className="nav-active-pill"
+              aria-hidden="true"
+              data-visible={pillStyle.visible}
+              style={{
+                width: `${pillStyle.width}px`,
+                transform: `translate3d(${pillStyle.left}px, 0, 0)`,
+              }}
+            />
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  ref={(node) => {
+                    linkRefs.current[item.href] = node;
+                  }}
+                  href={"/" + item.href}
+                  aria-current={isActive ? "location" : undefined}
+                >
+                  <span className="nav-link-label">{item.name}</span>
+                </Link>
+              );
+            })}
           </nav>
           <div className="header-actions">
             <a href={SITE.website} className="header-website" target="_blank" rel="me noopener noreferrer">Personal website <ArrowUpRight size={15} aria-hidden="true" /></a>

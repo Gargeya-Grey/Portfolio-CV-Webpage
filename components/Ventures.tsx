@@ -19,13 +19,16 @@ const experiences = [
   },
   {
     id: "evolve",
-    role: "Founding AI Engineer / Member",
+    role: "Founding Member & Lead AI Architect",
     company: "Evvolv",
     date: "Nov 2025 – May 2026",
-    location: "London, UK",
-    description: "Co-founded and engineered a multi-agent system to automate business workflows for small and medium enterprises.",
-    highlights: [],
-    tags: ["Multi-agent systems", "n8n", "Business automation"],
+    location: "Delhi, India · Remote",
+    description: "Co-founded Evvolv initially as an AI consultancy before pivoting to architect generative AI workers and multi-agent workflows (Python, n8n) for small and medium enterprises.",
+    highlights: [
+      "Led architecture for multi-agent systems supporting human teams across day-to-day operations.",
+      "Produced product video demos and represented Evvolv at technology events, including the IIT Delhi Alumni Meet 2025, before the founding team parted ways.",
+    ],
+    tags: ["Multi-agent systems", "Python", "n8n", "Solution architecture"],
     link: null,
   },
   {
@@ -60,35 +63,74 @@ export default function Ventures() {
     <section id="ventures" className="cv-section experience-section" aria-labelledby="experience-heading">
       <div className="page-shell section-layout">
         <header className="section-intro">
-          <p className="eyebrow">Experience</p>
-          <h2 id="experience-heading">Technical depth.<br />{" "}<em>Human intuition.</em></h2>
+          <p className="eyebrow">
+            <span className="section-index" aria-hidden="true">01</span>
+            Experience
+          </p>
+          <h2 id="experience-heading">
+            Technical depth.<br />{" "}<em>Human intuition.</em>
+          </h2>
           <p>From research and financial data to building AI products. A career shaped by making things work for people.</p>
-          <a className="text-link section-onward no-print" href="#lab">See what I build <ArrowUpRight size={16} aria-hidden="true" /></a>
+          <a className="text-link section-onward no-print" href="#lab">
+            See what I build <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
         </header>
 
         <div className="experience-list">
           {experiences.map((experience, index) => (
-            <article key={experience.id} id={"experience-" + experience.id} className={"experience-entry " + (index === 0 ? "experience-current" : "")}>
+            <article
+              key={experience.id}
+              id={"experience-" + experience.id}
+              className={"experience-entry " + (index === 0 ? "experience-current" : "")}
+            >
               <div className="entry-meta">
                 <span>{experience.date}</span>
-                {index === 0 ? <span className="current-label"><span className="status-dot" aria-hidden="true" /> Current role</span> : <span>{experience.location}</span>}
+                {index === 0 ? (
+                  <span className="current-label">
+                    <span className="status-beacon" aria-hidden="true" /> Current role
+                  </span>
+                ) : (
+                  <span>{experience.location}</span>
+                )}
               </div>
               <h3>
-                {experience.link ? <a href={experience.link} target="_blank" rel="noopener noreferrer">{experience.company}<ArrowUpRight size={22} aria-hidden="true" /></a> : experience.company}
+                {experience.link ? (
+                  <a href={experience.link} target="_blank" rel="noopener noreferrer">
+                    {experience.company}
+                    <ArrowUpRight size={22} aria-hidden="true" />
+                  </a>
+                ) : (
+                  experience.company
+                )}
               </h3>
               <p className="experience-role">{experience.role}</p>
               <p className="entry-description">{experience.description}</p>
-              {experience.highlights.length > 0 && <ul className="experience-highlights">{experience.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>}
-              <ul className="skill-list" aria-label={"Skills at " + experience.company}>{experience.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+              {experience.highlights.length > 0 && (
+                <ul className="experience-highlights">
+                  {experience.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+              )}
+              <ul className="skill-list" aria-label={"Skills at " + experience.company}>
+                {experience.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
             </article>
           ))}
 
           <article id="experience-mitchells" className="experience-entry experience-human">
             <p className="eyebrow">Alongside the technical work</p>
-            <div className="entry-meta"><span>Dec 2022 – Nov 2025</span><span>London, UK</span></div>
-            <h3>Working with people, in real time.</h3>
+            <div className="entry-meta">
+              <span>Dec 2022 – Nov 2025</span>
+              <span>London, UK</span>
+            </div>
+            <h3>Working with people, <em>in real time.</em></h3>
             <p className="experience-role">VIP Bartender · Mitchells &amp; Butlers / Compass Group</p>
-            <p className="entry-description">Worked at AllBarOne Leicester Square while pursuing my master’s. A hands-on education in reading a room, teamwork under pressure, and thinking on my feet.</p>
+            <p className="entry-description">
+              Worked at AllBarOne Leicester Square while pursuing my master’s. A hands-on education in reading a room, teamwork under pressure, and thinking on my feet.
+            </p>
           </article>
         </div>
       </div>

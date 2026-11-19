@@ -1,17 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import ScrollProgress from "@/components/ScrollProgress";
-import LazyMotionProvider from "@/components/LazyMotionProvider";
 import { SITE } from "@/lib/site";
 import { SEO } from "@/lib/seo";
 
-// The personal website's type family (Edudojo design family). Instrument Sans carries headings,
-// text and UI. IBM Plex Mono marks real data only: dates.
+// Editorial typography: Instrument Sans for precision UI & body, Instrument Serif for poetic
+// display counterpoints, and IBM Plex Mono for dates, indices, and telemetry.
 const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -84,8 +91,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f6f3" },
-    { media: "(prefers-color-scheme: dark)", color: "#151413" },
+    { media: "(prefers-color-scheme: light)", color: "#faf9f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 };
 
@@ -100,14 +107,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${instrumentSans.variable} ${plexMono.variable} antialiased`}
+        className={`${instrumentSans.variable} ${instrumentSerif.variable} ${plexMono.variable} antialiased`}
       >
         <a className="skip-link" href="#main-content">Skip to content</a>
-        <LazyMotionProvider>
-          <ScrollProgress />
-          <Navigation />
-          {children}
-        </LazyMotionProvider>
+        <ScrollProgress />
+        <Navigation />
+        {children}
       </body>
     </html>
   );

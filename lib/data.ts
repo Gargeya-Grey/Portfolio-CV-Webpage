@@ -22,25 +22,41 @@ export type Project = {
 export const projects: Project[] = [
     {
         title: "Odicto",
-        description: "Speak into any desktop app. Your words appear at the cursor, without switching away from your work.",
-        contribution: "Built a hold-to-talk workflow with local Whisper or cloud transcription, plus optional AI replies.",
-        tags: ["Dictation", "Whisper", "Python", "Desktop"],
+        description: "Free, open-source voice typing for Windows (with macOS and Linux X11 CI). Tap a hotkey, speak, and your words land at the cursor in any app.",
+        contribution: "Built tap-hotkey dictation with local Whisper by default (zero telemetry), live captions, AI selection polish, thread memory, terminal-safe typing, and an auto-updating installer (v1.5.0).",
+        tags: ["Dictation", "Whisper", "Python", "PySide6"],
         href: "https://github.com/Gargeya-Grey/Odicto",
         isLatest: true,
         type: "repo"
     },
     {
         title: "Odicto-Mobile",
-        description: "Dictate directly into Android text fields, with transcription running through the phone and no desktop connection.",
-        contribution: "Built a voice keyboard with streaming text, a floating microphone control, and a choice of AI providers.",
+        description: "Open-source Android voice keyboard that opens as a voice bar — dictate as spoken, ask AI to edit, or stream live transcription into any text field.",
+        contribution: "Built Raw (Groq Whisper), AI (Gemini/OpenRouter), Live streaming, and Polish modes with a floating mic and BYO API keys in Android Keystore — zero backend server (v1.9.0 beta).",
         tags: ["Android", "Kotlin", "Capacitor", "Speech-to-Text"],
         href: "https://github.com/Gargeya-Grey/Odicto-Mobile",
         isLatest: true,
         type: "repo"
     },
     {
+        title: "Harness Arena",
+        description: "Run identical test cases across Claude Code, Codex, Gemini CLI, Command Code, OpenCode, and raw APIs, then compare models side by side in a zero-dependency local dashboard (Model Lab) on quality, cost, latency, tokens, and reliability.",
+        tags: ["AI Evaluation", "Model Testing", "Node.js", "CLI Harnesses"],
+        href: "https://github.com/Gargeya-Grey/harness-arena",
+        isLatest: true,
+        type: "repo"
+    },
+    {
+        title: "AKM",
+        description: "Local Windows API-key manager (desktop app and CLI) backed by standard KeePass/KDBX vaults — track project keys, environments, expiry, and rotation intervals with no account or server.",
+        tags: ["Security", "KeePass / KDBX", "Windows", "CLI"],
+        href: "https://github.com/Gargeya-Grey/akm-vault",
+        isLatest: true,
+        type: "repo"
+    },
+    {
         title: "proof",
-        description: "A verification-first plugin for coding agents. One router sends each task to a matching workflow (grilling, test-driven development, codebase design, writing for agents) and treats done as passing checks. It works the same on Claude Code, Codex, Grok and other Agent Skills hosts.",
+        description: "A verification-first plugin for coding agents. One router (work) pairs pstack playbooks with Matt Pocock's skills (grilling, TDD, codebase design, writing for agents) across Claude Code, Codex, Grok, and other Agent Skills hosts.",
         tags: ["AI Agents", "Agent Skills", "Claude Code", "Verification"],
         href: "https://github.com/Gargeya-Grey/proof",
         isLatest: true,
@@ -48,7 +64,7 @@ export const projects: Project[] = [
     },
     {
         title: "Adversary-Planner-Loop",
-        description: "A model-agnostic generator-and-evaluator loop that sharpens engineering plans. It writes the prompts and JSON schemas, and your agent runs them.",
+        description: "A model-agnostic Adversary Framework using strict generator-and-evaluator loops (automated Python or manual mode) to refine engineering plans, code reviews, security audits, and architecture designs.",
         tags: ["AI Agents", "Game Theory", "Self-Refinement", "Python"],
         href: "https://github.com/Gargeya-Grey/Adversary-Planner-Loop",
         isLatest: false,
@@ -56,8 +72,8 @@ export const projects: Project[] = [
     },
     {
         title: "TwinAatma",
-        description: "Local-first memory for AI agents. Notes stay as markdown you own, an MCP server lets any agent search them, and changes to your profile need your explicit yes.",
-        tags: ["AI Agents", "MCP", "Memory", "Local-first"],
+        description: "Local-first memory you own and carry between AI assistants. Notes stay as Markdown with a local SQLite search index exposed over MCP, and changes to your profile require your explicit approval.",
+        tags: ["AI Agents", "MCP", "SQLite", "Local-first"],
         href: "https://github.com/Gargeya-Grey/TwinAatma",
         isLatest: false,
         type: "repo"
@@ -80,8 +96,8 @@ export const projects: Project[] = [
     },
     {
         title: "DataCleanOpenEnv",
-        description: "Automated data-cleaning submission for the OpenEnv Hackathon organized by Scaler School, Meta, and Hugging Face.",
-        tags: ["Hackathon", "Data Science", "Python", "Automation"],
+        description: "Reinforcement-learning environment for the OpenEnv Hackathon (Scaler School × Meta × Hugging Face), grading AI agents on safely cleaning a live SQLite database across four difficulty tiers.",
+        tags: ["Hackathon", "OpenEnv", "Python", "SQLite"],
         href: "https://github.com/Gargeya-Grey/DataCleanOpenEnv",
         isLatest: false,
         type: "repo"

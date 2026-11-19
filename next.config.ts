@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   experimental: {
     optimizePackageImports: ["lucide-react"],
+    agentUpgrade: "security",
   },
   serverExternalPackages: ["@opennextjs/cloudflare"],
 };
