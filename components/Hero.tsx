@@ -1,36 +1,58 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
+import HeroStage from "@/components/HeroStage";
 import { SITE } from "@/lib/site";
 
 export default function Hero() {
   return (
     <section id="bio" className="cv-hero relative overflow-hidden">
-      {/* The original glass columns, light field, grain and ambient motion, in the warm family colours (app/globals.css). */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0 hero-field" aria-hidden="true">
-        <div className="hero-columns absolute inset-0 z-10" />
-        <div aria-hidden className="absolute left-1/2 top-1/2 z-[15] h-[68%] w-[min(92vw,56rem)] -translate-x-1/2 -translate-y-1/2 rounded-full hero-light blur-3xl" />
-        <div aria-hidden className="absolute left-1/2 top-1/2 z-[16] h-[60%] w-[min(88vw,52rem)] -translate-x-1/2 -translate-y-1/2 rounded-[2.5rem] backdrop-blur-[3px]" />
-        <div className="hero-grain absolute inset-0 z-20 mix-blend-overlay" aria-hidden />
-        <div className="absolute inset-0 z-0">
-          <div className="ambient-blob ambient-blob-a" />
-          <div className="ambient-blob ambient-blob-b" />
+      <HeroStage />
+
+      <div className="hero-content relative z-10">
+        <p className="hero-eyebrow hero-enter">
+          <span className="hero-eyebrow-rule" aria-hidden="true" />
+          <span>AI Engineer</span>
+          <span className="hero-eyebrow-sep" aria-hidden="true">·</span>
+          <span>Founder</span>
+          <span className="hero-eyebrow-sep" aria-hidden="true">·</span>
+          <span>Humanist</span>
+          <span className="hero-eyebrow-rule" aria-hidden="true" />
+        </p>
+
+        <h1 className="hero-enter hero-enter-1">
+          Gargeya Sharma<span className="hero-period">.</span>
+        </h1>
+
+        <p className="hero-signature hero-enter hero-enter-1">
+          Architecting intelligence. <em>Curating art.</em>
+        </p>
+
+        <p className="hero-role hero-enter hero-enter-2">
+          <span className="status-dot" aria-hidden="true" />
+          Founder &amp; Lead AI Architect at{" "}
+          <a href={SITE.edudojo} target="_blank" rel="noopener noreferrer">
+            Edudojo.ai <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
+        </p>
+
+        <p className="hero-description hero-enter hero-enter-2">
+          I build AI systems for learning, assessment, and automation, combining research with product engineering. I started in professional theatre before moving into AI, which is why I care so much about how a system speaks, listens and teaches.
+        </p>
+
+        <div className="hero-actions hero-enter hero-enter-3 no-print">
+          <a className="button button-primary" href="#ventures">
+            Explore my experience <ArrowDown size={15} aria-hidden="true" />
+          </a>
+          <a className="button button-secondary" href="#contact">
+            Get in touch <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
         </div>
       </div>
 
-      <div className="hero-content relative z-10">
-        <p className="hero-eyebrow hero-enter">AI engineer <span aria-hidden="true">·</span> Founder <span aria-hidden="true">·</span> Theatre artist</p>
-        <h1 className="hero-enter hero-enter-1">Gargeya Sharma<span className="hero-period">.</span></h1>
-        <p className="hero-signature hero-enter hero-enter-1">Architecting intelligence. <em>Curating art.</em></p>
-        <p className="hero-role hero-enter hero-enter-2">
-          <span className="status-dot" aria-hidden="true" />
-          Founder &amp; Lead AI Architect at <a href={SITE.edudojo} target="_blank" rel="noopener noreferrer">Edudojo.ai <ArrowUpRight size={14} aria-hidden="true" /></a>
-        </p>
-        <p className="hero-description hero-enter hero-enter-2">I build AI systems for learning, assessment, and automation, combining research with product engineering. I started in professional theatre before moving into AI, which is why I care so much about how a system speaks, listens and teaches.</p>
-        <div className="hero-actions hero-enter hero-enter-3 no-print">
-          <a className="button button-primary" href="#ventures">Explore my experience <ArrowDown size={16} aria-hidden="true" /></a>
-          <a className="button button-secondary" href="#contact">Get in touch <ArrowUpRight size={16} aria-hidden="true" /></a>
-        </div>
-      </div>
-      <a href="#ventures" className="hero-scroll no-print">The work, so far <ArrowDown size={14} aria-hidden="true" /></a>
+      <a href="#ventures" className="hero-scroll no-print">
+        <span className="hero-scroll-label">The work, so far</span>
+        <span className="hero-scroll-line" aria-hidden="true" />
+        <ArrowDown size={13} aria-hidden="true" />
+      </a>
     </section>
   );
 }
